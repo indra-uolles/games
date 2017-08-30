@@ -1,5 +1,4 @@
-# games
-studying games development
+#games#
 
 #Этапы разработки#
 
