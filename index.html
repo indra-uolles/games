@@ -10,13 +10,17 @@ var windowHalfWidth = 512;
 var g = ga(
   windowHalfWidth*2, 512, setup,
   [
-    "assets/images/SantaGame.json"
+    "assets/images/SantaGame.json",
+    //https://opengameart.org/content/seamless-hd-landscape-in-parts
+    "assets/images/landscape.json",
+    "assets/images/houses.json",
+    "assets/images/finish.json",
     //"assets/sounds/battleThemeA.mp3"
   ],
   load
 );
 
-var player, traject, bullets;
+var player, traject, bullets, landscape, houses, numberOfHouses, finish;
 
 g.start();
 g.scaleToWindow();
@@ -32,6 +36,12 @@ function setup() {
     g.backgroundColor = "white";
     g.state = play;
 
+    landscape = g.tilingSprite(
+      g.canvas.width,        //The width
+      g.canvas.height,       //The height
+      "landscape.png"        //The image to use
+    );
+
     bullets = [];
 
     gameScene = g.group();
@@ -44,6 +54,29 @@ function setup() {
     traject = g.rectangle(5, 100, "red");
     traject.visible = false;
     gameScene.addChild(traject);
+
+    houses = g.group();
+
+    var minGapSize = 70;
+    var maxGapSize = 100;
+    numberOfHouses = 100;
+    var currX = 70;
+
+    for (var i = 0; i < numberOfHouses; i++) {
+        if (i % 2 == 0) {
+            buildFirstHouse(currX, g.canvas.height - 70);
+        } else {
+            buildSecondHouse(currX, g.canvas.height - 70);
+        }
+        currX += 350;
+
+        if (i === numberOfHouses - 1) {
+            finish = g.sprite("finish.png");
+            houses.addChild(finish);
+            finish.x = currX + 350;
+            finish.y = g.canvas.height/2 - finish.halfHeight;
+        }
+    }
 
     g.pointer.press = function() {
         traject.x = player.x + player.halfWidth;
@@ -66,8 +99,88 @@ function setup() {
     }
 }
 
+function buildFirstHouse(x, y) {
+    addHousePart("houseBeigeBottomLeft.png", x, y);
+    addHousePart("houseBeigeBottomMid.png", x + 70, y);
+    addHousePart("houseBeigeBottomRight.png", x + 140, y);
+    addHousePart("houseBeigeMidLeft.png", x, y - 70);
+    addHousePart("houseBeige.png", x + 70, y - 70);
+    addHousePart("houseBeigeMidRight.png", x + 140, y - 70);
+
+    addHousePart("windowCheckered.png", x + 25, y - 40);
+    addHousePart("doorTop.png", x + 110, y - 70);
+    addHousePart("doorKnobAlt.png", x + 110, y);
+
+    addHousePart("houseBeigeMidLeft.png", x, y - 140);
+    addHousePart("houseBeige.png", x + 70, y - 140);
+    addHousePart("houseBeigeMidRight.png", x + 140, y - 140);
+
+    addHousePart("windowCheckered.png", x + 25, y - 130);
+    addHousePart("windowCheckered.png", x + 110, y - 130);
+
+    addHousePart("roofRedRight.png", x - 70, y - 210);
+    addHousePart("roofRedTopMid.png", x, y - 210);
+    addHousePart("roofRedTopMid.png", x + 70, y - 210);
+    addHousePart("roofRedTopMid.png", x + 140, y - 210);
+    addHousePart("roofRedTopLeft.png", x + 210, y - 210);
+
+    addHousePart("chimneyThin.png", x + 120, y - 280);
+
+    addChimneyTestRect(x, y);
+}
+
+function buildSecondHouse(x, y) {
+    addHousePart("houseBeigeBottomLeft.png", x, y);
+    addHousePart("houseBeigeBottomMid.png", x + 70, y);
+    addHousePart("houseBeigeBottomRight.png", x + 140, y);
+    addHousePart("houseBeigeMidLeft.png", x, y - 70);
+    addHousePart("houseBeige.png", x + 70, y - 70);
+    addHousePart("houseBeigeMidRight.png", x + 140, y - 70);
+
+    addHousePart("windowCheckered.png", x + 25, y - 40);
+    addHousePart("doorTop.png", x + 110, y - 70);
+    addHousePart("doorKnobAlt.png", x + 110, y);
+
+    addHousePart("houseBeigeMidLeft.png", x, y - 140);
+    addHousePart("houseBeige.png", x + 70, y - 140);
+    addHousePart("houseBeigeMidRight.png", x + 140, y - 140);
+
+    addHousePart("windowCheckered.png", x + 25, y - 130);
+    addHousePart("windowCheckered.png", x + 110, y - 130);
+
+    addHousePart("roofRedRight.png", x - 70, y - 210);
+    addHousePart("roofRedTopMid.png", x, y - 210);
+    addHousePart("roofRedTopMid.png", x + 70, y - 210);
+    addHousePart("roofRedTopMid.png", x + 140, y - 210);
+    addHousePart("roofRedTopLeft.png", x + 210, y - 210);
+
+    addHousePart("chimneyLow.png", x + 120, y - 280);
+
+addChimneyTestRect(x, y);
+}
+
+function addChimneyTestRect(x, y) {
+    var chimney = g.rectangle(40, 70, "transparent");
+    chimney.x = x + 135;
+    chimney.y = y - 280;
+}
+
+function addHousePart(name, x, y) {
+    var house = g.sprite(name);
+    houses.addChild(house);
+
+    house.x = x;
+    house.y = y;
+}
+
 function play() {
     g.move(bullets);
+
+    landscape.tileX -= 1;
+
+    if (finish.gx > g.canvas.width) {
+        houses.x -= 2;
+    }
 }
 
 function end() {

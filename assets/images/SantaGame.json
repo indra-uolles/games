@@ -13,7 +13,7 @@
 	"version": "1.0",
 	"image": "SantaGame.png",
 	"format": "RGBA8888",
-	"size": {"w":484,"h":358},
+	"size": {"w":28,"h":24},
 	"scale": "1",
 	"smartupdate": "$TexturePacker:SmartUpdate:16b18becd02b596aef94399796a6b6d5:0ab1b4c981f378c96b70d514e3ca748a:628d142d38afb2c4157433c90a55ef2b$"
 }
