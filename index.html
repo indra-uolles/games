@@ -195,7 +195,10 @@ function play() {
 
     bullets.forEach(function(bullet) {
         if (bullet.y >= 162 && bullet.y < 512) {
-            if (g.hitTestRectangle(bullet, chimneys)) {
+            var bulletVsBlock = chimneys.children.some(function(chimney){
+                return g.hitTestRectangle(bullet, chimney, true);
+            });
+            if (bulletVsBlock) {
                 score += 1;
             }
         }
