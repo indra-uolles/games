@@ -11,16 +11,14 @@ var g = ga(
   windowHalfWidth*2, 512, setup,
   [
     "assets/images/SantaGame.json",
-    //https://opengameart.org/content/seamless-hd-landscape-in-parts
     "assets/images/landscape.json",
     "assets/images/houses.json",
     "assets/images/finish.json",
-    //"assets/sounds/battleThemeA.mp3"
   ],
   load
 );
 
-var player, traject, bullets, landscape, houses, numberOfHouses, finish;
+var player, traject, bullets, hitChimneys, landscape, housesSprites, numberOfHouses, finish, chimneys, scoreDisplay, score;
 
 g.start();
 g.scaleToWindow();
@@ -42,23 +40,40 @@ function setup() {
       "landscape.png"        //The image to use
     );
 
+    scoreDisplay = g.text("0", "20px tahoma", "#00FF00", 1000, 10);
+
     bullets = [];
+    chimneys = g.group();
+    score = 0;
 
     gameScene = g.group();
 
+    //for debug
+    for (var j = 35; j < 1024; j += 35) {
+        var l = g.rectangle(1, 512, "blue");
+        l.x = j;
+        l.y = 0;
+        gameScene.addChild(l);
+
+        var lineDisplay = g.text(j, "10px tahoma", "#00FF00", j, 5);
+        gameScene.addChild(lineDisplay);
+    }
+
     player = g.rectangle(144, 48, "blue");
     player.x = windowHalfWidth - player.halfWidth;
-    player.y = 8;
+    //player.y = 8;
+    player.y = 18;
     gameScene.addChild(player);
 
     traject = g.rectangle(5, 100, "red");
     traject.visible = false;
     gameScene.addChild(traject);
 
-    houses = g.group();
+    housesSprites = g.group();
 
     var minGapSize = 70;
     var maxGapSize = 100;
+    //numberOfHouses = 6;
     numberOfHouses = 100;
     var currX = 70;
 
@@ -72,7 +87,7 @@ function setup() {
 
         if (i === numberOfHouses - 1) {
             finish = g.sprite("finish.png");
-            houses.addChild(finish);
+            housesSprites.addChild(finish);
             finish.x = currX + 350;
             finish.y = g.canvas.height/2 - finish.halfHeight;
         }
@@ -125,8 +140,6 @@ function buildFirstHouse(x, y) {
     addHousePart("roofRedTopLeft.png", x + 210, y - 210);
 
     addHousePart("chimneyThin.png", x + 120, y - 280);
-
-    addChimneyTestRect(x, y);
 }
 
 function buildSecondHouse(x, y) {
@@ -155,32 +168,40 @@ function buildSecondHouse(x, y) {
     addHousePart("roofRedTopLeft.png", x + 210, y - 210);
 
     addHousePart("chimneyLow.png", x + 120, y - 280);
-
-addChimneyTestRect(x, y);
-}
-
-function addChimneyTestRect(x, y) {
-    var chimney = g.rectangle(40, 70, "transparent");
-    chimney.x = x + 135;
-    chimney.y = y - 280;
 }
 
 function addHousePart(name, x, y) {
-    var house = g.sprite(name);
-    houses.addChild(house);
+    var houseSprite = g.sprite(name);
 
-    house.x = x;
-    house.y = y;
+    houseSprite.x = x;
+    houseSprite.y = y;
+
+    if (name == "chimneyLow.png" || name == "chimneyThin.png") {
+        chimneys.addChild(houseSprite);
+    } else {
+        housesSprites.addChild(houseSprite);
+    }
 }
 
 function play() {
-    g.move(bullets);
-
     landscape.tileX -= 1;
 
+    g.move(bullets);
+
     if (finish.gx > g.canvas.width) {
-        houses.x -= 2;
+        housesSprites.x -= 2;
+        chimneys.x -= 2;
     }
+
+    bullets.forEach(function(bullet) {
+        if (bullet.y >= 162 && bullet.y < 512) {
+            if (g.hitTestRectangle(bullet, chimneys)) {
+                score += 1;
+            }
+        }
+    });
+
+    scoreDisplay.content = score;
 }
 
 function end() {
