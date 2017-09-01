@@ -177,6 +177,7 @@ function addHousePart(name, x, y) {
     houseSprite.y = y;
 
     if (name == "chimneyLow.png" || name == "chimneyThin.png") {
+        houseSprite.hit = false;
         chimneys.addChild(houseSprite);
     } else {
         housesSprites.addChild(houseSprite);
@@ -196,7 +197,13 @@ function play() {
     bullets.forEach(function(bullet) {
         if (bullet.y >= 162 && bullet.y < 512) {
             var bulletVsBlock = chimneys.children.some(function(chimney){
-                return g.hitTestRectangle(bullet, chimney, true);
+                if (!chimney.hit) {
+                    var hit = g.hitTestRectangle(bullet, chimney, true);
+                    if (hit) {
+                        chimney.hit = true;
+                    }
+                    return hit;
+                }
             });
             if (bulletVsBlock) {
                 score += 1;
