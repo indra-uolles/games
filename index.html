@@ -5,6 +5,7 @@
 <body>
 <script src="libs/ga.js"></script>
 <script src="libs/plugins.js"></script>
+<script src="src/houseBuilder.js"></script>
 <script>
 var windowHalfWidth = 512;
 var g = ga(
@@ -18,7 +19,7 @@ var g = ga(
   load
 );
 
-var player, traject, bullets, hitChimneys, landscape, housesSprites, numberOfHouses, finish, chimneys, scoreDisplay, score;
+var player, hb, traject, bullets, landscape, numberOfHouses, finish, scoreDisplay, score;
 
 g.start();
 g.scaleToWindow();
@@ -40,10 +41,11 @@ function setup() {
       "landscape.png"        //The image to use
     );
 
+    hb = new HouseBuilder(g);
+
     scoreDisplay = g.text("0", "20px tahoma", "#00FF00", 1000, 10);
 
     bullets = [];
-    chimneys = g.group();
     score = 0;
 
     gameScene = g.group();
@@ -69,25 +71,22 @@ function setup() {
     traject.visible = false;
     gameScene.addChild(traject);
 
-    housesSprites = g.group();
-
     var minGapSize = 70;
     var maxGapSize = 100;
-    //numberOfHouses = 6;
     numberOfHouses = 100;
     var currX = 70;
 
     for (var i = 0; i < numberOfHouses; i++) {
         if (i % 2 == 0) {
-            buildFirstHouse(currX, g.canvas.height - 70);
+            hb.getTwoBoysFirstBad(currX, g.canvas.height - 70);
         } else {
-            buildSecondHouse(currX, g.canvas.height - 70);
+            hb.getTwoBoysFirstGood(currX, g.canvas.height - 70);
         }
         currX += 350;
 
         if (i === numberOfHouses - 1) {
             finish = g.sprite("finish.png");
-            housesSprites.addChild(finish);
+            hb.houses.addChild(finish);
             finish.x = currX + 350;
             finish.y = g.canvas.height/2 - finish.halfHeight;
         }
@@ -114,89 +113,19 @@ function setup() {
     }
 }
 
-function buildFirstHouse(x, y) {
-    addHousePart("houseBeigeBottomLeft.png", x, y);
-    addHousePart("houseBeigeBottomMid.png", x + 70, y);
-    addHousePart("houseBeigeBottomRight.png", x + 140, y);
-    addHousePart("houseBeigeMidLeft.png", x, y - 70);
-    addHousePart("houseBeige.png", x + 70, y - 70);
-    addHousePart("houseBeigeMidRight.png", x + 140, y - 70);
-
-    addHousePart("windowCheckered.png", x + 25, y - 40);
-    addHousePart("doorTop.png", x + 110, y - 70);
-    addHousePart("doorKnobAlt.png", x + 110, y);
-
-    addHousePart("houseBeigeMidLeft.png", x, y - 140);
-    addHousePart("houseBeige.png", x + 70, y - 140);
-    addHousePart("houseBeigeMidRight.png", x + 140, y - 140);
-
-    addHousePart("windowCheckered.png", x + 25, y - 130);
-    addHousePart("windowCheckered.png", x + 110, y - 130);
-
-    addHousePart("roofRedRight.png", x - 70, y - 210);
-    addHousePart("roofRedTopMid.png", x, y - 210);
-    addHousePart("roofRedTopMid.png", x + 70, y - 210);
-    addHousePart("roofRedTopMid.png", x + 140, y - 210);
-    addHousePart("roofRedTopLeft.png", x + 210, y - 210);
-
-    addHousePart("chimneyThin.png", x + 120, y - 280);
-}
-
-function buildSecondHouse(x, y) {
-    addHousePart("houseBeigeBottomLeft.png", x, y);
-    addHousePart("houseBeigeBottomMid.png", x + 70, y);
-    addHousePart("houseBeigeBottomRight.png", x + 140, y);
-    addHousePart("houseBeigeMidLeft.png", x, y - 70);
-    addHousePart("houseBeige.png", x + 70, y - 70);
-    addHousePart("houseBeigeMidRight.png", x + 140, y - 70);
-
-    addHousePart("windowCheckered.png", x + 25, y - 40);
-    addHousePart("doorTop.png", x + 110, y - 70);
-    addHousePart("doorKnobAlt.png", x + 110, y);
-
-    addHousePart("houseBeigeMidLeft.png", x, y - 140);
-    addHousePart("houseBeige.png", x + 70, y - 140);
-    addHousePart("houseBeigeMidRight.png", x + 140, y - 140);
-
-    addHousePart("windowCheckered.png", x + 25, y - 130);
-    addHousePart("windowCheckered.png", x + 110, y - 130);
-
-    addHousePart("roofRedRight.png", x - 70, y - 210);
-    addHousePart("roofRedTopMid.png", x, y - 210);
-    addHousePart("roofRedTopMid.png", x + 70, y - 210);
-    addHousePart("roofRedTopMid.png", x + 140, y - 210);
-    addHousePart("roofRedTopLeft.png", x + 210, y - 210);
-
-    addHousePart("chimneyLow.png", x + 120, y - 280);
-}
-
-function addHousePart(name, x, y) {
-    var houseSprite = g.sprite(name);
-
-    houseSprite.x = x;
-    houseSprite.y = y;
-
-    if (name == "chimneyLow.png" || name == "chimneyThin.png") {
-        houseSprite.hit = false;
-        chimneys.addChild(houseSprite);
-    } else {
-        housesSprites.addChild(houseSprite);
-    }
-}
-
 function play() {
     landscape.tileX -= 1;
 
     g.move(bullets);
 
     if (finish.gx > g.canvas.width) {
-        housesSprites.x -= 2;
-        chimneys.x -= 2;
+        hb.houses.x -= 2;
+        hb.chimneys.x -= 2;
     }
 
     bullets.forEach(function(bullet) {
         if (bullet.y >= 162 && bullet.y < 512) {
-            var bulletVsBlock = chimneys.children.some(function(chimney){
+            var bulletVsBlock = hb.chimneys.children.some(function(chimney){
                 if (!chimney.hit) {
                     var hit = g.hitTestRectangle(bullet, chimney, true);
                     if (hit) {
@@ -207,6 +136,7 @@ function play() {
             });
             if (bulletVsBlock) {
                 score += 1;
+                bullet.visible = false;
             }
         }
     });
