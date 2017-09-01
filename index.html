@@ -77,10 +77,15 @@ function setup() {
     var currX = 70;
 
     for (var i = 0; i < numberOfHouses; i++) {
-        if (i % 2 == 0) {
+        var num = g.randomInt(0, 3);
+        if (num == 0) {
             hb.getTwoBoysFirstBad(currX, g.canvas.height - 70);
-        } else {
+        } else if (num == 1) {
             hb.getTwoBoysFirstGood(currX, g.canvas.height - 70);
+        } else if (num == 2) {
+            hb.getOneBoyBad(currX, g.canvas.height - 70);
+        } else {
+            hb.getOneBoyGood(currX, g.canvas.height - 70);
         }
         currX += 350;
 
