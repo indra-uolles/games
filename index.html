@@ -79,13 +79,13 @@ function setup() {
     for (var i = 0; i < numberOfHouses; i++) {
         var num = g.randomInt(0, 3);
         if (num == 0) {
-            hb.getTwoBoysFirstBad(currX, g.canvas.height - 70);
+            hb.getTwoBoysFirstBad(currX, g.canvas.height - 70, i);
         } else if (num == 1) {
-            hb.getTwoBoysFirstGood(currX, g.canvas.height - 70);
+            hb.getTwoBoysFirstGood(currX, g.canvas.height - 70, i);
         } else if (num == 2) {
-            hb.getOneBoyBad(currX, g.canvas.height - 70);
+            hb.getOneBoyBad(currX, g.canvas.height - 70, i);
         } else {
-            hb.getOneBoyGood(currX, g.canvas.height - 70);
+            hb.getOneBoyGood(currX, g.canvas.height - 70, i);
         }
         currX += 350;
 
@@ -126,6 +126,8 @@ function play() {
     if (finish.gx > g.canvas.width) {
         hb.houses.x -= 2;
         hb.chimneys.x -= 2;
+        hb.windows.x -= 2;
+        hb.roofs.x -= 2;
     }
 
     bullets.forEach(function(bullet) {
@@ -135,6 +137,13 @@ function play() {
                     var hit = g.hitTestRectangle(bullet, chimney, true);
                     if (hit) {
                         chimney.hit = true;
+                        var index = chimney.index;
+
+                        var windows = hb.windows.children.filter(function(window){return window.index == index });
+
+                        windows.forEach(function(window) {
+                            hb.openWindow(window);
+                        });
                     }
                     return hit;
                 }
@@ -142,6 +151,27 @@ function play() {
             if (bulletVsBlock) {
                 score += 1;
                 bullet.visible = false;
+            }
+            if (bullet.visible) {
+                var bulletVsRoof = hb.roofs.children.some(function(roof){
+                        if (!roof.hit) {
+                        var hit = g.hitTestRectangle(bullet, roof, true);
+                        if (hit) {
+                            roof.hit = true;
+                            var index = roof.index;
+
+                            var windows = hb.windows.children.filter(function(window){return window.index == index });
+
+                            windows.forEach(function(window) {
+                                hb.breakWindow(window);
+                            });
+                        }
+                        return hit;
+                    }
+                });
+                if (bulletVsRoof) {
+                    score -= 1;
+                }
             }
         }
     });
