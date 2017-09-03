@@ -1,9 +1,10 @@
-function HouseBuilder(g) {
+function HouseBuilder(g, babkaFrames) {
     this.g = g;
     this.chimneys = g.group();
     this.houses = g.group();
     this.windows = g.group();
     this.roofs = g.group();
+    this.babkas = g.group();
 }
 
 HouseBuilder.prototype._addHousePart = function(name, x, y, i) {
@@ -21,6 +22,27 @@ HouseBuilder.prototype._addHousePart = function(name, x, y, i) {
         this.chimneys.addChild(houseSprite);
     } else if (name.indexOf("window") != -1) {
         this.windows.addChild(houseSprite);
+        var babkaFrames = [
+          "frame_00.gif",
+          "frame_01.gif",
+          "frame_02.gif",
+          "frame_03.gif",
+          "frame_04.gif",
+          "frame_05.gif",
+          "frame_06.gif",
+          "frame_07.gif",
+          "frame_08.gif",
+          "frame_09.gif"
+        ];
+
+        var babka = g.sprite(babkaFrames);
+        babka.x = houseSprite.x;
+        babka.y = houseSprite.y;
+        babka.loop = false;
+        babka.index = houseSprite.index;
+        babka.visible = false;
+        this.babkas.addChild(babka);
+
     } else if (name.indexOf("roof") != -1) {
         houseSprite.hit = false;
         this.roofs.addChild(houseSprite);
@@ -141,4 +163,10 @@ HouseBuilder.prototype.openWindow = function(window) {
 
 HouseBuilder.prototype.breakWindow = function(window) {
     this.windows.removeChild(window);
+}
+
+HouseBuilder.prototype.showBabka = function(babka) {
+    babka.visible = true;
+    babka.loop = false;
+    babka.play();
 }
