@@ -15,7 +15,8 @@ var g = ga(
     "assets/images/landscape.json",
     "assets/images/houses.json",
     "assets/images/finish.json",
-    "assets/images/babka.json"
+    "assets/images/babka.json",
+    "assets/images/happyboy.json"
   ],
   load
 );
@@ -130,6 +131,7 @@ function play() {
         hb.windows.x -= 2;
         hb.roofs.x -= 2;
         hb.babkas.x -= 2;
+        hb.boys.x -= 2;
     }
 
     bullets.forEach(function(bullet) {
@@ -141,10 +143,10 @@ function play() {
                         chimney.hit = true;
                         var index = chimney.index;
 
-                        var windows = hb.windows.children.filter(function(window){return window.index == index });
+                        var boys = hb.boys.children.filter(function(boy){return boy.index == index });
 
-                        windows.forEach(function(window) {
-                            hb.openWindow(window);
+                        boys.forEach(function(boy) {
+                            hb.showBoy(boy);
                         });
                     }
                     return hit;
@@ -161,12 +163,6 @@ function play() {
                         if (hit) {
                             roof.hit = true;
                             var index = roof.index;
-
-                            // var windows = hb.windows.children.filter(function(window){return window.index == index });
-
-                            // windows.forEach(function(window) {
-                            //     hb.breakWindow(window);
-                            // });
 
                             var babkas = hb.babkas.children.filter(function(babka){return babka.index == index });
 
