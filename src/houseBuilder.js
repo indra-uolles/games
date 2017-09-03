@@ -23,6 +23,8 @@ HouseBuilder.prototype._addHousePart = function(name, x, y, i) {
     } else if (name.indexOf("window") != -1) {
         this.windows.addChild(houseSprite);
         var babkaFrames = [
+          "window.png",
+          "window.png",
           "frame_00.gif",
           "frame_01.gif",
           "frame_02.gif",
@@ -32,7 +34,8 @@ HouseBuilder.prototype._addHousePart = function(name, x, y, i) {
           "frame_06.gif",
           "frame_07.gif",
           "frame_08.gif",
-          "frame_09.gif"
+          "frame_09.gif",
+          "window.png"
         ];
 
         var babka = g.sprite(babkaFrames);
