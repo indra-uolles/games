@@ -100,13 +100,15 @@ function setup() {
         }
     }
 
-    g.pointer.press = function() {
+    //g.pointer.press = function() {
+    g.key.downArrow.press = function() {
         traject.x = player.x + player.halfWidth;
         traject.y = player.y + 2*player.halfHeight;
         traject.visible = true;
     }
 
-    g.pointer.release = function() {
+    g.key.downArrow.release = function() {
+    //g.pointer.release = function() {
         traject.visible = false;
         g.shoot(
             player,      //The shooting sprite
@@ -124,8 +126,6 @@ function setup() {
 function play() {
     landscape.tileX -= 1;
 
-    g.move(bullets);
-
     if (finish.gx > g.canvas.width) {
         hb.houses.x -= 2;
         hb.chimneys.x -= 2;
@@ -137,46 +137,37 @@ function play() {
     }
 
     bullets.forEach(function(bullet) {
-        if (bullet.y >= 162 && bullet.y < 512) {
-            var bulletVsBlock = hb.chimneys.children.some(function(chimney){
-                if (!chimney.hit) {
-                    var hit = g.hitTestRectangle(bullet, chimney, true);
-                    if (hit) {
-                        chimney.hit = true;
-                        var index = chimney.index;
-                        hb.afterHit("chimney", index);
-                    }
-                    return hit;
-                }
-            });
-            if (bulletVsBlock) {
-                score += 1;
-                bullet.visible = false;
-            }
-            if (bullet.visible) {
-                var bulletVsRoof = hb.roofs.children.some(function(roof){
-                    if (!roof.hit) {
-                            var hit = g.hitTestRectangle(bullet, roof, true);
-                            if (hit) {
-                                roof.hit = true;
-                                var index = roof.index;
-                                hb.afterHit("roof", index);
+        if (!(bullet.y >= 162 && bullet.y < 512) || !bullet.visible) {
+            return;
+        }
 
-                                //если получены уже оба подарка
-                                //хороший мальчик не берет их они просто падают на землю
-                                //плохой мальчик на верхнем этаже берет все подарки
-                            }
-                        return hit;
-                    }
-                });
-                if (bulletVsRoof) {
-                    score -= 1;
-                }
+        var bulletVsBlock = hb.chimneys.children.some(function(chimney){
+            var hit = g.hitTestRectangle(bullet, chimney, true);
+            if (hit) {
+                hb.afterHit("chimney", chimney.index);
             }
+            return hit;
+        });
+        if (bulletVsBlock) {
+            score += 1;
+            bullet.visible = false;
+        }
+
+        var bulletVsRoof = hb.roofs.children.some(function(roof){
+            var hit = g.hitTestRectangle(bullet, roof, true);
+            if (hit) {
+                hb.afterHit("roof", roof.index);
+            }
+            return hit;
+        });
+        if (bulletVsRoof) {
+            score -= 1;
         }
     });
 
     scoreDisplay.content = score;
+
+    g.move(bullets);
 }
 
 function end() {
