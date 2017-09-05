@@ -6,9 +6,13 @@ function HouseBuilder(g, babkaFrames) {
     this.roofs = g.group();
     this.babkas = g.group();
     this.boys = g.group();
+    this.evils = g.group();
+    this.scoring = {};
 }
 
 HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y, i) {
+    this._createScoring(i, 1);
+
     this._addHousePart("houseDarkBottomLeft.png", x, y, i);
     this._addHousePart("houseDarkBottomMid.png", x + 70, y, i);
     this._addHousePart("houseDarkBottomRight.png", x + 140, y, i);
@@ -37,6 +41,8 @@ HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y, i) {
 }
 
 HouseBuilder.prototype.getTwoBoysFirstGood = function(x, y, i) {
+    this._createScoring(i, 2);
+
     this._addHousePart("houseBeigeBottomLeft.png", x, y, i);
     this._addHousePart("houseBeigeBottomMid.png", x + 70, y, i);
     this._addHousePart("houseBeigeBottomRight.png", x + 140, y, i);
@@ -65,6 +71,8 @@ HouseBuilder.prototype.getTwoBoysFirstGood = function(x, y, i) {
 }
 
 HouseBuilder.prototype.getOneBoyGood = function(x, y, i) {
+    this._createScoring(i, 3);
+
     this._addHousePart("houseBeigeBottomLeft.png", x, y, i);
     this._addHousePart("houseBeigeBottomMid.png", x + 70, y, i);
     this._addHousePart("houseBeigeBottomRight.png", x + 140, y, i);
@@ -86,6 +94,8 @@ HouseBuilder.prototype.getOneBoyGood = function(x, y, i) {
 }
 
 HouseBuilder.prototype.getOneBoyBad = function(x, y, i) {
+    this._createScoring(i, 4);
+
     this._addHousePart("houseDarkBottomLeft.png", x, y, i);
     this._addHousePart("houseDarkBottomMid.png", x + 70, y, i);
     this._addHousePart("houseDarkBottomRight.png", x + 140, y, i);
@@ -134,6 +144,40 @@ HouseBuilder.prototype.showBoy = function(boy) {
     boy.play();
 }
 
+HouseBuilder.prototype.showEvil = function(evil) {
+    evil.visible = true;
+    evil.loop = false;
+    evil.play();
+}
+
+HouseBuilder.prototype.afterHit = function(housePart, index) {
+    var _this = this;
+    if (housePart == "roof") {
+        //показываем бабок как раньше
+        var babkas = this.babkas.children.filter(function(babka){return babka.index == index });
+
+        babkas.forEach(function(babka) {
+            _this.showBabka(babka);
+        });
+    } else if (housePart == "chimney") {
+        var type = this._getHouseType(index);
+
+        if (type == 1 || type == 2) {
+            var boys = this.boys.children.filter(function(boy){return boy.index == index });
+
+            boys.forEach(function(boy) {
+                _this.showBoy(boy);
+            });
+        } else if (type == 3) {
+             var boy =  this.boys.children.some(function(boy){return boy.index == index });
+             this.showBoy(boy);
+        } else if (type == 4) {
+             var evil =  this.evils.children.filter(function(evil){return evil.index == index })[0];
+             this.showEvil(evil);
+        }
+    }
+}
+
 HouseBuilder.prototype._addHousePart = function(name, x, y, i) {
     var houseSprite = this.g.sprite(name);
 
@@ -152,6 +196,7 @@ HouseBuilder.prototype._addHousePart = function(name, x, y, i) {
         this.windows.addChild(houseSprite);
         this._createBabkaAnim(houseSprite);
         this._createHappyBoyAnim(houseSprite);
+        this._createHappyEvilAnim(houseSprite);
 
     } else if (name.indexOf("roof") != -1) {
         houseSprite.hit = false;
@@ -222,4 +267,90 @@ HouseBuilder.prototype._createHappyBoyAnim = function(window) {
     boy.index = window.index;
     boy.visible = false;
     this.boys.addChild(boy);
+}
+
+HouseBuilder.prototype._createHappyEvilAnim = function(window) {
+    var evilFrames = [
+        "window.png",
+        "window.png",
+        "happyevil_frame_00.gif",
+        "happyevil_frame_01.gif",
+        "happyevil_frame_02.gif",
+        "happyevil_frame_03.gif",
+        "happyevil_frame_04.gif",
+        "happyevil_frame_05.gif",
+        "happyevil_frame_06.gif",
+        "happyevil_frame_07.gif",
+        "happyevil_frame_08.gif",
+        "happyevil_frame_09.gif",
+        "happyevil_frame_10.gif",
+        "happyevil_frame_11.gif",
+        "happyevil_frame_12.gif",
+        "happyevil_frame_13.gif",
+        "happyevil_frame_14.gif",
+        "happyevil_frame_15.gif",
+        "happyevil_frame_16.gif",
+        "happyevil_frame_17.gif",
+        "happyevil_frame_18.gif",
+        "happyevil_frame_19.gif",
+        "happyevil_frame_20.gif",
+        "happyevil_frame_21.gif",
+        "happyevil_frame_22.gif",
+        "happyevil_frame_23.gif",
+        "happyevil_frame_24.gif",
+        "happyevil_frame_25.gif",
+        "happyevil_frame_26.gif",
+        "happyevil_frame_27.gif",
+        "window.png"
+    ];
+    var evil = g.sprite(evilFrames);
+
+    evil.x = window.x;
+    evil.y = window.y;
+    evil.loop = false;
+    evil.index = window.index;
+    evil.visible = false;
+    this.evils.addChild(evil);
+}
+
+HouseBuilder.prototype._createScoring = function(i, type) {
+    this.scoring[i] = {
+        type: type,
+        roofHits: 0,
+        chimneyHits: 0
+    };
+};
+
+//HouseBuilder.prototype._getRoofHitsWindow = function(index) {
+    // var roofHits = this._getRoofHits(index);
+    // var type = this._getHouseType(index);
+
+
+    // if (type == 1) {
+    //     if (roofHits == 0) {
+
+    //     } else if (roofHits == 1) {
+
+    //     //уже разбивать нечего
+    //     } else {
+
+    //     }
+    // } else if (type == 2) {
+
+    // //one window
+    // } else {
+    //     return 0;
+    // }
+//}
+
+HouseBuilder.prototype._getHouseType = function(index) {
+    return this.scoring[index].type;
+}
+
+HouseBuilder.prototype._getRoofHits = function(index) {
+    return this.scoring[index].roofHits;
+}
+
+HouseBuilder.prototype._getChimneyHits = function(index) {
+    return this.scoring[index].chimneyHits;
 }

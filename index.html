@@ -16,7 +16,8 @@ var g = ga(
     "assets/images/houses.json",
     "assets/images/finish.json",
     "assets/images/babka.json",
-    "assets/images/happyboy.json"
+    "assets/images/happyboy.json",
+    "assets/images/happyevil.json"
   ],
   load
 );
@@ -132,6 +133,7 @@ function play() {
         hb.roofs.x -= 2;
         hb.babkas.x -= 2;
         hb.boys.x -= 2;
+        hb.evils.x -= 2;
     }
 
     bullets.forEach(function(bullet) {
@@ -142,12 +144,7 @@ function play() {
                     if (hit) {
                         chimney.hit = true;
                         var index = chimney.index;
-
-                        var boys = hb.boys.children.filter(function(boy){return boy.index == index });
-
-                        boys.forEach(function(boy) {
-                            hb.showBoy(boy);
-                        });
+                        hb.afterHit("chimney", index);
                     }
                     return hit;
                 }
@@ -158,18 +155,17 @@ function play() {
             }
             if (bullet.visible) {
                 var bulletVsRoof = hb.roofs.children.some(function(roof){
-                        if (!roof.hit) {
-                        var hit = g.hitTestRectangle(bullet, roof, true);
-                        if (hit) {
-                            roof.hit = true;
-                            var index = roof.index;
+                    if (!roof.hit) {
+                            var hit = g.hitTestRectangle(bullet, roof, true);
+                            if (hit) {
+                                roof.hit = true;
+                                var index = roof.index;
+                                hb.afterHit("roof", index);
 
-                            var babkas = hb.babkas.children.filter(function(babka){return babka.index == index });
-
-                            babkas.forEach(function(babka) {
-                                hb.showBabka(babka);
-                            });
-                        }
+                                //если получены уже оба подарка
+                                //хороший мальчик не берет их они просто падают на землю
+                                //плохой мальчик на верхнем этаже берет все подарки
+                            }
                         return hit;
                     }
                 });

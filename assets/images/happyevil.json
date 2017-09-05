@@ -1,0 +1,687 @@
+{
+  "frames": {
+    "happyevil_frame_27.gif": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_26.gif": {
+      "frame": {
+        "x": 1,
+        "y": 73,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_25.gif": {
+      "frame": {
+        "x": 1,
+        "y": 145,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_24.gif": {
+      "frame": {
+        "x": 1,
+        "y": 217,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_23.gif": {
+      "frame": {
+        "x": 1,
+        "y": 289,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_22.gif": {
+      "frame": {
+        "x": 1,
+        "y": 361,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_21.gif": {
+      "frame": {
+        "x": 73,
+        "y": 1,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_20.gif": {
+      "frame": {
+        "x": 145,
+        "y": 1,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_19.gif": {
+      "frame": {
+        "x": 217,
+        "y": 1,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_16.gif": {
+      "frame": {
+        "x": 289,
+        "y": 1,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_15.gif": {
+      "frame": {
+        "x": 361,
+        "y": 1,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_14.gif": {
+      "frame": {
+        "x": 73,
+        "y": 73,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_13.gif": {
+      "frame": {
+        "x": 73,
+        "y": 145,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_12.gif": {
+      "frame": {
+        "x": 73,
+        "y": 217,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_11.gif": {
+      "frame": {
+        "x": 73,
+        "y": 289,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_10.gif": {
+      "frame": {
+        "x": 73,
+        "y": 361,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_09.gif": {
+      "frame": {
+        "x": 145,
+        "y": 73,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_08.gif": {
+      "frame": {
+        "x": 217,
+        "y": 73,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_07.gif": {
+      "frame": {
+        "x": 289,
+        "y": 73,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_06.gif": {
+      "frame": {
+        "x": 361,
+        "y": 73,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_05.gif": {
+      "frame": {
+        "x": 145,
+        "y": 145,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_04.gif": {
+      "frame": {
+        "x": 145,
+        "y": 217,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_03.gif": {
+      "frame": {
+        "x": 145,
+        "y": 289,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_02.gif": {
+      "frame": {
+        "x": 145,
+        "y": 361,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_01.gif": {
+      "frame": {
+        "x": 217,
+        "y": 145,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_00.gif": {
+      "frame": {
+        "x": 289,
+        "y": 145,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_18.gif": {
+      "frame": {
+        "x": 145,
+        "y": 1,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "happyevil_frame_17.gif": {
+      "frame": {
+        "x": 217,
+        "y": 1,
+        "w": 70,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 70,
+        "h": 70
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com/",
+    "version": "0.2.4",
+    "image": "happyevil.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 432,
+      "h": 432
+    },
+    "scale": 1
+  }
+}
