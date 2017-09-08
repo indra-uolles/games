@@ -151,13 +151,12 @@ function play() {
                 index = chimney.index;
 
             if (hit) {
-                hb.afterHit("chimney", sc.getResult("chimney", index), index);
-                sc.updateChimneyHits(index);
+                hb.afterHit("chimney", sc.getHitResult("chimney", index), index);
+                sc.update("chimney", index);
             }
             return hit;
         });
         if (bulletVsBlock) {
-            score += 1;
             bullet.visible = false;
         }
 
@@ -166,15 +165,14 @@ function play() {
                 index = roof.index;
 
             if (hit) {
-                hb.afterHit("roof", sc.getResult("roof", index), index);
-                sc.updateRoofHits(index);
+                hb.afterHit("roof", sc.getHitResult("roof", index), index);
+                sc.update("roof", index);
             }
             return hit;
         });
     });
 
-    scoreDisplay.content = score;
-
+    scoreDisplay.content = sc.getScore();
     g.move(bullets);
 }
 
