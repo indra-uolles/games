@@ -304,3 +304,13 @@ HouseBuilder.prototype._createHappyEvilAnim = function(window, floor) {
     evil.floor = floor;
     this.evils.addChild(evil);
 }
+
+HouseBuilder.prototype.moveLeft = function(num) {
+    this.houses.x -= num;
+    this.chimneys.x -= num;
+    this.windows.x -= num;
+    this.roofs.x -= num;
+    this.babkas.x -= num;
+    this.boys.x -= num;
+    this.evils.x -= num;
+}
