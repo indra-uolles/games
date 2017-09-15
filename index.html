@@ -19,13 +19,14 @@ var g = ga(
     "assets/images/babka.json",
     "assets/images/happyboy.json",
     "assets/images/happyevil.json",
-    "assets/images/splash.json"
+    "assets/images/splash.json",
+    "assets/images/snowy_background.json"
   ],
   load
 );
 
 var player, hb, sc, traject, bullets, landscape, numberOfHouses, finish, scoreDisplay, score,
-splash, sign, gname, creatorText;
+splash, sign, gname, creatorText, playBtn, howtoBtn, shareBtn, bg;
 
 g.start();
 g.scaleToWindow();
@@ -39,6 +40,11 @@ function splash() {
 
     splash = g.group();
 
+    bg = g.sprite("background.jpg");
+    bg.x = 0;
+    bg.y = 0;
+    splash.addChild(bg);
+
     sign = g.sprite("sign2.png");
     sign.x = 40;
     //sign.x = 1024 - sign.halfWidth*2 - 40;
@@ -50,7 +56,7 @@ function splash() {
     gname.y = 256 - gname.halfHeight*2;
     splash.addChild(gname);
 
-    creatorText = g.text("0", "20px tahoma", "#ffffff", 1000, 10);
+    creatorText = g.text("0", "20px tahoma", "#00284d", 1000, 10);
     creatorText.content = "created by";
     creatorText.x = 380;
     creatorText.y = 70;
@@ -65,6 +71,24 @@ function splash() {
     sleigh.x = gname.x + gname.halfWidth*2;
     sleigh.y = gname.y - 20;
     splash.addChild(sleigh);
+
+    playButton = g.button([
+      "playbtn2.png"
+    ]);
+    playButton.x = sign.x + 60;
+    playButton.y = sign.y + 185;
+
+    shareButton = g.button([
+      "sharebtn2.png"
+    ]);
+    shareButton.x = sign.x + 60;
+    shareButton.y = sign.y + 250;
+
+    howtoButton = g.button([
+      "howtobtn2.png"
+    ]);
+    howtoButton.x = sign.x + 60;
+    howtoButton.y = sign.y + 95;
 }
 
 function setup() {
