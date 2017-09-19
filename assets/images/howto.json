@@ -1,0 +1,63 @@
+{
+  "frames": {
+    "lights2.png": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 800,
+        "h": 153
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 800,
+        "h": 153
+      },
+      "sourceSize": {
+        "w": 800,
+        "h": 153
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "instructions.png": {
+      "frame": {
+        "x": 1,
+        "y": 156,
+        "w": 426,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 426,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 426,
+        "h": 51
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com/",
+    "version": "0.2.4",
+    "image": "howto.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 802,
+      "h": 208
+    },
+    "scale": 1
+  }
+}

@@ -10,7 +10,7 @@
 <script>
 var windowHalfWidth = 512;
 var g = ga(
-  windowHalfWidth*2, 512, splash,
+  windowHalfWidth*2, 512, setup,
   [
     "assets/images/SantaGame.json",
     "assets/images/landscape.json",
@@ -20,13 +20,15 @@ var g = ga(
     "assets/images/happyboy.json",
     "assets/images/happyevil.json",
     "assets/images/splash.json",
-    "assets/images/snowy_background.json"
+    "assets/images/snowy_background.json",
+    "assets/images/howto.json",
+    "assets/images/howtobtn2.png"
   ],
   load
 );
 
 var player, hb, sc, traject, bullets, landscape, numberOfHouses, finish, scoreDisplay, score,
-splash, sign, gname, creatorText, playBtn, howtoBtn, shareBtn, bg;
+splash, sign, gname, creatorText, playBtn, howtoBtn, shareBtn, bg, howto;
 
 g.start();
 g.scaleToWindow();
@@ -35,63 +37,113 @@ window.addEventListener("resize", function(event){
   g.scaleToWindow();
 });
 
-function splash() {
-    g.progressBar.remove();
+// function splash() {
+//     g.progressBar.remove();
 
-    splash = g.group();
+//     splash = g.group();
 
-    bg = g.sprite("background.jpg");
-    bg.x = 0;
-    bg.y = 0;
-    splash.addChild(bg);
+//     //с заставкой какая-то ерунда с кнопками
 
-    sign = g.sprite("sign2.png");
-    sign.x = 40;
-    //sign.x = 1024 - sign.halfWidth*2 - 40;
-    sign.y = 512 - sign.halfHeight*2;
-    splash.addChild(sign);
+//     // bg = g.sprite("background.jpg");
+//     // bg.x = 0;
+//     // bg.y = 0;
+//     // bg.layer = 1;
+//     // splash.addChild(bg);
 
-    gname = g.sprite("name.png");
-    gname.x = 512 - gname.halfWidth;
-    gname.y = 256 - gname.halfHeight*2;
-    splash.addChild(gname);
+//     // //for debug
+//     // for (var j = 0; j < 512; j += 50) {
+//     //     var l = g.rectangle(1024, 1, "blue");
+//     //     l.x = 0;
+//     //     l.y = j;
+//     //     splash.addChild(l);
+//     // }
 
-    creatorText = g.text("0", "20px tahoma", "#00284d", 1000, 10);
-    creatorText.content = "created by";
-    creatorText.x = 380;
-    creatorText.y = 70;
-    splash.addChild(creatorText);
+//     // sign = g.sprite("sign2.png");
+//     // sign.x = 40;
+//     // sign.y = 512 - sign.halfHeight*2;
+//     // splash.addChild(sign);
 
-    divanlogo = g.sprite("divan_logo.png");
-    divanlogo.x = 512 - divanlogo.halfWidth + 30;
-    divanlogo.y = 30;
-    splash.addChild(divanlogo);
+//     // gname = g.sprite("name.png");
+//     // gname.x = 512 - gname.halfWidth;
+//     // gname.y = 256 - gname.halfHeight*2;
+//     // splash.addChild(gname);
 
-    sleigh = g.sprite("santa_sleigh2.png");
-    sleigh.x = gname.x + gname.halfWidth*2;
-    sleigh.y = gname.y - 20;
-    splash.addChild(sleigh);
+//     // creatorText = g.text("0", "20px tahoma", "#00284d", 1000, 10);
+//     // creatorText.content = "created by";
+//     // creatorText.x = 380;
+//     // creatorText.y = 70;
+//     // splash.addChild(creatorText);
 
-    playButton = g.button([
-      "playbtn2.png"
-    ]);
-    playButton.x = sign.x + 60;
-    playButton.y = sign.y + 185;
+//     // divanlogo = g.sprite("divan_logo.png");
+//     // divanlogo.x = 512 - divanlogo.halfWidth + 30;
+//     // divanlogo.y = 30;
+//     // splash.addChild(divanlogo);
 
-    shareButton = g.button([
-      "sharebtn2.png"
-    ]);
-    shareButton.x = sign.x + 60;
-    shareButton.y = sign.y + 250;
+//     // sleigh = g.sprite("santa_sleigh2.png");
+//     // sleigh.x = gname.x + gname.halfWidth*2;
+//     // sleigh.y = gname.y - 20;
+//     // splash.addChild(sleigh);
 
-    howtoButton = g.button([
-      "howtobtn2.png"
-    ]);
-    howtoButton.x = sign.x + 60;
-    howtoButton.y = sign.y + 95;
-}
+//     // playButton = g.button([
+//     //   "playbtn2.png",
+//     //   "playbtn2.png",
+//     //   "playbtn2.png"
+//     // ]);
+//     // playButton.x = sign.x + 60;
+//     // playButton.y = sign.y + 185;
+
+//     // playButton.release = function(){
+//     //   alert("play!");
+//     // };
+
+//     // shareButton = g.button([
+//     //   "sharebtn2.png",
+//     //   "sharebtn2.png",
+//     //   "sharebtn2.png"
+//     // ]);
+//     // shareButton.x = sign.x + 60;
+//     // shareButton.y = sign.y + 250;
+
+//     // shareButton.release = function(){
+//     //   alert("share!");
+//     // };
+//     var buttonFrames = g.frames(
+//         "assets/images/howtobtn2.png",
+//         [[0,0],[0,50],[0,75]],
+//         105, 25
+//       );
+
+//     howtoBtn = g.button(buttonFrames);
+
+//     //howtoBtn.x = sign.gx + 60;
+//     //howtoBtn.y = sign.gy + 95;
+//     //splash.addChild(howtoBtn);
+
+//     howtoBtn.release = function(){
+//       g.state = howto;
+//     };
+
+//     howtoBtn.x = 100;
+//     howtoBtn.y = 207;
+// }
+
+// function howto() {
+//     splash.visible = false;
+//     howto = g.group();
+
+//     bg = g.sprite("background.jpg");
+//     bg.x = 0;
+//     bg.y = 0;
+//     howto.addChild(bg);
+
+// /*    instructions = g.sprite("instructions.png");
+//     instructions.x = 512 - instructions.halfWidth;
+//     instructions.y = 100;
+//     howTo.addChild(instructions);*/
+// }
 
 function setup() {
+    g.progressBar.remove();
 
     g.canvas.style.border = "1px black dashed";
     g.backgroundColor = "white";
@@ -136,8 +188,8 @@ function setup() {
 
     var minGapSize = 70;
     var maxGapSize = 100;
-    //numberOfHouses = 100;
-    numberOfHouses = 10;
+    numberOfHouses = 100;
+    //numberOfHouses = 10;
     var currX = 70;
 
     for (var i = 0; i < numberOfHouses; i++) {
