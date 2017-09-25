@@ -4,20 +4,44 @@
       "frame": {
         "x": 1,
         "y": 1,
-        "w": 800,
-        "h": 153
+        "w": 480,
+        "h": 92
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 800,
-        "h": 153
+        "w": 480,
+        "h": 92
       },
       "sourceSize": {
-        "w": 800,
-        "h": 153
+        "w": 480,
+        "h": 92
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "lights_bottom.png": {
+      "frame": {
+        "x": 483,
+        "y": 1,
+        "w": 480,
+        "h": 86
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 480,
+        "h": 86
+      },
+      "sourceSize": {
+        "w": 480,
+        "h": 86
       },
       "pivot": {
         "x": 0.5,
@@ -26,8 +50,8 @@
     },
     "instructions.png": {
       "frame": {
-        "x": 1,
-        "y": 156,
+        "x": 483,
+        "y": 89,
         "w": 426,
         "h": 51
       },
@@ -55,8 +79,8 @@
     "image": "howto.png",
     "format": "RGBA8888",
     "size": {
-      "w": 802,
-      "h": 208
+      "w": 964,
+      "h": 141
     },
     "scale": 1
   }
