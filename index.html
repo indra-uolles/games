@@ -1,308 +1,375 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>Treasure hunter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <style> * {margin: 0; padding: 0;} </style>
 <body>
 <script src="libs/ga.js"></script>
 <script src="libs/plugins.js"></script>
-<script src="src/houseBuilder.js"></script>
-<script src="src/scoreCounter.js"></script>
+<script src="libs/phaser.min.js"></script>
+<!-- <script src="src/houseBuilder.js"></script>
+<script src="src/scoreCounter.js"></script> -->
 <script>
-var windowHalfWidth = 512;
-var g = ga(
-  windowHalfWidth*2, 512, splash,
-  [
-    "assets/images/SantaGame.json",
-    "assets/images/landscape.json",
-    "assets/images/houses.json",
-    "assets/images/finish.json",
-    "assets/images/babka.json",
-    "assets/images/happyboy.json",
-    "assets/images/happyevil.json",
-    "assets/images/splash.json",
-    "assets/images/snowy_background.json",
-    "assets/images/howto.json",
-    "assets/images/howtobtn2.png"
-  ],
-  load
-);
+// Create our 'main' state that will contain the game
+var shootTime = 0;
+var gifts, controls, sleighHalfWidth, sleighHalfHeight;
+var mainState = {
+    preload: function() {
+        // This function will be executed at the beginning
+        // That's where we load the images and sounds
+        this.load.image('treasure', 'assets/images/SantaGame.png');
+        this.load.image('sleigh', 'assets/images/santa_sleigh2.png');
+    },
 
-var player, hb, sc, traject, bullets, landscape, numberOfHouses, finish, scoreDisplay, score,
-splash, sign, gname, creatorText, playBtn, howtoBtn, shareBtn, bg, howto, instructions, lights, lightsBt, howtoBg, howtoDisplay;
+    create: function() {
+        // This function is called after the preload function
+        // Here we set up the game, display sprites, etc.
+        sleighHalfWidth = this.game.cache.getImage('sleigh').width/2;
+        sleighHalfHeight = this.game.cache.getImage('sleigh').height/2;
 
-g.start();
-//g.scaleToWindow(); - неправильно располагает кнопки на заставке
+        this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 45, 'sleigh');
+        gifts = this.game.add.group();
+        gifts.enableBody = true;
+        gifts.physicsBodyType = Phaser.Physics.ARCADE;
+        gifts.createMultiple(10, 'treasure');
 
-// window.addEventListener("resize", function(event){
-//   g.scaleToWindow();
-// });
+        gifts.setAll('anchor.x', 0.5);
+        gifts.setAll('anchor.y', 0.5);
 
-function splash() {
-    g.progressBar.remove();
+        gifts.setAll('scale.x', 0.5);
+        gifts.setAll('scale.y', 0.5);
 
-    splash = g.group();
+        gifts.setAll('outOfBoundsKill', true);
+        gifts.setAll('checkWorldBounds', true);
 
-    bg = g.sprite("background.jpg");
-    bg.x = 0;
-    bg.y = 0;
-    splash.addChild(bg);
+        game.world.bringToTop(this.player);
 
-    //for debug
-    // for (var j = 0; j < 512; j += 50) {
-    //     var l = g.rectangle(1024, 1, "blue");
-    //     l.x = 0;
-    //     l.y = j;
-    //     splash.addChild(l);
-    // }
+        controls = {
+            shoot: this.input.keyboard.addKey(Phaser.Keyboard.DOWN)
+        };
+    },
 
-    sign = g.sprite("sign2.png");
-    sign.x = 40;
-    sign.y = 512 - sign.halfHeight*2;
-    splash.addChild(sign);
-
-    gname = g.sprite("name.png");
-    gname.x = 512 - gname.halfWidth;
-    gname.y = 256 - gname.halfHeight*2;
-    splash.addChild(gname);
-
-    creatorText = g.text("0", "20px tahoma", "#00284d", 1000, 10);
-    creatorText.content = "created by";
-    creatorText.x = 380;
-    creatorText.y = 70;
-    splash.addChild(creatorText);
-
-    divanlogo = g.sprite("divan_logo.png");
-    divanlogo.x = 512 - divanlogo.halfWidth + 30;
-    divanlogo.y = 30;
-    splash.addChild(divanlogo);
-
-    sleigh = g.sprite("santa_sleigh2.png");
-    sleigh.x = gname.x + gname.halfWidth*2;
-    sleigh.y = gname.y - 20;
-    splash.addChild(sleigh);
-
-    playBtn = g.button([
-      "playbtn2.png",
-      "playbtn2.png",
-      "playbtn2.png"
-    ]);
-    playBtn.x = sign.x + 60;
-    playBtn.y = sign.y + 185;
-
-    playBtn.release = function(){
-      alert("play!");
-    };
-
-    shareBtn = g.button([
-      "sharebtn2.png",
-      "sharebtn2.png",
-      "sharebtn2.png"
-    ]);
-    shareBtn.x = sign.x + 60;
-    shareBtn.y = sign.y + 250;
-
-    shareBtn.release = function(){
-      alert("share!");
-    };
-    var buttonFrames = g.frames(
-        "assets/images/howtobtn2.png",
-        [[0,0],[0,25],[0,50]],
-        105,25
-      );
-
-    howtoBtn = g.button(buttonFrames);
-
-    howtoBtn.x = sign.gx + 60;
-    howtoBtn.y = sign.gy + 95;
-    splash.addChild(howtoBtn);
-
-    howtoBtn.release = function(){
-      g.state = howto;
-    };
-}
-
-function howto() {
-    sign.visible = false;
-    gname.visible = false;
-    creatorText.visible = false;
-    divanlogo.visible = false;
-    sleigh.visible = false;
-    playBtn.visible = false;
-    shareBtn.visible = false;
-    howtoBtn.visible = false;
-
-    instructions = g.sprite("instructions.png");
-    instructions.x = 512 - instructions.halfWidth;
-    instructions.y = 50;
-    splash.addChild(instructions);
-
-    howtoBg = g.rectangle(480, 300, "white");
-    howtoBg.x = 512 - howtoBg.halfWidth;
-    howtoBg.y = 130;
-    splash.addChild(howtoBg);
-
-    lights = g.sprite("lights2.png");
-    lights.x = 512 - lights.halfWidth;
-    lights.y = 100;
-    splash.addChild(lights);
-
-    lightsBt = g.sprite("lights_bottom.png");
-    lightsBt.x = 512 - lightsBt.halfWidth;
-    lightsBt.y = g.canvas.height - 50 - lightsBt.halfHeight*2;
-    splash.addChild(lightsBt);
-
-    howtoDisplay = g.text("0", "20px tahoma", "#000000", 1000, 10);
-    howtoDisplay.content = "Dear Santa, you have a limited number of gifts so give them out wisely. If you give a gift to a bad boy you won't receive points for that. If a bad boy lives on the last floor he'll receive all the gifts that you'll drop. Use down arrow to drop gifts.";
-
-   howtoDisplay.x = lights.x + 30;
-   howtoDisplay.y = lights.y + 80;
-   splash.addChild(howtoDisplay);
-}
-
-function setup() {
-    g.canvas.style.border = "1px black dashed";
-    g.backgroundColor = "white";
-    g.state = play;
-
-    landscape = g.tilingSprite(
-      g.canvas.width,        //The width
-      g.canvas.height,       //The height
-      "landscape.png"        //The image to use
-    );
-
-    hb = new HouseBuilder(g);
-    sc = new ScoreCounter();
-
-    scoreDisplay = g.text("0", "20px tahoma", "#00FF00", 1000, 10);
-
-    bullets = [];
-    score = 0;
-
-    gameScene = g.group();
-    gameScene.visible = false;
-
-    //for debug
-    for (var j = 35; j < 1024; j += 35) {
-        var l = g.rectangle(1, 512, "blue");
-        l.x = j;
-        l.y = 0;
-        gameScene.addChild(l);
-
-        var lineDisplay = g.text(j, "10px tahoma", "#00FF00", j, 5);
-        gameScene.addChild(lineDisplay);
-    }
-
-    player = g.rectangle(144, 48, "blue");
-    player.x = windowHalfWidth - player.halfWidth;
-    player.y = 18;
-    gameScene.addChild(player);
-
-    traject = g.rectangle(5, 100, "red");
-    traject.visible = false;
-    gameScene.addChild(traject);
-
-    var minGapSize = 70;
-    var maxGapSize = 100;
-    numberOfHouses = 100;
-    //numberOfHouses = 10;
-    var currX = 70;
-
-    for (var i = 0; i < numberOfHouses; i++) {
-        var num = g.randomInt(0, 3);
-        if (num == 0) {
-            hb.getTwoBoysFirstBad(currX, g.canvas.height - 70, i);
-            sc.add(i, 1);
-        } else if (num == 1) {
-            hb.getTwoBoysFirstGood(currX, g.canvas.height - 70, i);
-            sc.add(i, 2);
-        } else if (num == 2) {
-            hb.getOneBoyBad(currX, g.canvas.height - 70, i);
-            sc.add(i, 4);
-        } else {
-            hb.getOneBoyGood(currX, g.canvas.height - 70, i);
-            sc.add(i, 3);
+    update: function() {
+        // This function is called 60 times per second
+        // It contains the game's logic
+        if (controls.shoot.isDown) {
+            this.shootGift();
         }
-        currX += 350;
+    },
 
-        if (i === numberOfHouses - 1) {
-            finish = g.sprite("finish.png");
-            hb.houses.addChild(finish);
-            finish.x = currX + 350;
-            finish.y = g.canvas.height/2 - finish.halfHeight;
-        }
-    }
-
-    //g.pointer.press = function() {
-    g.key.downArrow.press = function() {
-        traject.x = player.x + player.halfWidth;
-        traject.y = player.y + 2*player.halfHeight;
-        traject.visible = true;
-    }
-
-    g.key.downArrow.release = function() {
-    //g.pointer.release = function() {
-        traject.visible = false;
-        g.shoot(
-            player,      //The shooting sprite
-            1.57,        //The angle, in radians, at which to shoot (4.71 is up)
-            16,          //The bullet's offset from the center of the sprite
-            7,           //The bullet's speed (pixels per frame)
-            bullets,
-            function() {
-                return g.sprite("treasure.png");
+    shootGift: function() {
+        if (this.time.now > shootTime) {
+            gift = gifts.getFirstExists(false);
+            if (gift) {
+                gift.reset(this.player.x + 40, this.player.y + sleighHalfHeight);
+                gift.body.velocity.y = +600;
+                shootTime = this.time.now + 900;
             }
-        );
-    }
-}
-
-function play() {
-    landscape.tileX -= 1;
-
-    if (finish.gx > g.canvas.width) {
-        hb.moveLeft(2);
-    }
-
-    bullets.forEach(function(bullet) {
-        if (!(bullet.y >= 162 && bullet.y < 512) || !bullet.visible) {
-            return;
         }
+    }
+};
 
-        var bulletVsBlock = hb.chimneys.children.some(function(chimney){
-            var hit = g.hitTestRectangle(bullet, chimney, true),
-                index = chimney.index;
+var game = new Phaser.Game(400, 490);
+game.state.add('main', mainState);
+game.state.start('main');
 
-            if (hit) {
-                hb.afterHit("chimney", sc.getHitResult("chimney", index), index);
-                sc.update("chimney", index);
-            }
-            return hit;
-        });
-        if (bulletVsBlock) {
-            bullet.visible = false;
-        }
+// var windowHalfWidth = 512;
+// var g = ga(
+//   windowHalfWidth*2, 512, splash,
+//   [
+//     "assets/images/SantaGame.json",
+//     "assets/images/landscape.json",
+//     "assets/images/houses.json",
+//     "assets/images/finish.json",
+//     "assets/images/babka.json",
+//     "assets/images/happyboy.json",
+//     "assets/images/happyevil.json",
+//     "assets/images/splash.json",
+//     "assets/images/snowy_background.json",
+//     "assets/images/howto.json",
+//     "assets/images/howtobtn2.png"
+//   ],
+//   load
+// );
 
-        var bulletVsRoof = hb.roofs.children.some(function(roof){
-            var hit = g.hitTestRectangle(bullet, roof, true),
-                index = roof.index;
+// var player, hb, sc, traject, bullets, landscape, numberOfHouses, finish, scoreDisplay, score,
+// splash, sign, gname, creatorText, playBtn, howtoBtn, shareBtn, bg, howto, instructions, lights, lightsBt, howtoBg, howtoDisplay;
 
-            if (hit) {
-                hb.afterHit("roof", sc.getHitResult("roof", index), index);
-                sc.update("roof", index);
-            }
-            return hit;
-        });
-    });
+// g.start();
+// //g.scaleToWindow(); - неправильно располагает кнопки на заставке
 
-    scoreDisplay.content = sc.getScore();
-    g.move(bullets);
-}
+// // window.addEventListener("resize", function(event){
+// //   g.scaleToWindow();
+// // });
 
-function end() {
-}
+// function splash() {
+//     g.progressBar.remove();
 
-function load(){
-    g.progressBar.create(g.canvas, g.assets);
-    g.progressBar.update();
-}
+//     splash = g.group();
+
+//     bg = g.sprite("background.jpg");
+//     bg.x = 0;
+//     bg.y = 0;
+//     splash.addChild(bg);
+
+//     //for debug
+//     // for (var j = 0; j < 512; j += 50) {
+//     //     var l = g.rectangle(1024, 1, "blue");
+//     //     l.x = 0;
+//     //     l.y = j;
+//     //     splash.addChild(l);
+//     // }
+
+//     sign = g.sprite("sign2.png");
+//     sign.x = 40;
+//     sign.y = 512 - sign.halfHeight*2;
+//     splash.addChild(sign);
+
+//     gname = g.sprite("name.png");
+//     gname.x = 512 - gname.halfWidth;
+//     gname.y = 256 - gname.halfHeight*2;
+//     splash.addChild(gname);
+
+//     creatorText = g.text("0", "20px tahoma", "#00284d", 1000, 10);
+//     creatorText.content = "created by";
+//     creatorText.x = 380;
+//     creatorText.y = 70;
+//     splash.addChild(creatorText);
+
+//     divanlogo = g.sprite("divan_logo.png");
+//     divanlogo.x = 512 - divanlogo.halfWidth + 30;
+//     divanlogo.y = 30;
+//     splash.addChild(divanlogo);
+
+//     sleigh = g.sprite("santa_sleigh2.png");
+//     sleigh.x = gname.x + gname.halfWidth*2;
+//     sleigh.y = gname.y - 20;
+//     splash.addChild(sleigh);
+
+//     playBtn = g.button([
+//       "playbtn2.png",
+//       "playbtn2.png",
+//       "playbtn2.png"
+//     ]);
+//     playBtn.x = sign.x + 60;
+//     playBtn.y = sign.y + 185;
+
+//     playBtn.release = function(){
+//       alert("play!");
+//     };
+
+//     shareBtn = g.button([
+//       "sharebtn2.png",
+//       "sharebtn2.png",
+//       "sharebtn2.png"
+//     ]);
+//     shareBtn.x = sign.x + 60;
+//     shareBtn.y = sign.y + 250;
+
+//     shareBtn.release = function(){
+//       alert("share!");
+//     };
+//     var buttonFrames = g.frames(
+//         "assets/images/howtobtn2.png",
+//         [[0,0],[0,25],[0,50]],
+//         105,25
+//       );
+
+//     howtoBtn = g.button(buttonFrames);
+
+//     howtoBtn.x = sign.gx + 60;
+//     howtoBtn.y = sign.gy + 95;
+//     splash.addChild(howtoBtn);
+
+//     howtoBtn.release = function(){
+//       g.state = howto;
+//     };
+// }
+
+// function howto() {
+//     sign.visible = false;
+//     gname.visible = false;
+//     creatorText.visible = false;
+//     divanlogo.visible = false;
+//     sleigh.visible = false;
+//     playBtn.visible = false;
+//     shareBtn.visible = false;
+//     howtoBtn.visible = false;
+
+//     instructions = g.sprite("instructions.png");
+//     instructions.x = 512 - instructions.halfWidth;
+//     instructions.y = 50;
+//     splash.addChild(instructions);
+
+//     howtoBg = g.rectangle(480, 300, "white");
+//     howtoBg.x = 512 - howtoBg.halfWidth;
+//     howtoBg.y = 130;
+//     splash.addChild(howtoBg);
+
+//     lights = g.sprite("lights2.png");
+//     lights.x = 512 - lights.halfWidth;
+//     lights.y = 100;
+//     splash.addChild(lights);
+
+//     lightsBt = g.sprite("lights_bottom.png");
+//     lightsBt.x = 512 - lightsBt.halfWidth;
+//     lightsBt.y = g.canvas.height - 50 - lightsBt.halfHeight*2;
+//     splash.addChild(lightsBt);
+
+//     howtoDisplay = g.text("0", "20px tahoma", "#000000", 1000, 10);
+//     howtoDisplay.content = "Dear Santa, you have a limited number of gifts so give them out wisely. If you give a gift to a bad boy you won't receive points for that. If a bad boy lives on the last floor he'll receive all the gifts that you'll drop. Use down arrow to drop gifts.";
+
+//    howtoDisplay.x = lights.x + 30;
+//    howtoDisplay.y = lights.y + 80;
+//    splash.addChild(howtoDisplay);
+// }
+
+// function setup() {
+//     g.canvas.style.border = "1px black dashed";
+//     g.backgroundColor = "white";
+//     g.state = play;
+
+//     landscape = g.tilingSprite(
+//       g.canvas.width,        //The width
+//       g.canvas.height,       //The height
+//       "landscape.png"        //The image to use
+//     );
+
+//     hb = new HouseBuilder(g);
+//     sc = new ScoreCounter();
+
+//     scoreDisplay = g.text("0", "20px tahoma", "#00FF00", 1000, 10);
+
+//     bullets = [];
+//     score = 0;
+
+//     gameScene = g.group();
+//     gameScene.visible = false;
+
+//     //for debug
+//     for (var j = 35; j < 1024; j += 35) {
+//         var l = g.rectangle(1, 512, "blue");
+//         l.x = j;
+//         l.y = 0;
+//         gameScene.addChild(l);
+
+//         var lineDisplay = g.text(j, "10px tahoma", "#00FF00", j, 5);
+//         gameScene.addChild(lineDisplay);
+//     }
+
+//     player = g.rectangle(144, 48, "blue");
+//     player.x = windowHalfWidth - player.halfWidth;
+//     player.y = 18;
+//     gameScene.addChild(player);
+
+//     traject = g.rectangle(5, 100, "red");
+//     traject.visible = false;
+//     gameScene.addChild(traject);
+
+//     var minGapSize = 70;
+//     var maxGapSize = 100;
+//     numberOfHouses = 100;
+//     //numberOfHouses = 10;
+//     var currX = 70;
+
+//     for (var i = 0; i < numberOfHouses; i++) {
+//         var num = g.randomInt(0, 3);
+//         if (num == 0) {
+//             hb.getTwoBoysFirstBad(currX, g.canvas.height - 70, i);
+//             sc.add(i, 1);
+//         } else if (num == 1) {
+//             hb.getTwoBoysFirstGood(currX, g.canvas.height - 70, i);
+//             sc.add(i, 2);
+//         } else if (num == 2) {
+//             hb.getOneBoyBad(currX, g.canvas.height - 70, i);
+//             sc.add(i, 4);
+//         } else {
+//             hb.getOneBoyGood(currX, g.canvas.height - 70, i);
+//             sc.add(i, 3);
+//         }
+//         currX += 350;
+
+//         if (i === numberOfHouses - 1) {
+//             finish = g.sprite("finish.png");
+//             hb.houses.addChild(finish);
+//             finish.x = currX + 350;
+//             finish.y = g.canvas.height/2 - finish.halfHeight;
+//         }
+//     }
+
+//     //g.pointer.press = function() {
+//     g.key.downArrow.press = function() {
+//         traject.x = player.x + player.halfWidth;
+//         traject.y = player.y + 2*player.halfHeight;
+//         traject.visible = true;
+//     }
+
+//     g.key.downArrow.release = function() {
+//     //g.pointer.release = function() {
+//         traject.visible = false;
+//         g.shoot(
+//             player,      //The shooting sprite
+//             1.57,        //The angle, in radians, at which to shoot (4.71 is up)
+//             16,          //The bullet's offset from the center of the sprite
+//             7,           //The bullet's speed (pixels per frame)
+//             bullets,
+//             function() {
+//                 return g.sprite("treasure.png");
+//             }
+//         );
+//     }
+// }
+
+// function play() {
+//     landscape.tileX -= 1;
+
+//     if (finish.gx > g.canvas.width) {
+//         hb.moveLeft(2);
+//     }
+
+//     bullets.forEach(function(bullet) {
+//         if (!(bullet.y >= 162 && bullet.y < 512) || !bullet.visible) {
+//             return;
+//         }
+
+//         var bulletVsBlock = hb.chimneys.children.some(function(chimney){
+//             var hit = g.hitTestRectangle(bullet, chimney, true),
+//                 index = chimney.index;
+
+//             if (hit) {
+//                 hb.afterHit("chimney", sc.getHitResult("chimney", index), index);
+//                 sc.update("chimney", index);
+//             }
+//             return hit;
+//         });
+//         if (bulletVsBlock) {
+//             bullet.visible = false;
+//         }
+
+//         var bulletVsRoof = hb.roofs.children.some(function(roof){
+//             var hit = g.hitTestRectangle(bullet, roof, true),
+//                 index = roof.index;
+
+//             if (hit) {
+//                 hb.afterHit("roof", sc.getHitResult("roof", index), index);
+//                 sc.update("roof", index);
+//             }
+//             return hit;
+//         });
+//     });
+
+//     scoreDisplay.content = sc.getScore();
+//     g.move(bullets);
+// }
+
+// function end() {
+// }
+
+// function load(){
+//     g.progressBar.create(g.canvas, g.assets);
+//     g.progressBar.update();
+// }
 </script>
 </body>
