@@ -12,20 +12,21 @@
 <!-- <script src="src/houseBuilder.js"></script>
 <script src="src/scoreCounter.js"></script> -->
 <script>
-// Create our 'main' state that will contain the game
 var shootTime = 0;
-var gifts, controls, sleighHalfWidth, sleighHalfHeight;
+var bg, gifts, controls, sleighHalfWidth, sleighHalfHeight, bgV;
 var mainState = {
     preload: function() {
         // This function will be executed at the beginning
         // That's where we load the images and sounds
         this.load.image('treasure', 'assets/images/SantaGame.png');
         this.load.image('sleigh', 'assets/images/santa_sleigh2.png');
+        this.load.image('bg', 'assets/images/rsz_landscape2.png');
     },
 
     create: function() {
-        // This function is called after the preload function
-        // Here we set up the game, display sprites, etc.
+        bgV = 2;
+        bg = game.add.tileSprite(0,0,400,490, 'bg');
+
         sleighHalfWidth = this.game.cache.getImage('sleigh').width/2;
         sleighHalfHeight = this.game.cache.getImage('sleigh').height/2;
 
@@ -54,6 +55,8 @@ var mainState = {
     update: function() {
         // This function is called 60 times per second
         // It contains the game's logic
+        bg.tilePosition.x -= bgV;
+
         if (controls.shoot.isDown) {
             this.shootGift();
         }
