@@ -9,23 +9,45 @@
 <script src="libs/ga.js"></script>
 <script src="libs/plugins.js"></script>
 <script src="libs/phaser.min.js"></script>
-<!-- <script src="src/houseBuilder.js"></script>
-<script src="src/scoreCounter.js"></script> -->
+<script src="src/houseBuilder.js"></script>
+<!-- <script src="src/scoreCounter.js"></script> -->
 <script>
 var shootTime = 0;
-var bg, gifts, controls, sleighHalfWidth, sleighHalfHeight, bgV;
+var bg, gifts, controls, sleighHalfWidth, sleighHalfHeight, bgV, hb, gap, isFirstGap;
 var mainState = {
     preload: function() {
-        // This function will be executed at the beginning
-        // That's where we load the images and sounds
         this.load.image('treasure', 'assets/images/SantaGame.png');
         this.load.image('sleigh', 'assets/images/santa_sleigh2.png');
         this.load.image('bg', 'assets/images/rsz_landscape2.png');
+
+        this.load.image('houseDarkBottomLeft', 'assets/images/tiles/houseDarkBottomLeft.png');
+        this.load.image('houseDarkBottomMid', 'assets/images/tiles/houseDarkBottomMid.png');
+        this.load.image('houseDarkBottomRight', 'assets/images/tiles/houseDarkBottomRight.png');
+        this.load.image('houseDarkMidLeft', 'assets/images/tiles/houseDarkMidLeft.png');
+        this.load.image('houseDark', 'assets/images/tiles/houseDark.png');
+        this.load.image('houseDarkMidRight', 'assets/images/tiles/houseDarkMidRight.png');
+        this.load.image('windowCheckered', 'assets/images/tiles/windowCheckered.png');
+        this.load.image('doorTop', 'assets/images/tiles/doorTop.png');
+        this.load.image('doorKnobAlt', 'assets/images/tiles/doorKnobAlt.png');
+        this.load.image('roofRedRight', 'assets/images/tiles/roofRedRight.png');
+        this.load.image('roofRedTopMid', 'assets/images/tiles/roofRedTopMid.png');
+        this.load.image('roofRedTopLeft', 'assets/images/tiles/roofRedTopLeft.png');
+        this.load.image('chimneyThin', 'assets/images/tiles/chimneyThin.png');
+        this.load.image('chimneyLow', 'assets/images/tiles/chimneyLow.png');
+
+        this.load.image('houseBeigeBottomLeft', 'assets/images/tiles/houseBeigeBottomLeft.png');
+        this.load.image('houseBeigeBottomMid', 'assets/images/tiles/houseBeigeBottomMid.png');
+        this.load.image('houseBeigeBottomRight', 'assets/images/tiles/houseBeigeBottomRight.png');
+        this.load.image('houseBeigeMidLeft', 'assets/images/tiles/houseBeigeMidLeft.png');
+        this.load.image('houseBeige', 'assets/images/tiles/houseBeige.png');
+        this.load.image('houseBeigeMidRight', 'assets/images/tiles/houseBeigeMidRight.png');
+
+        hb = new HouseBuilder(game);
     },
 
     create: function() {
         bgV = 2;
-        bg = game.add.tileSprite(0,0,400,490, 'bg');
+        bg = game.add.tileSprite(0, 0, 400, 490, 'bg');
 
         sleighHalfWidth = this.game.cache.getImage('sleigh').width/2;
         sleighHalfHeight = this.game.cache.getImage('sleigh').height/2;
@@ -50,6 +72,12 @@ var mainState = {
         controls = {
             shoot: this.input.keyboard.addKey(Phaser.Keyboard.DOWN)
         };
+
+        this.timer = game.time.events.loop(3000, function(){
+            var gap = this.game.rnd.realInRange(100, 350)
+            var xStart = Math.max(401, hb.getMaxPosX()) + gap;
+            hb.addHouse(xStart, 490 - 70);
+        }, this);
     },
 
     update: function() {
@@ -99,13 +127,6 @@ game.state.start('main');
 
 // var player, hb, sc, traject, bullets, landscape, numberOfHouses, finish, scoreDisplay, score,
 // splash, sign, gname, creatorText, playBtn, howtoBtn, shareBtn, bg, howto, instructions, lights, lightsBt, howtoBg, howtoDisplay;
-
-// g.start();
-// //g.scaleToWindow(); - неправильно располагает кнопки на заставке
-
-// // window.addEventListener("resize", function(event){
-// //   g.scaleToWindow();
-// // });
 
 // function splash() {
 //     g.progressBar.remove();
@@ -234,12 +255,6 @@ game.state.start('main');
 //     g.backgroundColor = "white";
 //     g.state = play;
 
-//     landscape = g.tilingSprite(
-//       g.canvas.width,        //The width
-//       g.canvas.height,       //The height
-//       "landscape.png"        //The image to use
-//     );
-
 //     hb = new HouseBuilder(g);
 //     sc = new ScoreCounter();
 
@@ -262,75 +277,11 @@ game.state.start('main');
 //         gameScene.addChild(lineDisplay);
 //     }
 
-//     player = g.rectangle(144, 48, "blue");
-//     player.x = windowHalfWidth - player.halfWidth;
-//     player.y = 18;
-//     gameScene.addChild(player);
-
 //     traject = g.rectangle(5, 100, "red");
 //     traject.visible = false;
 //     gameScene.addChild(traject);
 
-//     var minGapSize = 70;
-//     var maxGapSize = 100;
-//     numberOfHouses = 100;
-//     //numberOfHouses = 10;
-//     var currX = 70;
-
-//     for (var i = 0; i < numberOfHouses; i++) {
-//         var num = g.randomInt(0, 3);
-//         if (num == 0) {
-//             hb.getTwoBoysFirstBad(currX, g.canvas.height - 70, i);
-//             sc.add(i, 1);
-//         } else if (num == 1) {
-//             hb.getTwoBoysFirstGood(currX, g.canvas.height - 70, i);
-//             sc.add(i, 2);
-//         } else if (num == 2) {
-//             hb.getOneBoyBad(currX, g.canvas.height - 70, i);
-//             sc.add(i, 4);
-//         } else {
-//             hb.getOneBoyGood(currX, g.canvas.height - 70, i);
-//             sc.add(i, 3);
-//         }
-//         currX += 350;
-
-//         if (i === numberOfHouses - 1) {
-//             finish = g.sprite("finish.png");
-//             hb.houses.addChild(finish);
-//             finish.x = currX + 350;
-//             finish.y = g.canvas.height/2 - finish.halfHeight;
-//         }
-//     }
-
-//     //g.pointer.press = function() {
-//     g.key.downArrow.press = function() {
-//         traject.x = player.x + player.halfWidth;
-//         traject.y = player.y + 2*player.halfHeight;
-//         traject.visible = true;
-//     }
-
-//     g.key.downArrow.release = function() {
-//     //g.pointer.release = function() {
-//         traject.visible = false;
-//         g.shoot(
-//             player,      //The shooting sprite
-//             1.57,        //The angle, in radians, at which to shoot (4.71 is up)
-//             16,          //The bullet's offset from the center of the sprite
-//             7,           //The bullet's speed (pixels per frame)
-//             bullets,
-//             function() {
-//                 return g.sprite("treasure.png");
-//             }
-//         );
-//     }
-// }
-
 // function play() {
-//     landscape.tileX -= 1;
-
-//     if (finish.gx > g.canvas.width) {
-//         hb.moveLeft(2);
-//     }
 
 //     bullets.forEach(function(bullet) {
 //         if (!(bullet.y >= 162 && bullet.y < 512) || !bullet.visible) {

@@ -1,143 +1,149 @@
-function HouseBuilder(g, babkaFrames) {
-    this.g = g;
-    this.chimneys = g.group();
-    this.houses = g.group();
-    this.windows = g.group();
-    this.roofs = g.group();
-    this.babkas = g.group();
-    this.boys = g.group();
-    this.evils = g.group();
+function HouseBuilder(game) {
+    this.game = game;
+    this.houses = [];
 }
 
-HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y, i) {
-    var houseSprite;
-
-    this._addHousePart("houseDarkBottomLeft.png", x, y, i);
-    this._addHousePart("houseDarkBottomMid.png", x + 70, y, i);
-    this._addHousePart("houseDarkBottomRight.png", x + 140, y, i);
-    this._addHousePart("houseDarkMidLeft.png", x, y - 70, i);
-    this._addHousePart("houseDark.png", x + 70, y - 70, i);
-    this._addHousePart("houseDarkMidRight.png", x + 140, y - 70, i);
-
-    houseSprite = this._addHousePart("windowCheckered.png", x + 25, y - 40, i);
-    houseSprite.floor = 1;
-    this._createHappyBoyAnim(houseSprite, 1);
-    this._createHappyEvilAnim(houseSprite, 1);
-
-    this._addHousePart("doorTop.png", x + 110, y - 70, i);
-    this._addHousePart("doorKnobAlt.png", x + 110, y, i);
-
-    this._addHousePart("houseDarkMidLeft.png", x, y - 140, i);
-    this._addHousePart("houseDark.png", x + 70, y - 140, i);
-    this._addHousePart("houseDarkMidRight.png", x + 140, y - 140, i);
-
-    houseSprite = this._addHousePart("windowCheckered.png", x + 25, y - 130, i);
-    houseSprite.floor = 2;
-    this._createHappyBoyAnim(houseSprite, 2);
-    this._createHappyEvilAnim(houseSprite, 2);
-
-    houseSprite = this._addHousePart("windowCheckered.png", x + 110, y - 130, i);
-    this._createBabkaAnim(houseSprite);
-
-    this._addHousePart("roofRedRight.png", x - 70, y - 210, i);
-    this._addHousePart("roofRedTopMid.png", x, y - 210, i);
-    this._addHousePart("roofRedTopMid.png", x + 70, y - 210, i);
-    this._addHousePart("roofRedTopMid.png", x + 140, y - 210, i);
-    this._addHousePart("roofRedTopLeft.png", x + 210, y - 210, i);
-
-    this._addHousePart("chimneyThin.png", x + 120, y - 280, i);
+HouseBuilder.prototype.getMaxPosX = function() {
+    if (this.houses.length > 0) {
+        return this.houses[this.houses.length - 1].x;
+    } else {
+        return -1;
+    }
 }
 
-HouseBuilder.prototype.getTwoBoysFirstGood = function(x, y, i) {
-    var houseSprite;
+HouseBuilder.prototype.addHouse = function(x, y) {
+    var num = this.game.rnd.integerInRange(0, 3);
 
-    this._addHousePart("houseBeigeBottomLeft.png", x, y, i);
-    this._addHousePart("houseBeigeBottomMid.png", x + 70, y, i);
-    this._addHousePart("houseBeigeBottomRight.png", x + 140, y, i);
-    this._addHousePart("houseBeigeMidLeft.png", x, y - 70, i);
-    this._addHousePart("houseBeige.png", x + 70, y - 70, i);
-    this._addHousePart("houseBeigeMidRight.png", x + 140, y - 70, i);
-
-    houseSprite = this._addHousePart("windowCheckered.png", x + 25, y - 40, i);
-    houseSprite.floor = 1;
-    this._createHappyBoyAnim(houseSprite, 1);
-    this._createHappyEvilAnim(houseSprite, 1);
-
-    this._addHousePart("doorTop.png", x + 110, y - 70, i);
-    this._addHousePart("doorKnobAlt.png", x + 110, y, i);
-
-    this._addHousePart("houseBeigeMidLeft.png", x, y - 140, i);
-    this._addHousePart("houseBeige.png", x + 70, y - 140, i);
-    this._addHousePart("houseBeigeMidRight.png", x + 140, y - 140, i);
-
-    houseSprite = this._addHousePart("windowCheckered.png", x + 25, y - 130, i);
-    houseSprite.floor = 2;
-    this._createHappyBoyAnim(houseSprite, 2);
-    this._createHappyEvilAnim(houseSprite, 2);
-
-    houseSprite = this._addHousePart("windowCheckered.png", x + 110, y - 130, i);
-    this._createBabkaAnim(houseSprite);
-
-    this._addHousePart("roofRedRight.png", x - 70, y - 210, i);
-    this._addHousePart("roofRedTopMid.png", x, y - 210, i);
-    this._addHousePart("roofRedTopMid.png", x + 70, y - 210, i);
-    this._addHousePart("roofRedTopMid.png", x + 140, y - 210, i);
-    this._addHousePart("roofRedTopLeft.png", x + 210, y - 210, i);
-
-    this._addHousePart("chimneyLow.png", x + 120, y - 280, i);
+    if (num == 0) {
+        this.houses.push(this.getTwoBoysFirstBad(x, y));
+    } else if (num == 1) {
+        this.houses.push(this.getTwoBoysFirstGood(x, y));
+    } else if (num == 2) {
+        this.houses.push(this.getOneBoyGood(x, y));
+    } else {
+        this.houses.push(this.getOneBoyBad(x, y));
+    }
 }
 
-HouseBuilder.prototype.getOneBoyGood = function(x, y, i) {
-    this._addHousePart("houseBeigeBottomLeft.png", x, y, i);
-    this._addHousePart("houseBeigeBottomMid.png", x + 70, y, i);
-    this._addHousePart("houseBeigeBottomRight.png", x + 140, y, i);
-    this._addHousePart("houseBeigeMidLeft.png", x, y - 70, i);
-    this._addHousePart("houseBeige.png", x + 70, y - 70, i);
-    this._addHousePart("houseBeigeMidRight.png", x + 140, y - 70, i);
-
-    var houseSprite = this._addHousePart("windowCheckered.png", x + 25, y - 40, i);
-    this._createHappyBoyAnim(houseSprite);
-    this._createHappyEvilAnim(houseSprite);
-    this._createBabkaAnim(houseSprite);
-
-    this._addHousePart("doorTop.png", x + 110, y - 70, i);
-    this._addHousePart("doorKnobAlt.png", x + 110, y, i);
-
-    this._addHousePart("roofRedRight.png", x - 70, y - 140, i);
-    this._addHousePart("roofRedTopMid.png", x, y - 140, i);
-    this._addHousePart("roofRedTopMid.png", x + 70, y - 140, i);
-    this._addHousePart("roofRedTopMid.png", x + 140, y - 140, i);
-    this._addHousePart("roofRedTopLeft.png", x + 210, y - 140, i);
-
-    this._addHousePart("chimneyLow.png", x + 120, y - 210, i);
+HouseBuilder.prototype.goodbye = function(sprite) {
+    if (sprite.position.x < 0) {
+        sprite.destroy();
+    }
 }
 
-HouseBuilder.prototype.getOneBoyBad = function(x, y, i) {
-    this._addHousePart("houseDarkBottomLeft.png", x, y, i);
-    this._addHousePart("houseDarkBottomMid.png", x + 70, y, i);
-    this._addHousePart("houseDarkBottomRight.png", x + 140, y, i);
-    this._addHousePart("houseDarkMidLeft.png", x, y - 70, i);
-    this._addHousePart("houseDark.png", x + 70, y - 70, i);
-    this._addHousePart("houseDarkMidRight.png", x + 140, y - 70, i);
+HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y) {
+    var house = this.game.add.group();
 
-    var houseSprite = this._addHousePart("windowCheckered.png", x + 25, y - 40, i);
-    this._createHappyBoyAnim(houseSprite);
-    this._createHappyEvilAnim(houseSprite);
-    this._createBabkaAnim(houseSprite);
+    this._addHousePart("houseDarkBottomLeft", house, x, y);
+    this._addHousePart("houseDarkBottomMid", house, x + 70, y);
+    this._addHousePart("houseDarkBottomRight", house, x + 140, y);
+    this._addHousePart("houseDarkMidLeft", house, x, y - 70);
+    this._addHousePart("houseDark", house, x + 70, y - 70);
+    this._addHousePart("houseDarkMidRight", house, x + 140, y - 70);
 
-    this._addHousePart("doorTop.png", x + 110, y - 70, i);
-    this._addHousePart("doorKnobAlt.png", x + 110, y, i);
+    this._addHousePart("windowCheckered", house, x + 25, y - 40);
+    this._addHousePart("doorTop", house, x + 110, y - 70);
+    this._addHousePart("doorKnobAlt", house, x + 110, y);
 
-    this._addHousePart("roofRedRight.png", x - 70, y - 140, i);
-    this._addHousePart("roofRedTopMid.png", x, y - 140, i);
-    this._addHousePart("roofRedTopMid.png", x + 70, y - 140, i);
-    this._addHousePart("roofRedTopMid.png", x + 140, y - 140, i);
-    this._addHousePart("roofRedTopLeft.png", x + 210, y - 140, i);
+    this._addHousePart("houseDarkMidLeft", house, x, y - 140);
+    this._addHousePart("houseDark", house, x + 70, y - 140);
+    this._addHousePart("houseDarkMidRight", house, x + 140, y - 140);
 
-    this._addHousePart("chimneyThin.png", x + 120, y - 210, i);
+    this._addHousePart("windowCheckered", house, x + 25, y - 130);
+    this._addHousePart("windowCheckered", house, x + 110, y - 130);
+
+    this._addHousePart("roofRedRight", house, x - 70, y - 210);
+    this._addHousePart("roofRedTopMid", house, x, y - 210);
+    this._addHousePart("roofRedTopMid", house, x + 70, y - 210);
+    this._addHousePart("roofRedTopMid", house, x + 140, y - 210);
+    this._addHousePart("roofRedTopLeft", house, x + 210, y - 210);
+
+    this._addHousePart("chimneyThin", house, x + 120, y - 280);
+
+    return house;
 }
 
-HouseBuilder.prototype.afterHit = function(housePart, result, index) {
+HouseBuilder.prototype.getTwoBoysFirstGood = function(x, y) {
+    var house = this.game.add.group();
+
+    this._addHousePart("houseBeigeBottomLeft", house, x, y);
+    this._addHousePart("houseBeigeBottomMid", house, x + 70, y);
+    this._addHousePart("houseBeigeBottomRight", house, x + 140, y);
+    this._addHousePart("houseBeigeMidLeft", house, x, y - 70);
+    this._addHousePart("houseBeige", house, x + 70, y - 70);
+    this._addHousePart("houseBeigeMidRight", house, x + 140, y - 70);
+
+    this._addHousePart("windowCheckered", house, x + 25, y - 40);
+    this._addHousePart("doorTop", house, x + 110, y - 70);
+    this._addHousePart("doorKnobAlt", house, x + 110, y);
+
+    this._addHousePart("houseBeigeMidLeft", house, x, y - 140);
+    this._addHousePart("houseBeige", house, x + 70, y - 140);
+    this._addHousePart("houseBeigeMidRight", house, x + 140, y - 140);
+
+    this._addHousePart("windowCheckered", house, x + 25, y - 130);
+    this._addHousePart("windowCheckered", house, x + 110, y - 130);
+
+    this._addHousePart("roofRedRight", house, x - 70, y - 210);
+    this._addHousePart("roofRedTopMid", house, x, y - 210);
+    this._addHousePart("roofRedTopMid", house, x + 70, y - 210);
+    this._addHousePart("roofRedTopMid", house, x + 140, y - 210);
+    this._addHousePart("roofRedTopLeft", house, x + 210, y - 210);
+
+    this._addHousePart("chimneyLow", house, x + 120, y - 280);
+
+    return house;
+}
+
+HouseBuilder.prototype.getOneBoyGood = function(x, y) {
+    var house = this.game.add.group();
+
+    this._addHousePart("houseBeigeBottomLeft", house, x, y);
+    this._addHousePart("houseBeigeBottomMid", house, x + 70, y);
+    this._addHousePart("houseBeigeBottomRight", house, x + 140, y);
+    this._addHousePart("houseBeigeMidLeft", house, x, y - 70);
+    this._addHousePart("houseBeige", house, x + 70, y - 70);
+    this._addHousePart("houseBeigeMidRight", house, x + 140, y - 70);
+
+    this._addHousePart("windowCheckered", house, x + 25, y - 40);
+    this._addHousePart("doorTop", house, x + 110, y - 70);
+    this._addHousePart("doorKnobAlt", house, x + 110, y);
+
+    this._addHousePart("roofRedRight", house, x - 70, y - 140);
+    this._addHousePart("roofRedTopMid", house, x, y - 140);
+    this._addHousePart("roofRedTopMid", house, x + 70, y - 140);
+    this._addHousePart("roofRedTopMid", house, x + 140, y - 140);
+    this._addHousePart("roofRedTopLeft", house, x + 210, y - 140);
+    this._addHousePart("chimneyLow", house, x + 120, y - 210);
+
+    return house;
+}
+
+HouseBuilder.prototype.getOneBoyBad = function(x, y) {
+    var house = this.game.add.group();
+
+    this._addHousePart("houseDarkBottomLeft", house, x, y);
+    this._addHousePart("houseDarkBottomMid", house, x + 70, y);
+    this._addHousePart("houseDarkBottomRight", house, x + 140, y);
+    this._addHousePart("houseDarkMidLeft", house, x, y - 70);
+    this._addHousePart("houseDark", house, x + 70, y - 70);
+    this._addHousePart("houseDarkMidRight", house, x + 140, y - 70);
+
+    this._addHousePart("windowCheckered", house, x + 25, y - 40);
+    this._addHousePart("doorTop", house, x + 110, y - 70);
+    this._addHousePart("doorKnobAlt", house, x + 110, y);
+
+    this._addHousePart("roofRedRight", house, x - 70, y - 140);
+    this._addHousePart("roofRedTopMid", house, x, y - 140);
+    this._addHousePart("roofRedTopMid", house, x + 70, y - 140);
+    this._addHousePart("roofRedTopMid", house, x + 140, y - 140);
+    this._addHousePart("roofRedTopLeft", house, x + 210, y - 140);
+    this._addHousePart("chimneyThin", house, x + 120, y - 210);
+
+    return house;
+}
+
+/*HouseBuilder.prototype.afterHit = function(housePart, result, index) {
     //housePart это чтобы потом показать анимацию пробитой крыши
     var name = result.name, floor = result.floor,
         sprite, sprites;
@@ -167,37 +173,18 @@ HouseBuilder.prototype._showWindowAnim = function(sprite) {
     sprite.visible = true;
     sprite.loop = false;
     sprite.play();
+}*/
+
+HouseBuilder.prototype._addHousePart = function(name, house, x, y) {
+    var sprite = this.game.add.sprite(x, y, name);
+    house.add(sprite);
+    this.game.physics.arcade.enable(sprite);
+    sprite.body.velocity.x = -200;
+    sprite.checkWorldBounds = true;
+    sprite.events.onOutOfBounds.add(this.goodbye, this);
 }
 
-HouseBuilder.prototype._addHousePart = function(name, x, y, i) {
-    var houseSprite = this.g.sprite(name);
-
-    houseSprite.x = x;
-    houseSprite.y = y;
-
-    if (name.indexOf("chimney") != - 1 || name.indexOf("window") != -1 || name.indexOf("roof") != -1) {
-        houseSprite.index = i;
-    }
-
-    if (name.indexOf("chimney") != - 1) {
-        houseSprite.hit = false;
-        this.chimneys.addChild(houseSprite);
-
-    } else if (name.indexOf("window") != -1) {
-        this.windows.addChild(houseSprite);
-
-    } else if (name.indexOf("roof") != -1) {
-        houseSprite.hit = false;
-        this.roofs.addChild(houseSprite);
-
-    } else {
-        this.houses.addChild(houseSprite);
-    }
-
-    return houseSprite;
-}
-
-HouseBuilder.prototype._createBabkaAnim = function(window) {
+/*HouseBuilder.prototype._createBabkaAnim = function(window) {
     var babkaFrames = [
         "window.png",
         "window.png",
@@ -303,14 +290,4 @@ HouseBuilder.prototype._createHappyEvilAnim = function(window, floor) {
     evil.visible = false;
     evil.floor = floor;
     this.evils.addChild(evil);
-}
-
-HouseBuilder.prototype.moveLeft = function(num) {
-    this.houses.x -= num;
-    this.chimneys.x -= num;
-    this.windows.x -= num;
-    this.roofs.x -= num;
-    this.babkas.x -= num;
-    this.boys.x -= num;
-    this.evils.x -= num;
-}
+}*/
