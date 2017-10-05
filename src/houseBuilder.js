@@ -25,9 +25,11 @@ HouseBuilder.prototype.addHouse = function(x, y) {
     }
 }
 
+//слишком быстро как-то исчезает
 HouseBuilder.prototype.goodbye = function(sprite) {
-    if (sprite.position.x < 0) {
-        sprite.destroy();
+    //почему-то когда x=0 у домика то показывает что у спрайта -70
+    if (sprite.key.indexOf("Right") != -1 && sprite.position.x < -100) {
+        sprite.parent.removeAll(true);
     }
 }
 
