@@ -1,21 +1,27 @@
-function ScoreCounter() {
+function ScoreCounter(game) {
+    this.game = game;
     this.scoring = {};
     this.score = 0;
+    this.game.onCollideSignal.add(this.onCollide, this);
 }
 
-ScoreCounter.prototype.getScore = function() {
+ScoreCounter.prototype.onCollide = function(e) {
+    console.log("collide " + e.hitPart + " " + e.houseType + " " + e.houseNum);
+}
+
+/*ScoreCounter.prototype.getScore = function() {
     return this.score;
-}
+}*/
 
-ScoreCounter.prototype.add = function(i, type) {
+/*ScoreCounter.prototype.add = function(i, type) {
     this.scoring[i] = {
         type: type,
         roofHits: 0,
         chimneyHits: 0
     };
-}
+}*/
 
-ScoreCounter.prototype.getHitResult = function(housePart, index) {
+/*ScoreCounter.prototype.getHitResult = function(housePart, index) {
     var name, floor,
         type = this._getHouseType(index),
         chimneyHits = this._getChimneyHits(index),
@@ -46,9 +52,9 @@ ScoreCounter.prototype.getHitResult = function(housePart, index) {
         name: name,
         floor: floor
     }
-}
+}*/
 
-ScoreCounter.prototype.update = function(housePart, index) {
+/*ScoreCounter.prototype.update = function(housePart, index) {
     if (housePart == "roof") {
         this.scoring[index].roofHits += 1;
     } else if (housePart == "chimney") {
@@ -66,4 +72,4 @@ ScoreCounter.prototype._getChimneyHits = function(index) {
 
 ScoreCounter.prototype._getRoofHits = function(index) {
     return this.scoring[index].roofHits;
-}
+}*/

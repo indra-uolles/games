@@ -10,7 +10,7 @@
 <script src="libs/plugins.js"></script>
 <script src="libs/phaser.min.js"></script>
 <script src="src/houseBuilder.js"></script>
-<!-- <script src="src/scoreCounter.js"></script> -->
+<script src="src/scoreCounter.js"></script>
 <script>
 var shootTime = 0;
 var bg, gifts, controls, sleighHalfWidth, sleighHalfHeight, bgV, hb, gap, isFirstGap;
@@ -43,6 +43,7 @@ var mainState = {
         this.load.image('houseBeigeMidRight', 'assets/images/tiles/houseBeigeMidRight.png');
 
         hb = new HouseBuilder(game);
+        sc = new ScoreCounter(game);
     },
 
     create: function() {
@@ -61,8 +62,8 @@ var mainState = {
         gifts.setAll('anchor.x', 0.5);
         gifts.setAll('anchor.y', 0.5);
 
-        gifts.setAll('scale.x', 0.5);
-        gifts.setAll('scale.y', 0.5);
+/*        gifts.setAll('scale.x', 0.5);
+        gifts.setAll('scale.y', 0.5);*/
 
         gifts.setAll('outOfBoundsKill', true);
         gifts.setAll('checkWorldBounds', true);
@@ -81,13 +82,13 @@ var mainState = {
     },
 
     update: function() {
-        // This function is called 60 times per second
-        // It contains the game's logic
         bg.tilePosition.x -= bgV;
 
         if (controls.shoot.isDown) {
             this.shootGift();
         }
+
+        hb.checkCollision(gifts);
     },
 
     shootGift: function() {
