@@ -83,6 +83,9 @@ var mainState = {
             var xStart = Math.max(401, hb.getMaxPosX()) + gap;
             hb.addHouse(xStart, 490 - 70);
         }, this);
+
+        this.labelScore = game.add.text(20, 20, "0",
+            { font: "30px Arial", fill: "#ff0000" });
     },
 
     update: function() {
@@ -93,6 +96,8 @@ var mainState = {
         }
 
         hb.checkCollision(gifts);
+
+        this.labelScore.text = sc.getScore();
     },
 
     shootGift: function() {
