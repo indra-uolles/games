@@ -42,8 +42,12 @@ var mainState = {
         this.load.image('houseBeige', 'assets/images/tiles/houseBeige.png');
         this.load.image('houseBeigeMidRight', 'assets/images/tiles/houseBeigeMidRight.png');
 
+        game.onCollideSignal = new Phaser.Signal();
+        game.onAfterCollideSignal = new Phaser.Signal();
         hb = new HouseBuilder(game);
         sc = new ScoreCounter(game);
+        game.onCollideSignal.add(sc.onCollide, sc);
+        game.onAfterCollideSignal.add(hb.onAfterCollide, hb);
     },
 
     create: function() {

@@ -1,7 +1,10 @@
 function HouseBuilder(game) {
     this.game = game;
     this.houses = [];
-    this.game.onCollideSignal = new Phaser.Signal();
+}
+
+HouseBuilder.prototype.onAfterCollide = function(e) {
+    console.log("show " + e.name + " on floor " + e.floor);
 }
 
 HouseBuilder.prototype.checkCollision = function(gifts) {
