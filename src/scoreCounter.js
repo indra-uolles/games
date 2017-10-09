@@ -5,13 +5,13 @@ function ScoreCounter(game) {
 }
 
 ScoreCounter.prototype.onCollide = function(e) {
-    //console.log("collide " + e.hitPart + " " + e.houseType + " " + e.houseNum);
     this._updateScoring(e.houseNum, e.houseType, e.hitPart);
     var result = this._getHitResult(e.hitPart, e.houseNum);
     this.score += result.score;
     this.game.onAfterCollideSignal.dispatch({
         name: result.name,
-        floor: result.floor
+        floor: result.floor,
+        houseNum: e.houseNum
     });
 }
 

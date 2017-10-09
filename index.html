@@ -42,6 +42,8 @@ var mainState = {
         this.load.image('houseBeige', 'assets/images/tiles/houseBeige.png');
         this.load.image('houseBeigeMidRight', 'assets/images/tiles/houseBeigeMidRight.png');
 
+        this.load.spritesheet('babka', 'assets/images/babka.png', 72, 58, 10);
+
         game.onCollideSignal = new Phaser.Signal();
         game.onAfterCollideSignal = new Phaser.Signal();
         hb = new HouseBuilder(game);
@@ -258,82 +260,6 @@ game.state.start('main');
 //    howtoDisplay.x = lights.x + 30;
 //    howtoDisplay.y = lights.y + 80;
 //    splash.addChild(howtoDisplay);
-// }
-
-// function setup() {
-//     g.canvas.style.border = "1px black dashed";
-//     g.backgroundColor = "white";
-//     g.state = play;
-
-//     hb = new HouseBuilder(g);
-//     sc = new ScoreCounter();
-
-//     scoreDisplay = g.text("0", "20px tahoma", "#00FF00", 1000, 10);
-
-//     bullets = [];
-//     score = 0;
-
-//     gameScene = g.group();
-//     gameScene.visible = false;
-
-//     //for debug
-//     for (var j = 35; j < 1024; j += 35) {
-//         var l = g.rectangle(1, 512, "blue");
-//         l.x = j;
-//         l.y = 0;
-//         gameScene.addChild(l);
-
-//         var lineDisplay = g.text(j, "10px tahoma", "#00FF00", j, 5);
-//         gameScene.addChild(lineDisplay);
-//     }
-
-//     traject = g.rectangle(5, 100, "red");
-//     traject.visible = false;
-//     gameScene.addChild(traject);
-
-// function play() {
-
-//     bullets.forEach(function(bullet) {
-//         if (!(bullet.y >= 162 && bullet.y < 512) || !bullet.visible) {
-//             return;
-//         }
-
-//         var bulletVsBlock = hb.chimneys.children.some(function(chimney){
-//             var hit = g.hitTestRectangle(bullet, chimney, true),
-//                 index = chimney.index;
-
-//             if (hit) {
-//                 hb.afterHit("chimney", sc.getHitResult("chimney", index), index);
-//                 sc.update("chimney", index);
-//             }
-//             return hit;
-//         });
-//         if (bulletVsBlock) {
-//             bullet.visible = false;
-//         }
-
-//         var bulletVsRoof = hb.roofs.children.some(function(roof){
-//             var hit = g.hitTestRectangle(bullet, roof, true),
-//                 index = roof.index;
-
-//             if (hit) {
-//                 hb.afterHit("roof", sc.getHitResult("roof", index), index);
-//                 sc.update("roof", index);
-//             }
-//             return hit;
-//         });
-//     });
-
-//     scoreDisplay.content = sc.getScore();
-//     g.move(bullets);
-// }
-
-// function end() {
-// }
-
-// function load(){
-//     g.progressBar.create(g.canvas, g.assets);
-//     g.progressBar.update();
 // }
 </script>
 </body>
