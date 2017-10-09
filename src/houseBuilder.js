@@ -4,14 +4,23 @@ function HouseBuilder(game) {
 }
 
 HouseBuilder.prototype.onAfterCollide = function(e) {
-    //console.log("show " + e.name + " on floor " + e.floor);
-    var house = this.houses[e.houseNum];
-    var babkas = house.filter(function(child, index, children) {
-        return child.key == 'babka' ? true : false;
-    }, true);
-    var babka = babkas.list[0];
-    babka.visible = true;
-    babka.animations.play('scream', 12);
+    var sprite,
+        floor = e.floor,
+        name = e.name,
+        house = this.houses[e.houseNum];
+
+    if (typeof(floor) != 'undefined') {
+        sprite = house.filter(function(child, index, children){
+            return child.key == name && child.floor == floor;
+        }).list[0];
+    } else {
+        sprite = house.filter(function(child, index, children){
+            return child.key == name;
+        }).list[0];
+    }
+
+    sprite.visible = true;
+    sprite.animations.play('show', 12);
 }
 
 HouseBuilder.prototype.checkCollision = function(gifts) {
@@ -84,8 +93,8 @@ HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y, houseNum) {
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 25, y - 40, 0, houseNum);
     houseSprite.floor = 1;
-    this._createHappyBoyAnim(houseSprite, 1);
-    this._createHappyEvilAnim(houseSprite, 1);
+    this._createHappyBoyAnim(houseSprite, house, 1);
+    this._createHappyEvilAnim(houseSprite, house, 1);
 
     this._addHousePart("doorTop", house, x + 110, y - 70, 0, houseNum);
     this._addHousePart("doorKnobAlt", house, x + 110, y, 0, houseNum);
@@ -96,8 +105,8 @@ HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y, houseNum) {
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 25, y - 130, 0, houseNum);
     houseSprite.floor = 2;
-    this._createHappyBoyAnim(houseSprite, 2);
-    this._createHappyEvilAnim(houseSprite, 2);
+    this._createHappyBoyAnim(houseSprite, house, 2);
+    this._createHappyEvilAnim(houseSprite, house, 2);
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 110, y - 130, 0, houseNum);
     this._createBabkaAnim(houseSprite, house);
@@ -126,8 +135,8 @@ HouseBuilder.prototype.getTwoBoysFirstGood = function(x, y, houseNum) {
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 25, y - 40, 1, houseNum);
     houseSprite.floor = 1;
-    this._createHappyBoyAnim(houseSprite, 1);
-    this._createHappyEvilAnim(houseSprite, 1);
+    this._createHappyBoyAnim(houseSprite, house, 1);
+    this._createHappyEvilAnim(houseSprite, house, 1);
 
     this._addHousePart("doorTop", house, x + 110, y - 70, 1, houseNum);
     this._addHousePart("doorKnobAlt", house, x + 110, y, 1, houseNum);
@@ -138,8 +147,8 @@ HouseBuilder.prototype.getTwoBoysFirstGood = function(x, y, houseNum) {
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 25, y - 130, 1, houseNum);
     houseSprite.floor = 2;
-    this._createHappyBoyAnim(houseSprite, 2);
-    this._createHappyEvilAnim(houseSprite, 2);
+    this._createHappyBoyAnim(houseSprite, house, 2);
+    this._createHappyEvilAnim(houseSprite, house, 2);
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 110, y - 130, 1, houseNum);
     this._createBabkaAnim(houseSprite, house);
@@ -167,8 +176,8 @@ HouseBuilder.prototype.getOneBoyGood = function(x, y, houseNum) {
     this._addHousePart("houseBeigeMidRight", house, x + 140, y - 70, 2, houseNum);
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 25, y - 40, 2, houseNum);
-    this._createHappyBoyAnim(houseSprite);
-    this._createHappyEvilAnim(houseSprite);
+    this._createHappyBoyAnim(houseSprite, house);
+    this._createHappyEvilAnim(houseSprite, house);
     this._createBabkaAnim(houseSprite, house);
 
     this._addHousePart("doorTop", house, x + 110, y - 70, 2, houseNum);
@@ -196,8 +205,8 @@ HouseBuilder.prototype.getOneBoyBad = function(x, y, houseNum) {
     this._addHousePart("houseDarkMidRight", house, x + 140, y - 70, 3, houseNum);
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 25, y - 40, 3, houseNum);
-    this._createHappyBoyAnim(houseSprite);
-    this._createHappyEvilAnim(houseSprite);
+    this._createHappyBoyAnim(houseSprite, house);
+    this._createHappyEvilAnim(houseSprite, house);
     this._createBabkaAnim(houseSprite, house);
 
     this._addHousePart("doorTop", house, x + 110, y - 70, 3, houseNum);
@@ -212,38 +221,6 @@ HouseBuilder.prototype.getOneBoyBad = function(x, y, houseNum) {
 
     return house;
 }
-
-/*HouseBuilder.prototype.afterHit = function(housePart, result, index) {
-    //housePart это чтобы потом показать анимацию пробитой крыши
-    var name = result.name, floor = result.floor,
-        sprite, sprites;
-
-    if (name == "evil") {
-        sprites = this.evils;
-    } else if (name == "boy") {
-        sprites = this.boys;
-    } else if (name == "babka") {
-        sprites = this.babkas;
-    }
-
-    if (typeof(floor) != 'undefined') {
-        sprite = sprites.children.filter(function(s){
-            return s.index == index && s.floor == floor;
-        })[0];
-    } else {
-        sprite = sprites.children.filter(function(s){
-            return s.index == index;
-        })[0];
-    }
-
-    this._showWindowAnim(sprite);
-}
-
-HouseBuilder.prototype._showWindowAnim = function(sprite) {
-    sprite.visible = true;
-    sprite.loop = false;
-    sprite.play();
-}*/
 
 HouseBuilder.prototype._addHousePart = function(name, house, x, y, houseType, houseNum) {
     var sprite = this.game.add.sprite(x, y, name);
@@ -262,92 +239,28 @@ HouseBuilder.prototype._addHousePart = function(name, house, x, y, houseType, ho
 
 HouseBuilder.prototype._createBabkaAnim = function(window, house) {
     var babka = this.game.add.sprite(0, 0, 'babka');
-    babka.animations.add('scream');
-    babka.alignIn(window, Phaser.CENTER_CENTER);
-    babka.visible = false;
-    this.game.physics.arcade.enable(babka);
-    babka.body.velocity.x = -200;
-    house.add(babka);
+    babka.animations.add('show');
+    this._createWindowAnim(babka, window, house);
 }
 
-HouseBuilder.prototype._createHappyBoyAnim = function(window, floor) {
-    // var boyFrames = [
-    //     "window.png",
-    //     "window.png",
-    //     "happyboy_frame_00.gif",
-    //     "happyboy_frame_01.gif",
-    //     "happyboy_frame_02.gif",
-    //     "happyboy_frame_03.gif",
-    //     "happyboy_frame_04.gif",
-    //     "happyboy_frame_05.gif",
-    //     "happyboy_frame_06.gif",
-    //     "happyboy_frame_07.gif",
-    //     "happyboy_frame_08.gif",
-    //     "happyboy_frame_09.gif",
-    //     "happyboy_frame_10.gif",
-    //     "happyboy_frame_11.gif",
-    //     "happyboy_frame_12.gif",
-    //     "happyboy_frame_13.gif",
-    //     "happyboy_frame_14.gif",
-    //     "happyboy_frame_15.gif",
-    //     "happyboy_frame_16.gif",
-    //     "happyboy_frame_17.gif",
-    //     "happyboy_frame_18.gif",
-    //     "happyboy_frame_19.gif",
-    //     "window.png"
-    // ];
-    // var boy = g.sprite(boyFrames);
-
-    // boy.x = window.x;
-    // boy.y = window.y;
-    // boy.loop = false;
-    // boy.index = window.index;
-    // boy.visible = false;
-    // boy.floor = floor;
-    // this.boys.addChild(boy);
+HouseBuilder.prototype._createHappyBoyAnim = function(window, house, floor) {
+    var boy = this.game.add.sprite(0, 0, 'boy');
+    boy.animations.add('show');
+    boy.floor = floor;
+    this._createWindowAnim(boy, window, house);
 }
 
-HouseBuilder.prototype._createHappyEvilAnim = function(window, floor) {
-    // var evilFrames = [
-    //     "window.png",
-    //     "window.png",
-    //     "happyevil_frame_00.gif",
-    //     "happyevil_frame_01.gif",
-    //     "happyevil_frame_02.gif",
-    //     "happyevil_frame_03.gif",
-    //     "happyevil_frame_04.gif",
-    //     "happyevil_frame_05.gif",
-    //     "happyevil_frame_06.gif",
-    //     "happyevil_frame_07.gif",
-    //     "happyevil_frame_08.gif",
-    //     "happyevil_frame_09.gif",
-    //     "happyevil_frame_10.gif",
-    //     "happyevil_frame_11.gif",
-    //     "happyevil_frame_12.gif",
-    //     "happyevil_frame_13.gif",
-    //     "happyevil_frame_14.gif",
-    //     "happyevil_frame_15.gif",
-    //     "happyevil_frame_16.gif",
-    //     "happyevil_frame_17.gif",
-    //     "happyevil_frame_18.gif",
-    //     "happyevil_frame_19.gif",
-    //     "happyevil_frame_20.gif",
-    //     "happyevil_frame_21.gif",
-    //     "happyevil_frame_22.gif",
-    //     "happyevil_frame_23.gif",
-    //     "happyevil_frame_24.gif",
-    //     "happyevil_frame_25.gif",
-    //     "happyevil_frame_26.gif",
-    //     "happyevil_frame_27.gif",
-    //     "window.png"
-    // ];
-    // var evil = g.sprite(evilFrames);
+HouseBuilder.prototype._createHappyEvilAnim = function(window, house, floor) {
+    var evil = this.game.add.sprite(0, 0, 'evil');
+    evil.animations.add('show');
+    evil.floor = floor;
+    this._createWindowAnim(evil, window, house);
+}
 
-    // evil.x = window.x;
-    // evil.y = window.y;
-    // evil.loop = false;
-    // evil.index = window.index;
-    // evil.visible = false;
-    // evil.floor = floor;
-    // this.evils.addChild(evil);
+HouseBuilder.prototype._createWindowAnim = function(sprite, window, house) {
+    sprite.alignIn(window, Phaser.CENTER_CENTER);
+    sprite.visible = false;
+    this.game.physics.arcade.enable(sprite);
+    sprite.body.velocity.x = -200;
+    house.add(sprite);
 }

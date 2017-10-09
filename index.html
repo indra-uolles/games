@@ -43,6 +43,8 @@ var mainState = {
         this.load.image('houseBeigeMidRight', 'assets/images/tiles/houseBeigeMidRight.png');
 
         this.load.spritesheet('babka', 'assets/images/babka.png', 72, 58, 10);
+        this.load.spritesheet('boy', 'assets/images/happyboy.png', 72, 58, 20);
+        this.load.spritesheet('evil', 'assets/images/happyevil.png', 72, 58, 26);
 
         game.onCollideSignal = new Phaser.Signal();
         game.onAfterCollideSignal = new Phaser.Signal();
@@ -117,28 +119,6 @@ var mainState = {
 var game = new Phaser.Game(400, 490);
 game.state.add('main', mainState);
 game.state.start('main');
-
-// var windowHalfWidth = 512;
-// var g = ga(
-//   windowHalfWidth*2, 512, splash,
-//   [
-//     "assets/images/SantaGame.json",
-//     "assets/images/landscape.json",
-//     "assets/images/houses.json",
-//     "assets/images/finish.json",
-//     "assets/images/babka.json",
-//     "assets/images/happyboy.json",
-//     "assets/images/happyevil.json",
-//     "assets/images/splash.json",
-//     "assets/images/snowy_background.json",
-//     "assets/images/howto.json",
-//     "assets/images/howtobtn2.png"
-//   ],
-//   load
-// );
-
-// var player, hb, sc, traject, bullets, landscape, numberOfHouses, finish, scoreDisplay, score,
-// splash, sign, gname, creatorText, playBtn, howtoBtn, shareBtn, bg, howto, instructions, lights, lightsBt, howtoBg, howtoDisplay;
 
 // function splash() {
 //     g.progressBar.remove();
