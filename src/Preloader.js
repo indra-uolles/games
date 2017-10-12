@@ -11,6 +11,14 @@ Game.Preloader.prototype = {
         this.preloadBar.anchor.setTo(0, 0.5);
         this.load.setPreloadSprite(this.preloadBar);
 
+        this.load.image('menubg', 'assets/images/background.jpg');
+        this.load.image('sign', 'assets/images/sign2.png');
+        this.load.image('name', 'assets/images/name.png');
+        this.load.image('logo', 'assets/images/divan_logo.png');
+        this.load.spritesheet('playbtn', 'assets/images/playbtn2.png', 70, 23);
+        this.load.spritesheet('howtobtn', 'assets/images/howtobtn2.png', 105, 25);
+        this.load.spritesheet('sharebtn', 'assets/images/sharebtn.png', 98, 25);
+
         this.load.image('treasure', 'assets/images/SantaGame.png');
         this.load.image('sleigh', 'assets/images/santa_sleigh2.png');
         this.load.image('bg', 'assets/images/rsz_landscape2.png');
@@ -42,6 +50,6 @@ Game.Preloader.prototype = {
         this.load.spritesheet('evil', 'assets/images/happyevil.png', 72, 58, 26);
     },
     create: function() {
-        this.state.start('Level1');
+        this.state.start('MainMenu');
     }
 }
