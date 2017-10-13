@@ -21,13 +21,13 @@ Game.MainMenu.prototype = {
             console.log('share');
         });
 
-        game.add.text(220, 430, 'created by', {
-            font: '20px Tahoma',
-            fill: '#000',
-            align: 'center'
-        });
-        this.logo = this.add.sprite(320, 415, 'logo');
-        this.logo.scale.setTo(0.6, 0.6);
+        // game.add.text(220, 430, 'created by', {
+        //     font: '20px Tahoma',
+        //     fill: '#000',
+        //     align: 'center'
+        // });
+        this.logo = this.add.sprite(300, 400, 'logo');
+        this.logo.scale.setTo(0.3, 0.3);
     },
     update: function(game) {
 
