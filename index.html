@@ -1,241 +1,71 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>Treasure hunter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <style> * {margin: 0; padding: 0;} </style>
 <body>
 <script src="libs/ga.js"></script>
 <script src="libs/plugins.js"></script>
+<script src="libs/phaser.min.js"></script>
 <script src="src/houseBuilder.js"></script>
 <script src="src/scoreCounter.js"></script>
+<script src="src/Boot.js"></script>
+<script src="src/Preloader.js"></script>
+<script src="src/HowTo.js"></script>
+<script src="src/MainMenu.js"></script>
+<script src="src/Level1.js"></script>
 <script>
-var windowHalfWidth = 512;
-var g = ga(
-  windowHalfWidth*2, 512, splash,
-  [
-    "assets/images/SantaGame.json",
-    "assets/images/landscape.json",
-    "assets/images/houses.json",
-    "assets/images/finish.json",
-    "assets/images/babka.json",
-    "assets/images/happyboy.json",
-    "assets/images/happyevil.json",
-    "assets/images/splash.json",
-    "assets/images/snowy_background.json"
-  ],
-  load
-);
+    var game;
+    window.onload = function() {
+        game = new Phaser.Game(400, 490);
 
-var player, hb, sc, traject, bullets, landscape, numberOfHouses, finish, scoreDisplay, score,
-splash, sign, gname, creatorText, playBtn, howtoBtn, shareBtn, bg;
+        game.state.add('Boot', Game.Boot);
+        game.state.add('Preloader', Game.Preloader);
+        game.state.add('Howto', Game.Howto);
+        game.state.add('MainMenu', Game.MainMenu);
+        game.state.add('Level1', Game.Level1);
 
-g.start();
-g.scaleToWindow();
-
-window.addEventListener("resize", function(event){
-  g.scaleToWindow();
-});
-
-function splash() {
-    g.progressBar.remove();
-
-    splash = g.group();
-
-    bg = g.sprite("background.jpg");
-    bg.x = 0;
-    bg.y = 0;
-    splash.addChild(bg);
-
-    sign = g.sprite("sign2.png");
-    sign.x = 40;
-    //sign.x = 1024 - sign.halfWidth*2 - 40;
-    sign.y = 512 - sign.halfHeight*2;
-    splash.addChild(sign);
-
-    gname = g.sprite("name.png");
-    gname.x = 512 - gname.halfWidth;
-    gname.y = 256 - gname.halfHeight*2;
-    splash.addChild(gname);
-
-    creatorText = g.text("0", "20px tahoma", "#00284d", 1000, 10);
-    creatorText.content = "created by";
-    creatorText.x = 380;
-    creatorText.y = 70;
-    splash.addChild(creatorText);
-
-    divanlogo = g.sprite("divan_logo.png");
-    divanlogo.x = 512 - divanlogo.halfWidth + 30;
-    divanlogo.y = 30;
-    splash.addChild(divanlogo);
-
-    sleigh = g.sprite("santa_sleigh2.png");
-    sleigh.x = gname.x + gname.halfWidth*2;
-    sleigh.y = gname.y - 20;
-    splash.addChild(sleigh);
-
-    playButton = g.button([
-      "playbtn2.png"
-    ]);
-    playButton.x = sign.x + 60;
-    playButton.y = sign.y + 185;
-
-    shareButton = g.button([
-      "sharebtn2.png"
-    ]);
-    shareButton.x = sign.x + 60;
-    shareButton.y = sign.y + 250;
-
-    howtoButton = g.button([
-      "howtobtn2.png"
-    ]);
-    howtoButton.x = sign.x + 60;
-    howtoButton.y = sign.y + 95;
-}
-
-function setup() {
-
-    g.canvas.style.border = "1px black dashed";
-    g.backgroundColor = "white";
-    g.state = play;
-
-    landscape = g.tilingSprite(
-      g.canvas.width,        //The width
-      g.canvas.height,       //The height
-      "landscape.png"        //The image to use
-    );
-
-    hb = new HouseBuilder(g);
-    sc = new ScoreCounter();
-
-    scoreDisplay = g.text("0", "20px tahoma", "#00FF00", 1000, 10);
-
-    bullets = [];
-    score = 0;
-
-    gameScene = g.group();
-    gameScene.visible = false;
-
-    //for debug
-    for (var j = 35; j < 1024; j += 35) {
-        var l = g.rectangle(1, 512, "blue");
-        l.x = j;
-        l.y = 0;
-        gameScene.addChild(l);
-
-        var lineDisplay = g.text(j, "10px tahoma", "#00FF00", j, 5);
-        gameScene.addChild(lineDisplay);
+        game.state.start('Boot');
     }
 
-    player = g.rectangle(144, 48, "blue");
-    player.x = windowHalfWidth - player.halfWidth;
-    player.y = 18;
-    gameScene.addChild(player);
+// function howto() {
+//     sign.visible = false;
+//     gname.visible = false;
+//     creatorText.visible = false;
+//     divanlogo.visible = false;
+//     sleigh.visible = false;
+//     playBtn.visible = false;
+//     shareBtn.visible = false;
+//     howtoBtn.visible = false;
 
-    traject = g.rectangle(5, 100, "red");
-    traject.visible = false;
-    gameScene.addChild(traject);
+//     instructions = g.sprite("instructions.png");
+//     instructions.x = 512 - instructions.halfWidth;
+//     instructions.y = 50;
+//     splash.addChild(instructions);
 
-    var minGapSize = 70;
-    var maxGapSize = 100;
-    //numberOfHouses = 100;
-    numberOfHouses = 10;
-    var currX = 70;
+//     howtoBg = g.rectangle(480, 300, "white");
+//     howtoBg.x = 512 - howtoBg.halfWidth;
+//     howtoBg.y = 130;
+//     splash.addChild(howtoBg);
 
-    for (var i = 0; i < numberOfHouses; i++) {
-        var num = g.randomInt(0, 3);
-        if (num == 0) {
-            hb.getTwoBoysFirstBad(currX, g.canvas.height - 70, i);
-            sc.add(i, 1);
-        } else if (num == 1) {
-            hb.getTwoBoysFirstGood(currX, g.canvas.height - 70, i);
-            sc.add(i, 2);
-        } else if (num == 2) {
-            hb.getOneBoyBad(currX, g.canvas.height - 70, i);
-            sc.add(i, 4);
-        } else {
-            hb.getOneBoyGood(currX, g.canvas.height - 70, i);
-            sc.add(i, 3);
-        }
-        currX += 350;
+//     lights = g.sprite("lights2.png");
+//     lights.x = 512 - lights.halfWidth;
+//     lights.y = 100;
+//     splash.addChild(lights);
 
-        if (i === numberOfHouses - 1) {
-            finish = g.sprite("finish.png");
-            hb.houses.addChild(finish);
-            finish.x = currX + 350;
-            finish.y = g.canvas.height/2 - finish.halfHeight;
-        }
-    }
+//     lightsBt = g.sprite("lights_bottom.png");
+//     lightsBt.x = 512 - lightsBt.halfWidth;
+//     lightsBt.y = g.canvas.height - 50 - lightsBt.halfHeight*2;
+//     splash.addChild(lightsBt);
 
-    //g.pointer.press = function() {
-    g.key.downArrow.press = function() {
-        traject.x = player.x + player.halfWidth;
-        traject.y = player.y + 2*player.halfHeight;
-        traject.visible = true;
-    }
+//     howtoDisplay = g.text("0", "20px tahoma", "#000000", 1000, 10);
+//     howtoDisplay.content = "Dear Santa, you have a limited number of gifts so give them out wisely. If you give a gift to a bad boy you won't receive points for that. If a bad boy lives on the last floor he'll receive all the gifts that you'll drop. Use down arrow to drop gifts.";
 
-    g.key.downArrow.release = function() {
-    //g.pointer.release = function() {
-        traject.visible = false;
-        g.shoot(
-            player,      //The shooting sprite
-            1.57,        //The angle, in radians, at which to shoot (4.71 is up)
-            16,          //The bullet's offset from the center of the sprite
-            7,           //The bullet's speed (pixels per frame)
-            bullets,
-            function() {
-                return g.sprite("treasure.png");
-            }
-        );
-    }
-}
-
-function play() {
-    landscape.tileX -= 1;
-
-    if (finish.gx > g.canvas.width) {
-        hb.moveLeft(2);
-    }
-
-    bullets.forEach(function(bullet) {
-        if (!(bullet.y >= 162 && bullet.y < 512) || !bullet.visible) {
-            return;
-        }
-
-        var bulletVsBlock = hb.chimneys.children.some(function(chimney){
-            var hit = g.hitTestRectangle(bullet, chimney, true),
-                index = chimney.index;
-
-            if (hit) {
-                hb.afterHit("chimney", sc.getHitResult("chimney", index), index);
-                sc.update("chimney", index);
-            }
-            return hit;
-        });
-        if (bulletVsBlock) {
-            bullet.visible = false;
-        }
-
-        var bulletVsRoof = hb.roofs.children.some(function(roof){
-            var hit = g.hitTestRectangle(bullet, roof, true),
-                index = roof.index;
-
-            if (hit) {
-                hb.afterHit("roof", sc.getHitResult("roof", index), index);
-                sc.update("roof", index);
-            }
-            return hit;
-        });
-    });
-
-    scoreDisplay.content = sc.getScore();
-    g.move(bullets);
-}
-
-function end() {
-}
-
-function load(){
-    g.progressBar.create(g.canvas, g.assets);
-    g.progressBar.update();
-}
+//    howtoDisplay.x = lights.x + 30;
+//    howtoDisplay.y = lights.y + 80;
+//    splash.addChild(howtoDisplay);
+// }
 </script>
 </body>
