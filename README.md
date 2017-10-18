@@ -2,4 +2,4 @@
 
 Screenshots:
 
-![Screenshots](https://raw.githubusercontent.com/indra-uolles/games/assets/images/view.jpg)
+![Screenshots](https://raw.githubusercontent.com/indra-uolles/games/master/assets/images/view.jpg)
