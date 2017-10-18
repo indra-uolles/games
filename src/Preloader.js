@@ -28,7 +28,7 @@ Game.Preloader.prototype = {
         this.load.image('down_arrow', 'assets/images/downarrow.png');
 
         this.load.image('treasure', 'assets/images/SantaGame.png');
-        this.load.image('sleigh', 'assets/images/santa_sleigh2.png');
+        this.load.image('sleigh', 'assets/images/sleigh_paper.png');
         this.load.image('bg', 'assets/images/rsz_landscape2.png');
 
         this.load.image('houseDarkBottomLeft', 'assets/images/tiles/houseDarkBottomLeft.png');
