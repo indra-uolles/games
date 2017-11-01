@@ -17,10 +17,14 @@ Game.Level1.prototype = {
         bgV = 2;
         bg = game.add.tileSprite(0, 0, 400, 490, 'bg');
 
-        sleighHalfWidth = this.game.cache.getImage('sleigh').width/2;
-        sleighHalfHeight = this.game.cache.getImage('sleigh').height/2;
+        sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.6/2;
+        sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.6/2;
 
         this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 45, 'sleigh');
+        this.player.scale.setTo(0.6, 0.6);
+
+
+
         gifts = this.game.add.group();
         gifts.enableBody = true;
         gifts.physicsBodyType = Phaser.Physics.ARCADE;
@@ -40,7 +44,7 @@ Game.Level1.prototype = {
         this.timer = game.time.events.loop(3000, function(){
             var gap = this.game.rnd.realInRange(100, 350)
             var xStart = Math.max(401, hb.getMaxPosX()) + gap;
-            hb.addHouse(xStart, 490 - 70);
+            hb.addHouse(xStart, 490 - 196);
         }, this);
 
         this.labelScore = game.add.text(20, 20, "0",

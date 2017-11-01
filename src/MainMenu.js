@@ -7,7 +7,8 @@ Game.MainMenu.prototype = {
         this.name = this.add.sprite(50, 130, 'name');
         this.name.scale.setTo(0.7, 0.7);
 
-        this.add.sprite(150, 78, 'sleigh');
+        this.sleigh = this.add.sprite(150, 78, 'sleigh');
+        this.sleigh.scale.setTo(0.6, 0.6);
 
         this.sign = this.add.sprite(140, 200, 'sign');
         this.sign.scale.setTo(0.7, 0.7);
