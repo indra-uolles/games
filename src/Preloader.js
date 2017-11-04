@@ -38,7 +38,7 @@ Game.Preloader.prototype = {
         this.load.image('roof', 'assets/images/roof.png');
         this.load.image('windowCheckered', 'assets/images/windowCheckered.png');
 
-        this.load.spritesheet('babka', 'assets/images/babka.png', 72, 58, 10);
+        this.load.spritesheet('babka', 'assets/images/babka.png', 86, 79, 6);
         this.load.spritesheet('boy', 'assets/images/happyboy.png', 72, 58, 20);
         this.load.spritesheet('evil', 'assets/images/happyevil.png', 72, 58, 26);
     },

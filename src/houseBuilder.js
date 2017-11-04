@@ -20,7 +20,7 @@ HouseBuilder.prototype.onAfterCollide = function(e) {
     }
 
     sprite.visible = true;
-    sprite.animations.play('show', 12);
+    sprite.animations.play('show', 6);
 }
 
 HouseBuilder.prototype.checkCollision = function(gifts) {
@@ -187,6 +187,7 @@ HouseBuilder.prototype._addHousePart = function(name, house, x, y, houseType, ho
 
 HouseBuilder.prototype._createBabkaAnim = function(window, house) {
     var babka = this.game.add.sprite(0, 0, 'babka');
+    babka.scale.setTo(0.6, 0.6);
     babka.animations.add('show');
     this._createWindowAnim(babka, window, house);
 }
@@ -211,4 +212,5 @@ HouseBuilder.prototype._createWindowAnim = function(sprite, window, house) {
     this.game.physics.arcade.enable(sprite);
     sprite.body.velocity.x = -200;
     house.add(sprite);
+    sprite.animations.currentAnim.onComplete.add(function () { sprite.visible = false; }, this);
 }
