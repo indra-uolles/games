@@ -28,7 +28,7 @@ Game.Level1.prototype = {
         gifts = this.game.add.group();
         gifts.enableBody = true;
         gifts.physicsBodyType = Phaser.Physics.ARCADE;
-        gifts.createMultiple(10, 'treasure');
+        gifts.createMultiple(10, 'gift');
 
         gifts.setAll('anchor.x', 0.5);
         gifts.setAll('anchor.y', 0.5);
