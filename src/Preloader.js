@@ -39,8 +39,8 @@ Game.Preloader.prototype = {
         this.load.image('windowCheckered', 'assets/images/windowCheckered.png');
 
         this.load.spritesheet('babka', 'assets/images/babka.png', 86, 79, 6);
-        this.load.spritesheet('boy', 'assets/images/happyboy.png', 72, 58, 20);
-        this.load.spritesheet('evil', 'assets/images/happyevil.png', 72, 58, 26);
+        this.load.spritesheet('boy', 'assets/images/happyboy.png', 86, 79, 6);
+        this.load.spritesheet('evil', 'assets/images/happyevil.png', 86, 79, 6);
     },
     create: function() {
         this.state.start('MainMenu');

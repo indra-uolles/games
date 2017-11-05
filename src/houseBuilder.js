@@ -194,6 +194,7 @@ HouseBuilder.prototype._createBabkaAnim = function(window, house) {
 
 HouseBuilder.prototype._createHappyBoyAnim = function(window, house, floor) {
     var boy = this.game.add.sprite(0, 0, 'boy');
+    boy.scale.setTo(0.6, 0.6);
     boy.animations.add('show');
     boy.floor = floor;
     this._createWindowAnim(boy, window, house);
@@ -201,6 +202,7 @@ HouseBuilder.prototype._createHappyBoyAnim = function(window, house, floor) {
 
 HouseBuilder.prototype._createHappyEvilAnim = function(window, house, floor) {
     var evil = this.game.add.sprite(0, 0, 'evil');
+    evil.scale.setTo(0.6, 0.6);
     evil.animations.add('show');
     evil.floor = floor;
     this._createWindowAnim(evil, window, house);
