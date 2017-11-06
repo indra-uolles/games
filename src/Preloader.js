@@ -36,7 +36,7 @@ Game.Preloader.prototype = {
         this.load.image('houseDarkChimney', 'assets/images/houseDarkChimney.png');
         this.load.image('houseDarkWalls', 'assets/images/houseDarkWalls.png');
         this.load.image('roof', 'assets/images/roof.png');
-        this.load.image('windowCheckered', 'assets/images/windowCheckered.png');
+        this.load.image('windowCheckered', 'assets/images/windowCheckered2.png');
 
         this.load.spritesheet('babka', 'assets/images/babka.png', 86, 79, 6);
         this.load.spritesheet('boy', 'assets/images/happyboy.png', 86, 79, 6);
