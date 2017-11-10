@@ -22,8 +22,10 @@ Game.Level1.prototype = {
 
         this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 45, 'sleigh');
         this.player.scale.setTo(0.6, 0.6);
-
-
+        this.deer = this.game.add.sprite(this.game.width/2 + 10, 55, 'deer');
+        this.deer.scale.setTo(0.6, 0.6);
+        this.deer.animations.add('show');
+        this.deer.animations.play('show', 10, true);
 
         gifts = this.game.add.group();
         gifts.enableBody = true;
