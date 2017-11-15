@@ -33,10 +33,12 @@ Game.Preloader.prototype = {
         this.load.image('bg', 'assets/images/landscape.jpg');
 
         this.load.image('houseBeigeWalls', 'assets/images/houseBeigeWalls.png');
-        this.load.image('houseBeigeChimney', 'assets/images/houseBeigeChimney.png');
-        this.load.image('houseDarkChimney', 'assets/images/houseDarkChimney.png');
+        this.load.image('houseBeigeWallsSmall', 'assets/images/houseBeigeWallsSmall.jpg');
+        this.load.image('houseBeigeChimney', 'assets/images/houseBeigeChimney2.png');
+        this.load.image('houseDarkChimney', 'assets/images/houseDarkChimney2.png');
         this.load.image('houseDarkWalls', 'assets/images/houseDarkWalls.png');
-        this.load.image('roof', 'assets/images/roof.png');
+        this.load.image('houseDarkWallsSmall', 'assets/images/houseDarkWallsSmall.jpg');
+        this.load.image('roof', 'assets/images/roof2.jpg');
         this.load.image('windowCheckered', 'assets/images/windowCheckered2.png');
 
         this.load.spritesheet('babka', 'assets/images/babka.png', 86, 79, 6);

@@ -92,17 +92,17 @@ HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y, houseNum) {
     this._createHappyBoyAnim(houseSprite, house, 1);
     this._createHappyEvilAnim(houseSprite, house, 1);
 
-    houseSprite = this._addHousePart("windowCheckered", house, x + 30, y + 35, houseType, houseNum);
+    houseSprite = this._addHousePart("windowCheckered", house, x + 30, y + 55, houseType, houseNum);
 
-    houseSprite = this._addHousePart("windowCheckered", house, x + 115, y + 35,houseType, houseNum);
+    houseSprite = this._addHousePart("windowCheckered", house, x + 115, y + 55,houseType, houseNum);
     houseSprite.floor = 2;
     this._createHappyBoyAnim(houseSprite, house, 2);
     this._createHappyEvilAnim(houseSprite, house, 2);
     this._createBabkaAnim(houseSprite, house);
 
-    this._addHousePart("roof", house, x - 8, y - 93, houseType, houseNum);
+    this._addHousePart("roof", house, x - 8, y - 19, houseType, houseNum);
 
-    this._addHousePart("houseDarkChimney", house, x + 120, y - 127, houseType, houseNum);
+    this._addHousePart("houseDarkChimney", house, x + 120, y - 45, houseType, houseNum);
 
     return house;
 }
@@ -119,17 +119,17 @@ HouseBuilder.prototype.getTwoBoysFirstGood = function(x, y, houseNum) {
     this._createHappyBoyAnim(houseSprite, house, 1);
     this._createHappyEvilAnim(houseSprite, house, 1);
 
-    houseSprite = this._addHousePart("windowCheckered", house, x + 30, y + 35, houseType, houseNum);
+    houseSprite = this._addHousePart("windowCheckered", house, x + 30, y + 55, houseType, houseNum);
 
-    houseSprite = this._addHousePart("windowCheckered", house, x + 115, y + 35, houseType, houseNum);
+    houseSprite = this._addHousePart("windowCheckered", house, x + 115, y + 55, houseType, houseNum);
     houseSprite.floor = 2;
     this._createHappyBoyAnim(houseSprite, house, 2);
     this._createHappyEvilAnim(houseSprite, house, 2);
     this._createBabkaAnim(houseSprite, house);
 
-    this._addHousePart("roof", house, x - 8, y - 93, houseType, houseNum);
+    this._addHousePart("roof", house, x - 8, y - 19, houseType, houseNum);
 
-    this._addHousePart("houseBeigeChimney", house, x + 120, y - 127, houseType, houseNum);
+    this._addHousePart("houseBeigeChimney", house, x + 120, y - 45, houseType, houseNum);
 
     return house;
 }
@@ -139,15 +139,15 @@ HouseBuilder.prototype.getOneBoyGood = function(x, y, houseNum) {
         house = this.game.add.group(),
         houseType = 2;
 
-    this._addHousePart("houseBeigeWalls", house, x, y, 0, houseNum);
+    this._addHousePart("houseBeigeWallsSmall", house, x, y + 85, 0, houseNum);
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 115, y + 125, houseType, houseNum);
     this._createHappyBoyAnim(houseSprite, house);
     this._createHappyEvilAnim(houseSprite, house);
     this._createBabkaAnim(houseSprite, house);
 
-    this._addHousePart("roof", house, x - 8, y, houseType, houseNum);
-    this._addHousePart("houseBeigeChimney", house, x + 120, y - 33, houseType, houseNum);
+    this._addHousePart("roof", house, x - 8, y + 45, houseType, houseNum);
+    this._addHousePart("houseBeigeChimney", house, x + 120, y + 20, houseType, houseNum);
 
     return house;
 }
@@ -157,15 +157,15 @@ HouseBuilder.prototype.getOneBoyBad = function(x, y, houseNum) {
         house = this.game.add.group(),
         houseType = 3;
 
-    this._addHousePart("houseDarkWalls", house, x, y, 0, houseNum);
+    this._addHousePart("houseDarkWallsSmall", house, x, y + 85, 0, houseNum);
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 115, y + 125, houseType, houseNum);
     this._createHappyBoyAnim(houseSprite, house);
     this._createHappyEvilAnim(houseSprite, house);
     this._createBabkaAnim(houseSprite, house);
 
-    this._addHousePart("roof", house, x - 8, y, houseType, houseNum);
-    this._addHousePart("houseDarkChimney", house, x + 120, y - 33, houseType, houseNum);
+    this._addHousePart("roof", house, x - 8, y + 45, houseType, houseNum);
+    this._addHousePart("houseDarkChimney", house, x + 120, y + 20, houseType, houseNum);
 
     return house;
 }
