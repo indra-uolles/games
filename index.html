@@ -17,9 +17,11 @@
 <script src="src/MainMenu.js"></script>
 <script src="src/Level1.js"></script>
 <script>
-    var game;
+    var game,
+        windowWidth = Math.min(window.innerWidth, 1440),
+        windowHeight = Math.min(window.innerHeight, 800);
     window.onload = function() {
-        game = new Phaser.Game(400, 490);
+        game = new Phaser.Game(windowWidth, windowHeight);
 
         game.state.add('Boot', Game.Boot);
         game.state.add('Preloader', Game.Preloader);

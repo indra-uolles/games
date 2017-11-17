@@ -15,7 +15,7 @@ Game.Level1.prototype = {
     },
     create: function() {
         bgV = 2;
-        bg = game.add.tileSprite(0, 0, 400, 490, 'bg');
+        bg = game.add.tileSprite(0, windowHeight - 490, windowWidth, 490, 'bg');
 
         sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.6/2;
         sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.6/2;
@@ -45,8 +45,8 @@ Game.Level1.prototype = {
 
         this.timer = game.time.events.loop(3000, function(){
             var gap = this.game.rnd.realInRange(100, 350)
-            var xStart = Math.max(401, hb.getMaxPosX()) + gap;
-            hb.addHouse(xStart, 490 - 196);
+            var xStart = Math.max(windowWidth + 1, hb.getMaxPosX()) + gap;
+            hb.addHouse(xStart, windowHeight - 196);
         }, this);
 
         this.labelScore = game.add.text(20, 20, "0",
