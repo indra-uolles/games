@@ -13,6 +13,16 @@ Game.Level1.prototype = {
         game.onCollideSignal.add(sc.onCollide, sc);
         game.onAfterCollideSignal.add(hb.onAfterCollide, hb);
     },
+    shootGift: function() {
+        if (this.time.now > shootTime) {
+            gift = gifts.getFirstExists(false);
+            if (gift) {
+                gift.reset(this.player.x + 40, this.player.y + sleighHalfHeight);
+                gift.body.velocity.y = +600;
+                shootTime = this.time.now + 200;
+            }
+        }
+    },
     create: function() {
         bgV = 2;
         bg = game.add.tileSprite(0, windowHeight - 490, windowWidth, 490, 'bg');
@@ -42,6 +52,7 @@ Game.Level1.prototype = {
         controls = {
             shoot: this.input.keyboard.addKey(Phaser.Keyboard.DOWN)
         };
+        controls.shoot.onDown.add(this.shootGift.bind(this));
 
         this.timer = game.time.events.loop(3000, function(){
             var gap = this.game.rnd.realInRange(100, 350)
@@ -51,25 +62,30 @@ Game.Level1.prototype = {
 
         this.labelScore = game.add.text(20, 20, "0",
             { font: "30px Arial", fill: "#ff0000" });
+
+        game.input.onTap.add(this.onTap, this);
     },
     update: function() {
         bg.tilePosition.x -= bgV;
 
-        if (controls.shoot.isDown) {
-            this.shootGift();
-        }
+        // if (controls.shoot.isDown) {
+        //     this.shootGift();
+        // }
 
         hb.checkCollision(gifts);
         this.labelScore.text = sc.getScore();
+
+        this.game.debug.text(game.time.fps, 2, 14, "#00ff00");
     },
-    shootGift: function() {
-        if (this.time.now > shootTime) {
-            gift = gifts.getFirstExists(false);
-            if (gift) {
-                gift.reset(this.player.x + 40, this.player.y + sleighHalfHeight);
-                gift.body.velocity.y = +600;
-                shootTime = this.time.now + 200;
-            }
+    onTap: function(pointer, doubleTap) {
+        if (doubleTap)
+        {
+            this.shootGift();
         }
+        else
+        {
+            this.shootGift();
+        }
+
     }
 }
