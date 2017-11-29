@@ -25,15 +25,14 @@ Game.Level1.prototype = {
     },
     create: function() {
         bgV = 2;
-        bg = game.add.tileSprite(0, windowHeight - 490, windowWidth, 490, 'bg');
+        //bg = game.add.tileSprite(0, windowHeight - 490, windowWidth, 490, 'bg');
+        bg = game.add.tileSprite(0, gameHeight - 490, gameWidth, 490, 'bg');
 
         sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.6/2;
         sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.6/2;
 
         this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 25, 'sleigh');
-        this.player.scale.setTo(0.6, 0.6);
         this.deer = this.game.add.sprite(this.game.width/2 + 10, 36, 'deer');
-        this.deer.scale.setTo(0.6, 0.6);
         this.deer.animations.add('show');
         this.deer.animations.play('show', 10, true);
 
@@ -55,9 +54,9 @@ Game.Level1.prototype = {
         controls.shoot.onDown.add(this.shootGift.bind(this));
 
         this.timer = game.time.events.loop(3000, function(){
-            var gap = this.game.rnd.realInRange(100, 350)
-            var xStart = Math.max(windowWidth + 1, hb.getMaxPosX()) + gap;
-            hb.addHouse(xStart, windowHeight - 196);
+            var gap = this.game.rnd.realInRange(100, 350);
+            var xStart = Math.max(gameWidth + 1, hb.getMaxPosX()) + gap;
+            hb.addHouse(xStart, gameHeight - 196);
         }, this);
 
         this.labelScore = game.add.text(20, 20, "0",
@@ -67,10 +66,6 @@ Game.Level1.prototype = {
     },
     update: function() {
         bg.tilePosition.x -= bgV;
-
-        // if (controls.shoot.isDown) {
-        //     this.shootGift();
-        // }
 
         hb.checkCollision(gifts);
         this.labelScore.text = sc.getScore();

@@ -18,10 +18,13 @@
 <script src="src/Level1.js"></script>
 <script>
     var game,
-        windowWidth = Math.min(window.innerWidth, 1440),
-        windowHeight = Math.min(window.innerHeight, 800);
+        gameWidth = 400,
+        gameHeight = 490,
+        windowWidth = window.innerWidth,
+        windowHeight = window.innerHeight;
+
     window.onload = function() {
-        game = new Phaser.Game(windowWidth, windowHeight);
+        game = new Phaser.Game(gameWidth, gameHeight);
 
         game.state.add('Boot', Game.Boot);
         game.state.add('Preloader', Game.Preloader);
