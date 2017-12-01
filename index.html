@@ -16,12 +16,27 @@
 <script src="src/HowTo.js"></script>
 <script src="src/MainMenu.js"></script>
 <script src="src/Level1.js"></script>
+<style>
+    html {
+        background: url('assets/images/gamebg.jpg') repeat center center;
+    }
+</style>
 <script>
     var game,
-        windowWidth = Math.min(window.innerWidth, 1440),
-        windowHeight = Math.min(window.innerHeight, 800);
+        gameWidth = 400,
+        gameHeight = 490;
+
+    if (gameWidth > 652) {
+        gameWidth = 652;
+        gameHeight = Math.floor(gameWidth*490/400);
+    }
+    if (gameWidth > window.innerWidth) {
+        gameWidth = window.innerWidth;
+        gameHeight = Math.floor(gameWidth*490/400);
+    }
+
     window.onload = function() {
-        game = new Phaser.Game(windowWidth, windowHeight);
+        game = new Phaser.Game(gameWidth, gameHeight);
 
         game.state.add('Boot', Game.Boot);
         game.state.add('Preloader', Game.Preloader);

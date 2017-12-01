@@ -15,10 +15,9 @@ Game.Preloader.prototype = {
         this.load.image('sign', 'assets/images/sign2.png');
         this.load.image('name', 'assets/images/name.png');
         this.load.image('instructions', 'assets/images/instructions.png');
-        this.load.image('logo', 'assets/images/divan_logo.png');
+        this.load.image('logo', 'assets/images/divan_logo2.png');
         this.load.spritesheet('playbtn', 'assets/images/playbtn2.png', 70, 23);
-        this.load.spritesheet('howtobtn', 'assets/images/howtobtn2.png', 105, 25);
-        this.load.spritesheet('sharebtn', 'assets/images/sharebtn.png', 98, 25);
+        this.load.spritesheet('howtobtn', 'assets/images/howtobtn2.png', 404, 51);
 
         this.load.image('lights', 'assets/images/lights.png');
         this.load.image('lights_bottom', 'assets/images/lights_bottom.png');
@@ -30,7 +29,9 @@ Game.Preloader.prototype = {
         this.load.image('gift', 'assets/images/gift.png');
         this.load.image('sleigh', 'assets/images/santa_sleigh.png');
         this.load.spritesheet('deer', 'assets/images/deer.png', 230, 131, 11);
+        this.load.image('one_deer', 'assets/images/one_deer.png');
         this.load.image('bg', 'assets/images/landscape.jpg');
+        this.load.image('bg_cropped', 'assets/images/landscape_cropped.jpg');
 
         this.load.image('houseBeigeWalls', 'assets/images/houseBeigeWalls.png');
         this.load.image('houseBeigeWallsSmall', 'assets/images/houseBeigeWallsSmall.jpg');
