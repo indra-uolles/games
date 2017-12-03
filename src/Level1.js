@@ -1,24 +1,25 @@
 Game.Level1 = function(game) {
+    this.hb = new HouseBuilder(game);
+    this.sc = new ScoreCounter(game);
 };
-
-var shootTime = 0;
-var bg, gifts, controls, sleighHalfWidth, sleighHalfHeight, bgV, hb, gap, isFirstGap;
 
 Game.Level1.prototype = {
     preload: function() {
         game.onCollideSignal = new Phaser.Signal();
         game.onAfterCollideSignal = new Phaser.Signal();
-        hb = new HouseBuilder(game);
-        sc = new ScoreCounter(game);
-        game.onCollideSignal.add(sc.onCollide, sc);
-        game.onAfterCollideSignal.add(hb.onAfterCollide, hb);
+        game.onCollideSignal.add(this.sc.onCollide, this.sc);
+        game.onAfterCollideSignal.add(this.hb.onAfterCollide, this.hb);
     },
     create: function() {
-        bgV = 2;
-        bg = game.add.tileSprite(0, gameHeight - 490, gameWidth, 490, 'bg');
+        var controls,
+            gap = this.game.rnd.realInRange(100, 350),
+            sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.6/2,
+            _this = this;
 
-        sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.6/2;
-        sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.6/2;
+        this.shootTime = 0;
+        this.bgV = 2;
+        this.bg = game.add.tileSprite(0, gameHeight - 490, gameWidth, 490, 'bg');
+        this.sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.6/2,
 
         this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 25, 'sleigh');
         this.player.scale.setTo(0.6, 0.6);
@@ -27,15 +28,15 @@ Game.Level1.prototype = {
         this.deer.animations.add('show');
         this.deer.animations.play('show', 10, true);
 
-        gifts = this.game.add.group();
-        gifts.enableBody = true;
-        gifts.physicsBodyType = Phaser.Physics.ARCADE;
-        gifts.createMultiple(10, 'gift');
+        this.gifts = this.game.add.group();
+        this.gifts.enableBody = true;
+        this.gifts.physicsBodyType = Phaser.Physics.ARCADE;
+        this.gifts.createMultiple(10, 'gift');
 
-        gifts.setAll('anchor.x', 0.5);
-        gifts.setAll('anchor.y', 0.5);
-        gifts.setAll('outOfBoundsKill', true);
-        gifts.setAll('checkWorldBounds', true);
+        this.gifts.setAll('anchor.x', 0.5);
+        this.gifts.setAll('anchor.y', 0.5);
+        this.gifts.setAll('outOfBoundsKill', true);
+        this.gifts.setAll('checkWorldBounds', true);
 
         game.world.bringToTop(this.player);
 
@@ -45,9 +46,8 @@ Game.Level1.prototype = {
         controls.shoot.onDown.add(this.shootGift.bind(this));
 
         this.timer = game.time.events.loop(3000, function(){
-            var gap = this.game.rnd.realInRange(100, 350)
-            var xStart = Math.max(gameWidth + 1, hb.getMaxPosX()) + gap;
-            hb.addHouse(xStart, gameHeight - 196);
+            var xStart = Math.max(gameWidth + 1, _this.hb.getMaxPosX()) + gap;
+            _this.hb.addHouse(xStart, gameHeight - 196);
         }, this);
 
         this.labelScore = game.add.text(20, 20, "0",
@@ -56,22 +56,22 @@ Game.Level1.prototype = {
         game.input.onTap.add(this.onTap, this);
     },
     shootGift: function() {
-        if (this.time.now > shootTime) {
-            gift = gifts.getFirstExists(false);
+        if (this.time.now > this.shootTime) {
+            gift = this.gifts.getFirstExists(false);
             if (gift) {
-                gift.reset(this.player.x + 40, this.player.y + sleighHalfHeight);
+                gift.reset(this.player.x + 40, this.player.y + this.sleighHalfHeight);
                 gift.body.velocity.y = +600;
-                shootTime = this.time.now + 200;
+                this.shootTime = this.time.now + 200;
             }
         }
     },
     update: function() {
-        bg.tilePosition.x -= bgV;
+        this.bg.tilePosition.x -= this.bgV;
 
-        hb.checkCollision(gifts);
-        this.labelScore.text = sc.getScore();
+        this.hb.checkCollision(this.gifts);
+        this.labelScore.text = this.sc.getScore();
 
-        this.game.debug.text(game.time.fps, 2, 14, "#00ff00");
+        game.debug.text(game.time.fps, 2, 14, "#00ff00");
     },
     onTap: function(pointer, doubleTap) {
         if (doubleTap)
