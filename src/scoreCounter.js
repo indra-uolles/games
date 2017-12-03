@@ -39,9 +39,8 @@ ScoreCounter.prototype._getHitResult = function(hitPart, houseNum) {
     var name, floor,
         type = this._getHouseType(houseNum),
         chimneyHits = this._getChimneyHits(houseNum),
-        roofHits = this._getRoofHits(houseNum);
-
-    var score = 0;
+        roofHits = this._getRoofHits(houseNum),
+        score = 0;
 
     if (hitPart == "chimney") {
         //two boys first bad

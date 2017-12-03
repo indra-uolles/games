@@ -7,7 +7,6 @@ Game.Preloader.prototype = {
         var preloadHalfWidth = this.game.cache.getImage('preloaderBar').width/2;
 
         this.preloadBar = this.add.sprite(this.world.centerX - preloadHalfWidth, this.world.centerY, 'preloaderBar');
-
         this.preloadBar.anchor.setTo(0, 0.5);
         this.load.setPreloadSprite(this.preloadBar);
 
@@ -23,6 +22,8 @@ Game.Preloader.prototype = {
         this.load.image('lights_bottom', 'assets/images/lights_bottom.png');
         this.load.image('lights_left', 'assets/images/lights_left.png');
         this.load.image('lights_right', 'assets/images/lights_right.png');
+
+        this.load.image('crumpled', 'assets/images/crumpled.jpg');
 
         this.load.image('down_arrow', 'assets/images/downarrow.png');
 
