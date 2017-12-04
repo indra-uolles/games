@@ -16,6 +16,8 @@ Game.Level1.prototype = {
             sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.6/2,
             _this = this;
 
+        this.hb.init();
+
         this.shootTime = 0;
         this.bgV = 2;
         this.bg = game.add.tileSprite(0, gameHeight - 490, gameWidth, 490, 'bg');

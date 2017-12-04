@@ -3,6 +3,10 @@ function HouseBuilder(game) {
     this.houses = [];
 }
 
+HouseBuilder.prototype.init = function() {
+    this.windowsPool = new Pool(this.game, HousePart, 16, "windowCheckered");
+}
+
 HouseBuilder.prototype.onAfterCollide = function(e) {
     var sprite,
         floor = e.floor,
@@ -73,9 +77,12 @@ HouseBuilder.prototype.addHouse = function(x, y) {
     this.houses.push(house);
 }
 
+//привязывать это только к конкр кусочку
 HouseBuilder.prototype.goodbye = function(sprite) {
     //почему-то когда x=0 у домика то показывает что у спрайта -70
     if (sprite.key.indexOf("Right") != -1 && sprite.position.x < -420) {
+        sprite.parent.setAll('exists', false);
+        sprite.parent.callAll('kill');
         sprite.parent.removeAll(true);
     }
 }
@@ -171,16 +178,23 @@ HouseBuilder.prototype.getOneBoyBad = function(x, y, houseNum) {
 }
 
 HouseBuilder.prototype._addHousePart = function(name, house, x, y, houseType, houseNum) {
-    var sprite = this.game.add.sprite(x, y, name);
+    if (name == "windowCheckered") {
+        var sprite = this.windowsPool.create(x, y, { houseType: houseType, houseNum: houseNum });
+    } else {
+        var sprite = this.game.add.sprite(x, y, name);
+    }
+
     house.add(sprite);
 
-    this.game.physics.arcade.enable(sprite);
-    sprite.body.velocity.x = -200;
-    sprite.checkWorldBounds = true;
-    sprite.events.onOutOfBounds.add(this.goodbye, this);
+    if (name != "windowCheckered") {
+        this.game.physics.arcade.enable(sprite);
+        sprite.body.velocity.x = -200;
+        //sprite.checkWorldBounds = true;
+        //sprite.events.onOutOfBounds.add(this.goodbye, this);
 
-    sprite.houseType = houseType;
-    sprite.houseNum = houseNum;
+        sprite.houseType = houseType;
+        sprite.houseNum = houseNum;
+    }
 
     return sprite;
 }
