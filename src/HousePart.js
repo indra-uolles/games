@@ -2,7 +2,6 @@ class HousePart extends Phaser.Sprite {
   constructor(game, name) {
     super(game, 0, 0, name);
     this.exists = false;
-    this.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(this);
     this.body.velocity.x = -200;
   }

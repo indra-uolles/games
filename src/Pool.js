@@ -18,6 +18,7 @@ class Pool extends Phaser.Group {
   constructor(game, spriteType, instances, name) {
     super(game, game.world, name);
     this.game = game;
+    this.name = name;
     this.spriteType = spriteType;
     if (instances > 0) {
       let sprite;
@@ -31,7 +32,7 @@ class Pool extends Phaser.Group {
   create(x, y, data) {
     let obj = this.getFirstExists(false);
     if (!obj) {
-      obj = new this.spriteType(this.game);
+      obj = new this.spriteType(this.game, this.name);
       this.add(obj, true);
     }
     return obj.spawn(x, y, data);
