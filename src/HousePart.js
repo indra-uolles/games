@@ -11,10 +11,10 @@ class HousePart extends Phaser.Sprite {
     this.exists = true;
   }
 
-  spawn(x, y, houseType, houseNum) {
+  spawn(x, y, data) {
       this.stdReset(x,y);
-      this.houseType = houseType;
-      this.houseNum = houseNum;
+      this.houseType = data.houseType;
+      this.houseNum = data.houseNum;
       this.body.velocity.x = -200;
       return this;
   }

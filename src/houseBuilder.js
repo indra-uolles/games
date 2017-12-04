@@ -4,7 +4,16 @@ function HouseBuilder(game) {
 }
 
 HouseBuilder.prototype.init = function() {
-    this.windowsPool = new Pool(this.game, HousePart, 16, "windowCheckered");
+    this.poolsArr = {
+        'windowCheckered': new Pool(this.game, HousePart, 16, 'windowCheckered'),
+        'houseDarkWalls': new Pool(this.game, HousePart, 5, 'houseDarkWalls'),
+        'roof': new Pool(this.game, HousePart, 5, 'roof'),
+        'houseDarkChimney': new Pool(this.game, HousePart, 5, 'houseDarkChimney'),
+        'houseBeigeWalls': new Pool(this.game, HousePart, 5, 'houseBeigeWalls'),
+        'houseBeigeChimney': new Pool(this.game, HousePart, 5, 'houseBeigeChimney'),
+        'houseBeigeWallsSmall': new Pool(this.game, HousePart, 5, 'houseBeigeWallsSmall'),
+        'houseDarkWallsSmall': new Pool(this.game, HousePart, 5, 'houseDarkWallsSmall')
+    };
 }
 
 HouseBuilder.prototype.onAfterCollide = function(e) {
@@ -33,23 +42,23 @@ HouseBuilder.prototype.checkCollision = function(gifts) {
     }
 }
 
-HouseBuilder.prototype.onCollide = function(gift, housePart) {
-    var hitPart = this.isChimneyHit(housePart) ? "chimney" : "roof";
+HouseBuilder.prototype.onCollide = function(gift, housePartObj) {
+    var hitPart = this.isChimneyHit(housePartObj) ? "chimney" : "roof";
     this.game.onCollideSignal.dispatch({
         hitPart: hitPart,
-        houseType: housePart.houseType,
-        houseNum: housePart.houseNum
+        houseType: housePartObj.houseType,
+        houseNum: housePartObj.houseNum
     });
 
     gift.kill();
 }
 
-HouseBuilder.prototype.isChimneyHit = function(housePart) {
-    return housePart.key.indexOf('Chimney') != -1;
+HouseBuilder.prototype.isChimneyHit = function(housePartObj) {
+    return housePartObj.key.indexOf('Chimney') != -1;
 }
 
-HouseBuilder.prototype.isRoofHit = function(housePart) {
-    return housePart.key.indexOf('roof') != -1;
+HouseBuilder.prototype.isRoofHit = function(housePartObj) {
+    return housePartObj.key.indexOf('roof') != -1;
 }
 
 HouseBuilder.prototype.getMaxPosX = function() {
@@ -82,7 +91,7 @@ HouseBuilder.prototype.goodbye = function(sprite) {
     //почему-то когда x=0 у домика то показывает что у спрайта -70
     if (sprite.key.indexOf("Right") != -1 && sprite.position.x < -420) {
         sprite.parent.setAll('exists', false);
-        sprite.parent.callAll('kill');
+        //sprite.parent.callAll('kill');
         sprite.parent.removeAll(true);
     }
 }
@@ -178,23 +187,22 @@ HouseBuilder.prototype.getOneBoyBad = function(x, y, houseNum) {
 }
 
 HouseBuilder.prototype._addHousePart = function(name, house, x, y, houseType, houseNum) {
-    if (name == "windowCheckered") {
-        var sprite = this.windowsPool.create(x, y, { houseType: houseType, houseNum: houseNum });
-    } else {
-        var sprite = this.game.add.sprite(x, y, name);
-    }
-
+    var pool = this.poolsArr[name];
+    var sprite = pool.create(x, y, { houseType: houseType, houseNum: houseNum });
     house.add(sprite);
 
-    if (name != "windowCheckered") {
-        this.game.physics.arcade.enable(sprite);
-        sprite.body.velocity.x = -200;
-        //sprite.checkWorldBounds = true;
-        //sprite.events.onOutOfBounds.add(this.goodbye, this);
+    sprite.checkWorldBounds = true;
+    sprite.events.onOutOfBounds.add(this.goodbye, this);
 
-        sprite.houseType = houseType;
-        sprite.houseNum = houseNum;
-    }
+    // if (name != "windowCheckered") {
+    //     this.game.physics.arcade.enable(sprite);
+    //     sprite.body.velocity.x = -200;
+    //     //sprite.checkWorldBounds = true;
+    //     //sprite.events.onOutOfBounds.add(this.goodbye, this);
+
+    //     sprite.houseType = houseType;
+    //     sprite.houseNum = houseNum;
+    // }
 
     return sprite;
 }
