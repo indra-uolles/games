@@ -14,13 +14,19 @@ Game.Level1.prototype = {
         var controls,
             gap = this.game.rnd.realInRange(100, 350),
             sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.6/2,
+            bgWidth = this.game.cache.getImage('bg').width,
+            bgHeight = this.game.cache.getImage('bg').height,
             _this = this;
+
+        var newbgHeight = gameWidth*bgHeight/bgWidth;
 
         this.hb.init();
 
         this.shootTime = 0;
         this.bgV = 2;
-        this.bg = game.add.tileSprite(0, gameHeight - 490, gameWidth, 490, 'bg');
+        this.bg = game.add.tileSprite(0, gameHeight - 256, 1024, 512, 'bg');
+        this.bg.tileScale.x = 0.5;
+        this.bg.tileScale.y = 0.5;
         this.sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.6/2,
 
         this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 25, 'sleigh');
