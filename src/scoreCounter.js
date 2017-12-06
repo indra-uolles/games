@@ -11,7 +11,8 @@ ScoreCounter.prototype.onCollide = function(e) {
     this.game.onAfterCollideSignal.dispatch({
         name: result.name,
         floor: result.floor,
-        houseNum: e.houseNum
+        houseNum: e.houseNum,
+        showBurst: result.score > 0 ? true : false
     });
 }
 

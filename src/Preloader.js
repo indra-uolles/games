@@ -46,6 +46,8 @@ Game.Preloader.prototype = {
         this.load.spritesheet('babka', 'assets/images/babka.png', 86, 79, 6);
         this.load.spritesheet('boy', 'assets/images/happyboy.png', 86, 79, 6);
         this.load.spritesheet('evil', 'assets/images/happyevil.png', 86, 79, 6);
+
+        this.load.spritesheet('burst', 'assets/images/burst4.png', 160, 160, 5);
     },
     create: function() {
         this.state.start('MainMenu');

@@ -34,7 +34,7 @@ Game.Level1.prototype = {
         this.deer = this.game.add.sprite(this.game.width/2 + 10, 36, 'deer');
         this.deer.scale.setTo(0.6, 0.6);
         this.deer.animations.add('show');
-        this.deer.animations.play('show', 10, true);
+        this.deer.animations.play('show', 15, true);
 
         this.gifts = this.game.add.group();
         this.gifts.enableBody = true;
