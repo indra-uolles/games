@@ -13,9 +13,9 @@ class HousePart extends Phaser.Sprite {
 
   spawn(x, y, data) {
       this.stdReset(x,y);
+      this.body.velocity.x = -200;
       this.houseType = data.houseType;
       this.houseNum = data.houseNum;
-      this.body.velocity.x = -200;
       return this;
   }
 }
