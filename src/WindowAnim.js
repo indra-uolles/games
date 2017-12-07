@@ -7,7 +7,9 @@ class WindowAnim extends Phaser.Sprite {
     this.visible = false;
     this.scale.setTo(0.6, 0.6);
     this.animations.add('show');
-    this.animations.currentAnim.onComplete.add(function () { this.visible = false; }, this);
+    this.animations.currentAnim.onComplete.add(function (sprite) {
+      sprite.visible = false;
+    }, this);
   }
 
   stdReset(x, y) {
@@ -19,7 +21,8 @@ class WindowAnim extends Phaser.Sprite {
       this.stdReset(x,y);
       this.body.velocity.x = -200;
       this.visible = false;
-      if (typeof(data) != 'undefined' && 'floor' in data) {
+      this.houseNum = data.houseNum;
+      if ('floor' in data) {
           this.floor = data.floor;
       }
       return this;
