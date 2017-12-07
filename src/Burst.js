@@ -7,7 +7,9 @@ class Burst extends Phaser.Sprite {
     this.visible = false;
     this.scale.setTo(0.5, 0.5);
     this.animations.add('show');
-    this.animations.currentAnim.onComplete.add(function () { this.visible = false; }, this);
+    this.animations.currentAnim.onComplete.add(function (sprite) {
+      sprite.visible = false;
+    }, this);
   }
 
   stdReset(x, y) {
@@ -17,6 +19,7 @@ class Burst extends Phaser.Sprite {
 
   spawn(x, y, data) {
       this.stdReset(x,y);
+      this.houseNum = data.houseNum;
       this.body.velocity.x = -200;
       this.visible = false;
       return this;
