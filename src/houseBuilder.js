@@ -1,6 +1,7 @@
 function HouseBuilder(game) {
     this.game = game;
     this.houses = [];
+    this.windowAnims = [];
 }
 
 HouseBuilder.prototype.init = function() {
@@ -52,19 +53,27 @@ HouseBuilder.prototype.onAfterCollide = function(e) {
 
 HouseBuilder.prototype.checkCollision = function(gifts) {
     for (var i = 0; i < this.houses.length; i++) {
+        //console.log("check collision: house " + i);
         this.game.physics.arcade.overlap(gifts, this.houses[i], this.onCollide, null, this);
     }
 }
 
 HouseBuilder.prototype.onCollide = function(gift, housePartObj) {
-    var hitPart = this.isChimneyHit(housePartObj) ? 'chimney' : 'roof';
-    this.game.onCollideSignal.dispatch({
-        hitPart: hitPart,
-        houseType: housePartObj.houseType,
-        houseNum: housePartObj.houseNum
-    });
+    //переделать?
+    var isWindowAnimHit = false;
+    if (housePartObj.key == 'burst' || housePartObj.key == 'babka' || housePartObj.key == 'boy' || housePartObj.key == 'evil') {
+        isWindowAnimHit = true;
+    }
+    if (!isWindowAnimHit) {
+        var hitPart = this.isChimneyHit(housePartObj) ? 'chimney' : 'roof';
+        this.game.onCollideSignal.dispatch({
+            hitPart: hitPart,
+            houseType: housePartObj.houseType,
+            houseNum: housePartObj.houseNum
+        });
 
-    gift.kill();
+        gift.kill();
+    }
 }
 
 HouseBuilder.prototype.isChimneyHit = function(housePartObj) {
@@ -100,20 +109,15 @@ HouseBuilder.prototype.addHouse = function(x, y) {
     this.houses.push(house);
 }
 
-HouseBuilder.prototype.goodbye = function(sprite) {
-    //почему-то когда x=0 у домика то показывает что у спрайта -70
-    if (sprite.key.indexOf('Right') != -1 && sprite.position.x < -420) {
-        sprite.parent.setAll('exists', false);
-        sprite.parent.removeAll(true);
-    }
-}
-
 HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y, houseNum) {
     var houseSprite,
         house = this.game.add.group(),
         houseType = 0;
 
-    this._addHousePart('houseDarkWalls', house, x, y, houseType, houseNum);
+    houseSprite = this._addHousePart('houseDarkWalls', house, x, y, houseType, houseNum);
+    // var i = this.houses.length;
+    // houseSprite.addChild(game.add.text(20, 40, i,
+    //         { font: "30px Arial", fill: "#000000" }));
 
     houseSprite = this._addHousePart('windowCheckered', house, x + 115, y + 125, houseType, houseNum);
     houseSprite.floor = 1;
@@ -130,7 +134,7 @@ HouseBuilder.prototype.getTwoBoysFirstBad = function(x, y, houseNum) {
 
     this._addHousePart("roof", house, x - 8, y - 19, houseType, houseNum);
 
-    houseSprite = this._addHousePart('houseDarkChimney', house, x + 120, y - 45, houseType, houseNum);
+    houseSprite = this._addHousePart('houseDarkChimney', house, x + 120, y - 46, houseType, houseNum);
     this._createChimneyAnim('burst', houseSprite, house);
 
     return house;
@@ -141,7 +145,10 @@ HouseBuilder.prototype.getTwoBoysFirstGood = function(x, y, houseNum) {
         house = this.game.add.group(),
         houseType = 1;
 
-    this._addHousePart('houseBeigeWalls', house, x, y, 0, houseNum);
+    houseSprite = this._addHousePart('houseBeigeWalls', house, x, y, 0, houseNum);
+    // var i = this.houses.length;
+    // houseSprite.addChild(game.add.text(20, 40, i,
+    //         { font: "30px Arial", fill: "#000000" }));
 
     houseSprite = this._addHousePart('windowCheckered', house, x + 115, y + 125, houseType, houseNum);
     houseSprite.floor = 1;
@@ -169,7 +176,10 @@ HouseBuilder.prototype.getOneBoyGood = function(x, y, houseNum) {
         house = this.game.add.group(),
         houseType = 2;
 
-    this._addHousePart('houseBeigeWallsSmall', house, x, y + 85, 0, houseNum);
+    houseSprite = this._addHousePart('houseBeigeWallsSmall', house, x, y + 85, 0, houseNum);
+    // var i = this.houses.length;
+    // houseSprite.addChild(game.add.text(20, 40, i,
+    //         { font: "30px Arial", fill: "#000000" }));
 
     houseSprite = this._addHousePart('windowCheckered', house, x + 115, y + 125, houseType, houseNum);
     this._createWindowAnim('boy', houseSprite, house);
@@ -188,7 +198,10 @@ HouseBuilder.prototype.getOneBoyBad = function(x, y, houseNum) {
         house = this.game.add.group(),
         houseType = 3;
 
-    this._addHousePart("houseDarkWallsSmall", house, x, y + 85, 0, houseNum);
+    houseSprite = this._addHousePart("houseDarkWallsSmall", house, x, y + 85, 0, houseNum);
+    // var i = this.houses.length;
+    // houseSprite.addChild(game.add.text(20, 40, i,
+    //         { font: "30px Arial", fill: "#000000" }));
 
     houseSprite = this._addHousePart("windowCheckered", house, x + 115, y + 125, houseType, houseNum);
     this._createWindowAnim('boy', houseSprite, house);
@@ -196,7 +209,7 @@ HouseBuilder.prototype.getOneBoyBad = function(x, y, houseNum) {
     this._createWindowAnim('babka', houseSprite, house);
 
     this._addHousePart("roof", house, x - 8, y + 45, houseType, houseNum);
-    this._addHousePart("houseDarkChimney", house, x + 120, y + 20, houseType, houseNum);
+    this._addHousePart("houseDarkChimney", house, x + 120, y + 19, houseType, houseNum);
     houseSprite = this._createChimneyAnim('burst', houseSprite, house);
 
     return house;
@@ -208,7 +221,13 @@ HouseBuilder.prototype._addHousePart = function(name, house, x, y, houseType, ho
     house.add(sprite);
 
     sprite.checkWorldBounds = true;
-    sprite.events.onOutOfBounds.add(this.goodbye, this);
+    //sprite.events.onOutOfBounds.add(this.goodbye, this);
+    sprite.events.onOutOfBounds.add(function(sprite){
+        if (sprite.x < -sprite.width) {
+            sprite.exists = false;
+            sprite.body.destroy();
+        }
+    }, this);
 
     return sprite;
 }
@@ -231,5 +250,14 @@ HouseBuilder.prototype._createChimneyAnim = function(name, chimney, house) {
     sprite.alignIn(chimney, Phaser.TOP_CENTER);
     //высота спрайта
     sprite.y -= 80;
+
+    sprite.checkWorldBounds = true;
+    sprite.events.onOutOfBounds.add(function(sprite){
+        if (sprite.x < -sprite.width) {
+            sprite.exists = false;
+            sprite.body.destroy();
+        }
+    }, this);
+
     house.add(sprite);
 }
