@@ -26,21 +26,29 @@ HouseBuilder.prototype.onAfterCollide = function(e) {
         spriteBurst,
         floor = e.floor,
         name = e.name,
+        score = e.score,
+        showWindowAnim = e.showWindowAnim,
         showBurst = e.showBurst,
         houseAnim = this.houseAnims[e.houseNum];
 
-    if (typeof(floor) != 'undefined') {
-        sprite = houseAnim.filter(function(child, index, children){
-            return child.key == name && child.floor == floor;
-        }).list[0];
-    } else {
-        sprite = houseAnim.filter(function(child, index, children){
-            return child.key == name;
-        }).list[0];
+    if (showWindowAnim) {
+        if (typeof(floor) != 'undefined') {
+            sprite = houseAnim.filter(function(child, index, children){
+                return child.key == name && child.floor == floor;
+            }).list[0];
+        } else {
+            sprite = houseAnim.filter(function(child, index, children){
+                return child.key == name;
+            }).list[0];
+        }
+
+        sprite.visible = true;
+        sprite.animations.play('show', 6);
     }
 
-    sprite.visible = true;
-    sprite.animations.play('show', 6);
+    if (score != 0) {
+
+    }
 
     if (showBurst) {
         spriteBurst = houseAnim.filter(function(child, index, children){

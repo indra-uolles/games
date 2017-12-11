@@ -11,24 +11,19 @@ Game.Preloader.prototype = {
         this.load.setPreloadSprite(this.preloadBar);
 
         this.load.image('menubg', 'assets/images/background.jpg');
-        this.load.image('sign', 'assets/images/sign2.png');
         this.load.image('name', 'assets/images/name.png');
         this.load.image('instructions', 'assets/images/instructions.png');
         this.load.image('logo', 'assets/images/divan_logo2.png');
         this.load.spritesheet('playbtn', 'assets/images/playbtn2.png', 70, 23);
         this.load.spritesheet('howtobtn', 'assets/images/howtobtn2.png', 404, 51);
 
-        this.load.image('lights', 'assets/images/lights.png');
-        this.load.image('lights_bottom', 'assets/images/lights_bottom.png');
-        this.load.image('lights_left', 'assets/images/lights_left.png');
-        this.load.image('lights_right', 'assets/images/lights_right.png');
-
         this.load.image('crumpled', 'assets/images/crumpled.jpg');
 
         this.load.image('down_arrow', 'assets/images/downarrow.png');
 
         this.load.image('gift', 'assets/images/gift.png');
-        this.load.image('sleigh', 'assets/images/santa_sleigh.png');
+        this.load.image('sleigh', 'assets/images/santa_sleigh_upd.png');
+        this.load.image('sleigh_small', 'assets/images/santa_sleigh_upd_small.png');
         this.load.spritesheet('deer', 'assets/images/deer.png', 230, 131, 11);
         this.load.image('one_deer', 'assets/images/one_deer.png');
         this.load.image('bg', 'assets/images/landscape.jpg');

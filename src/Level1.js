@@ -29,10 +29,10 @@ Game.Level1.prototype = {
         this.bg.tileScale.y = 0.5;
         this.sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.6/2,
 
-        this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 25, 'sleigh');
-        this.player.scale.setTo(0.6, 0.6);
+        this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 2, 'sleigh');
+        this.player.scale.setTo(0.5, 0.5);
         this.deer = this.game.add.sprite(this.game.width/2 + 10, 36, 'deer');
-        this.deer.scale.setTo(0.6, 0.6);
+        this.deer.scale.setTo(0.5, 0.5);
         this.deer.animations.add('show');
         this.deer.animations.play('show', 15, true);
 

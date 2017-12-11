@@ -8,7 +8,7 @@ Game.MainMenu.prototype = {
             logoPaddingRight = gameWidth*0.025,
             bgCroppedHeight = this.game.cache.getImage('bg_cropped').height*0.5,
             nameHalfWidth = this.game.cache.getImage('name').width*0.7/2,
-            sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.4/2,
+            sleighHalfWidth = this.game.cache.getImage('sleigh_small').width*0.5/2,
             deerHalfWidth = this.game.cache.getImage('one_deer').width*0.4/2,
             playbtnHalfWidth = this.game.cache.getImage('playbtn').width/2,
             howtobtnHalfWidth = this.game.cache.getImage('howtobtn').width*0.5/2,
@@ -21,10 +21,10 @@ Game.MainMenu.prototype = {
         name = this.add.sprite(gameWidth/2 - nameHalfWidth, 130, 'name');
         name.scale.setTo(0.7, 0.7);
 
-        sleigh = this.add.sprite(gameWidth/2 - sleighHalfWidth - deerHalfWidth, 68, 'sleigh');
-        sleigh.scale.setTo(0.4, 0.4);
-        deer = this.add.sprite(gameWidth/2 - deerHalfWidth + 10, 68 + 11, 'one_deer');
-        deer.scale.setTo(0.4, 0.4);
+        sleigh = this.add.sprite(gameWidth/2 - sleighHalfWidth - deerHalfWidth, 40, 'sleigh_small');
+        sleigh.scale.setTo(0.5, 0.5);
+        deer = this.add.sprite(gameWidth/2 - deerHalfWidth + 27, 70, 'one_deer');
+        deer.scale.setTo(0.45, 0.45);
 
         mainBtns = this.game.add.group();
         playbtn = this.game.make.button(howtobtnHalfWidth - playbtnHalfWidth, 0, 'playbtn', function(){
