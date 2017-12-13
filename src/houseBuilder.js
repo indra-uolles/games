@@ -17,7 +17,7 @@ HouseBuilder.prototype.init = function() {
         'babka': new Pool(this.game, WindowAnim, 5, 'babka'),
         'boy': new Pool(this.game, WindowAnim, 5, 'boy'),
         'evil': new Pool(this.game, WindowAnim, 5, 'evil'),
-        'burst': new Pool(this.game, Burst, 5, 'burst'),
+        'burst': new Pool(this.game, Burst, 5, 'burst')
     };
 }
 

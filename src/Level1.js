@@ -13,7 +13,8 @@ Game.Level1.prototype = {
     create: function() {
         var controls,
             gap = this.game.rnd.realInRange(100, 350),
-            sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.6/2,
+            //deerHalfWidth = this.game.cache.getImage('deer').width*0.5/2,
+            sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.5/2,
             bgWidth = this.game.cache.getImage('bg').width,
             bgHeight = this.game.cache.getImage('bg').height,
             _this = this;
@@ -22,17 +23,24 @@ Game.Level1.prototype = {
 
         this.hb.init();
 
+        this.santaDrop1 = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 2, 'santa_sleigh_drop1');
+        //поменять размер чтоб 0.5
+        this.santaDrop1.scale.setTo(0.25, 0.25);
+        this.santaDrop1.animations.add('show');
+        this.santaDrop1.animations.play('show', 6, true);
+
         this.shootTime = 0;
         this.bgV = 2;
         this.bg = game.add.tileSprite(0, gameHeight - 256, 1024, 512, 'bg');
         this.bg.tileScale.x = 0.5;
         this.bg.tileScale.y = 0.5;
-        this.sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.6/2,
+        this.sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.5/2,
 
-        this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 2, 'sleigh');
+        this.player = this.game.add.sprite(0, 2, 'sleigh');
+        //this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 2, 'sleigh');
         this.player.scale.setTo(0.5, 0.5);
-        this.deer = this.game.add.sprite(this.game.width/2 + 10, 36, 'deer');
-        this.deer.scale.setTo(0.5, 0.5);
+        this.deer = this.game.add.sprite(this.game.width/2 + 18, 33, 'deer');
+        this.deer.scale.setTo(0.55, 0.55);
         this.deer.animations.add('show');
         this.deer.animations.play('show', 15, true);
 
@@ -67,6 +75,10 @@ Game.Level1.prototype = {
         if (this.time.now > this.shootTime) {
             gift = this.gifts.getFirstExists(false);
             if (gift) {
+                //показываем первую анимацию.
+                //по окончании стреляем.
+                //затем показываем вторую анимацию.
+                //а что если будет слишком быстро стрелять? да вот выше же проверка есть
                 gift.reset(this.player.x + 40, this.player.y + this.sleighHalfHeight);
                 gift.body.velocity.y = +600;
                 this.shootTime = this.time.now + 200;

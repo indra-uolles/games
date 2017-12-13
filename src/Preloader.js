@@ -10,7 +10,6 @@ Game.Preloader.prototype = {
         this.preloadBar.anchor.setTo(0, 0.5);
         this.load.setPreloadSprite(this.preloadBar);
 
-        this.load.image('menubg', 'assets/images/background.jpg');
         this.load.image('name', 'assets/images/name.png');
         this.load.image('instructions', 'assets/images/instructions.png');
         this.load.image('logo', 'assets/images/divan_logo2.png');
@@ -43,6 +42,9 @@ Game.Preloader.prototype = {
         this.load.spritesheet('evil', 'assets/images/happyevil.png', 86, 79, 6);
 
         this.load.spritesheet('burst', 'assets/images/burst4.png', 160, 160, 5);
+
+        this.load.spritesheet('santa_sleigh_drop1', 'assets/images/santa_sleigh_drop1.png', 365, 426, 6);
+        this.load.spritesheet('santa_sleigh_drop2', 'assets/images/santa_sleigh_drop2.png', 363, 397, 4);
     },
     create: function() {
         this.state.start('MainMenu');
