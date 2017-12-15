@@ -21,7 +21,6 @@ Game.Preloader.prototype = {
         this.load.image('down_arrow', 'assets/images/downarrow.png');
 
         this.load.image('gift', 'assets/images/gift.png');
-        this.load.image('sleigh', 'assets/images/santa_sleigh_upd.png');
         this.load.image('sleigh_small', 'assets/images/santa_sleigh_upd_small.png');
         this.load.spritesheet('deer', 'assets/images/deer.png', 230, 131, 11);
         this.load.image('one_deer', 'assets/images/one_deer.png');
@@ -43,8 +42,8 @@ Game.Preloader.prototype = {
 
         this.load.spritesheet('burst', 'assets/images/burst4.png', 160, 160, 5);
 
-        this.load.spritesheet('santa_sleigh_drop1', 'assets/images/santa_sleigh_drop1.png', 365, 426, 6);
-        this.load.spritesheet('santa_sleigh_drop2', 'assets/images/santa_sleigh_drop2.png', 363, 397, 4);
+        this.load.spritesheet('sleigh', 'assets/images/santa_sleigh.png', 185, 216, 11);
+        //this.load.spritesheet('santa_sleigh_drop2', 'assets/images/santa_sleigh_drop2.png', 363, 397, 4);
     },
     create: function() {
         this.state.start('MainMenu');

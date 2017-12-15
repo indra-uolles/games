@@ -1,6 +1,7 @@
 Game.Level1 = function(game) {
     this.hb = new HouseBuilder(game);
     this.sc = new ScoreCounter(game);
+    this.gift = null;
 };
 
 Game.Level1.prototype = {
@@ -13,8 +14,9 @@ Game.Level1.prototype = {
     create: function() {
         var controls,
             gap = this.game.rnd.realInRange(100, 350),
-            //deerHalfWidth = this.game.cache.getImage('deer').width*0.5/2,
-            sleighHalfWidth = this.game.cache.getImage('sleigh').width*0.5/2,
+            //to do: deerHalfWidth
+            deerHalfWidth = 230*0.55/2,
+            sleighHalfWidth = 184*0.5/2,
             bgWidth = this.game.cache.getImage('bg').width,
             bgHeight = this.game.cache.getImage('bg').height,
             _this = this;
@@ -23,12 +25,6 @@ Game.Level1.prototype = {
 
         this.hb.init();
 
-        this.santaDrop1 = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 2, 'santa_sleigh_drop1');
-        //поменять размер чтоб 0.5
-        this.santaDrop1.scale.setTo(0.25, 0.25);
-        this.santaDrop1.animations.add('show');
-        this.santaDrop1.animations.play('show', 6, true);
-
         this.shootTime = 0;
         this.bgV = 2;
         this.bg = game.add.tileSprite(0, gameHeight - 256, 1024, 512, 'bg');
@@ -36,13 +32,29 @@ Game.Level1.prototype = {
         this.bg.tileScale.y = 0.5;
         this.sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.5/2,
 
-        this.player = this.game.add.sprite(0, 2, 'sleigh');
-        //this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth, 2, 'sleigh');
-        this.player.scale.setTo(0.5, 0.5);
-        this.deer = this.game.add.sprite(this.game.width/2 + 18, 33, 'deer');
+        //magic fit :(
+        this.deer = this.game.add.sprite(this.game.width/2 + sleighHalfWidth*1.5 - deerHalfWidth - 16, 41, 'deer');
         this.deer.scale.setTo(0.55, 0.55);
         this.deer.animations.add('show');
         this.deer.animations.play('show', 15, true);
+
+        this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth - deerHalfWidth + 29, 2, 'sleigh');
+        this.player.scale.setTo(0.5, 0.5);
+        this.player.frame = 0;
+        var dropAnim = this.player.animations.add('drop', [1, 2, 3, 4, 5], 36, true);
+        var dropEndAnim = this.player.animations.add('dropend', [6, 7, 8, 9, 0], 36, true);
+        dropAnim.onComplete.add(function(sprite) {
+            if (this.gift) {
+                this.gift.reset(this.player.x + 90, this.player.y + 20);
+                this.gift.body.velocity.y = +600;
+                sprite.animations.play('dropend', 36, false);
+                sprite.frame = 0;
+            }
+        }, this);
+        dropEndAnim.onComplete.add(function(sprite) {
+            sprite.animations.stop();
+            sprite.frame = 0;
+        }, this);
 
         this.gifts = this.game.add.group();
         this.gifts.enableBody = true;
@@ -75,13 +87,11 @@ Game.Level1.prototype = {
         if (this.time.now > this.shootTime) {
             gift = this.gifts.getFirstExists(false);
             if (gift) {
-                //показываем первую анимацию.
-                //по окончании стреляем.
-                //затем показываем вторую анимацию.
-                //а что если будет слишком быстро стрелять? да вот выше же проверка есть
-                gift.reset(this.player.x + 40, this.player.y + this.sleighHalfHeight);
-                gift.body.velocity.y = +600;
+                this.player.animations.play('drop', 6, false);
                 this.shootTime = this.time.now + 200;
+                this.gift = gift;
+            } else {
+                this.gift = null;
             }
         }
     },
