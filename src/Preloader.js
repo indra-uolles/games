@@ -42,7 +42,7 @@ Game.Preloader.prototype = {
 
         this.load.spritesheet('burst', 'assets/images/burst4.png', 160, 160, 5);
 
-        this.load.spritesheet('sleigh', 'assets/images/santa_sleigh.png', 185, 216, 11);
+        this.load.spritesheet('sleigh', 'assets/images/santa_sleigh_simpl.png', 185, 216, 11);
         //this.load.spritesheet('santa_sleigh_drop2', 'assets/images/santa_sleigh_drop2.png', 363, 397, 4);
     },
     create: function() {

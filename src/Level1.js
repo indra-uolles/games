@@ -41,7 +41,7 @@ Game.Level1.prototype = {
         this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth - deerHalfWidth + 29, 2, 'sleigh');
         this.player.scale.setTo(0.5, 0.5);
         this.player.frame = 0;
-        var dropAnim = this.player.animations.add('drop', [1, 2, 3, 4, 5], 36, true);
+        var dropAnim = this.player.animations.add('drop', [1, 2, 3, 4, 5], 60, true);
         var dropEndAnim = this.player.animations.add('dropend', [6, 7, 8, 9, 0], 36, true);
         dropAnim.onComplete.add(function(sprite) {
             if (this.gift) {
