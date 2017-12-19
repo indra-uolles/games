@@ -18,6 +18,7 @@
 <script src="src/HowTo.js"></script>
 <script src="src/MainMenu.js"></script>
 <script src="src/Level1.js"></script>
+<script src="src/GameOver.js"></script>
 <style>
     html {
         background: url('assets/images/gamebg.jpg') repeat center center;
@@ -25,17 +26,19 @@
 </style>
 <script>
     var game,
-        gameWidth = 400,
-        gameHeight = 490;
+        // gameWidth = 400,
+        // gameHeight = 490;
+        gameWidth = 680,
+        gameHeight = 512;
 
-    if (gameWidth > 652) {
-        gameWidth = 512;
-        gameHeight = Math.floor(gameWidth*490/400);
-    }
-    if (gameWidth > window.innerWidth) {
-        gameWidth = window.innerWidth;
-        gameHeight = Math.floor(gameWidth*490/400);
-    }
+    // if (gameWidth > 652) {
+    //     gameWidth = 512;
+    //     gameHeight = Math.floor(gameWidth*490/400);
+    // }
+    // if (gameWidth > window.innerWidth) {
+    //     gameWidth = window.innerWidth;
+    //     gameHeight = Math.floor(gameWidth*490/400);
+    // }
 
     window.onload = function() {
         game = new Phaser.Game(gameWidth, gameHeight);
@@ -45,6 +48,7 @@
         game.state.add('Howto', Game.Howto);
         game.state.add('MainMenu', Game.MainMenu);
         game.state.add('Level1', Game.Level1);
+        game.state.add('GameOver', Game.GameOver);
 
         game.state.start('Boot');
     }

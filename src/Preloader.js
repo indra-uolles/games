@@ -10,6 +10,8 @@ Game.Preloader.prototype = {
         this.preloadBar.anchor.setTo(0, 0.5);
         this.load.setPreloadSprite(this.preloadBar);
 
+        this.load.bitmapFont('myfont', 'assets/font/font.png', 'assets/font/font.fnt');
+
         this.load.image('name', 'assets/images/name.png');
         this.load.image('instructions', 'assets/images/instructions.png');
         this.load.image('logo', 'assets/images/divan_logo2.png');
@@ -25,7 +27,7 @@ Game.Preloader.prototype = {
         this.load.spritesheet('deer', 'assets/images/deer.png', 230, 131, 11);
         this.load.image('one_deer', 'assets/images/one_deer.png');
         this.load.image('bg', 'assets/images/landscape.jpg');
-        this.load.image('bg_cropped', 'assets/images/landscape_cropped.jpg');
+        this.load.image('bg_mainmenu', 'assets/images/landscape_mainmenu.jpg');
 
         this.load.image('houseBeigeWalls', 'assets/images/houseBeigeWalls.png');
         this.load.image('houseBeigeWallsSmall', 'assets/images/houseBeigeWallsSmall.jpg');
@@ -46,6 +48,7 @@ Game.Preloader.prototype = {
         //this.load.spritesheet('santa_sleigh_drop2', 'assets/images/santa_sleigh_drop2.png', 363, 397, 4);
     },
     create: function() {
-        this.state.start('MainMenu');
+        //this.state.start('MainMenu');
+        this.state.start('GameOver');
     }
 }

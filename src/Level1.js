@@ -38,6 +38,9 @@ Game.Level1.prototype = {
         this.deer.animations.add('show');
         this.deer.animations.play('show', 15, true);
 
+        //this.coins = this.game.add.sprite(20, 20, 'coins');
+        //this.coins.scale.setTo(0.25, 0.25);
+
         this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth - deerHalfWidth + 29, 2, 'sleigh');
         this.player.scale.setTo(0.5, 0.5);
         this.player.frame = 0;
@@ -78,8 +81,8 @@ Game.Level1.prototype = {
             _this.hb.addHouse(xStart, gameHeight - 196);
         }, this);
 
-        this.labelScore = game.add.text(20, 20, "0",
-            { font: "30px Arial", fill: "#ff0000" });
+        this.labelScore = game.add.bitmapText(20, 10, 'myfont', '0', 60);
+
 
         game.input.onTap.add(this.onTap, this);
     },

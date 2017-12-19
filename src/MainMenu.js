@@ -6,7 +6,7 @@ Game.MainMenu.prototype = {
         var mainMenubg, name, sleigh, deer, mainBtns, playbtn, howtobtn, logo,
             mainBtnsVertPad = 45,
             logoPaddingRight = gameWidth*0.025,
-            bgCroppedHeight = this.game.cache.getImage('bg_cropped').height*0.5,
+            bgHeight = this.game.cache.getImage('bg_mainmenu').height*0.5,
             nameHalfWidth = this.game.cache.getImage('name').width*0.7/2,
             sleighHalfWidth = this.game.cache.getImage('sleigh_small').width*0.5/2,
             deerHalfWidth = this.game.cache.getImage('one_deer').width*0.4/2,
@@ -15,7 +15,7 @@ Game.MainMenu.prototype = {
             logoWidth = this.game.cache.getImage('logo').width*0.5,
             logoHeight = this.game.cache.getImage('logo').height*0.5;
 
-        mainMenubg = this.add.sprite(0, gameHeight - bgCroppedHeight, 'bg_cropped');
+        mainMenubg = this.add.sprite(0, gameHeight - bgHeight, 'bg_mainmenu');
         mainMenubg.scale.setTo(0.5, 0.5);
 
         name = this.add.sprite(gameWidth/2 - nameHalfWidth, 130, 'name');
