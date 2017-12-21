@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <style> * {margin: 0; padding: 0;} </style>
 <body>
-<script src="libs/phaser.min.js"></script>
+<script src="libs/phaser.js"></script>
 <script src="src/Pool.js"></script>
 <script src="src/HousePart.js"></script>
 <script src="src/WindowAnim.js"></script>
@@ -18,7 +18,6 @@
 <script src="src/HowTo.js"></script>
 <script src="src/MainMenu.js"></script>
 <script src="src/Level1.js"></script>
-<script src="src/GameOver.js"></script>
 <style>
     html {
         background: url('assets/images/gamebg.jpg') repeat center center;
@@ -48,7 +47,6 @@
         game.state.add('Howto', Game.Howto);
         game.state.add('MainMenu', Game.MainMenu);
         game.state.add('Level1', Game.Level1);
-        game.state.add('GameOver', Game.GameOver);
 
         game.state.start('Boot');
     }

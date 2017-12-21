@@ -48,7 +48,7 @@ Game.Preloader.prototype = {
         //this.load.spritesheet('santa_sleigh_drop2', 'assets/images/santa_sleigh_drop2.png', 363, 397, 4);
     },
     create: function() {
-        //this.state.start('MainMenu');
-        this.state.start('GameOver');
+        this.state.start('MainMenu');
+        //this.state.start('GameOver');
     }
 }

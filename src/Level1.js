@@ -12,8 +12,7 @@ Game.Level1.prototype = {
         game.onAfterCollideSignal.add(this.hb.onAfterCollide, this.hb);
     },
     create: function() {
-        var controls,
-            gap = this.game.rnd.realInRange(100, 350),
+        var gap = this.game.rnd.realInRange(100, 350),
             //to do: deerHalfWidth
             deerHalfWidth = 230*0.55/2,
             sleighHalfWidth = 184*0.5/2,
@@ -30,6 +29,7 @@ Game.Level1.prototype = {
         this.bg = game.add.tileSprite(0, gameHeight - 256, 1024, 512, 'bg');
         this.bg.tileScale.x = 0.5;
         this.bg.tileScale.y = 0.5;
+        this.bg.autoScroll(-100, 0);
         this.sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.5/2,
 
         //magic fit :(
@@ -37,9 +37,6 @@ Game.Level1.prototype = {
         this.deer.scale.setTo(0.55, 0.55);
         this.deer.animations.add('show');
         this.deer.animations.play('show', 15, true);
-
-        //this.coins = this.game.add.sprite(20, 20, 'coins');
-        //this.coins.scale.setTo(0.25, 0.25);
 
         this.player = this.game.add.sprite(this.game.width/2 - sleighHalfWidth - deerHalfWidth + 29, 2, 'sleigh');
         this.player.scale.setTo(0.5, 0.5);
@@ -71,18 +68,21 @@ Game.Level1.prototype = {
 
         game.world.bringToTop(this.player);
 
-        controls = {
+        this.controls = {
             shoot: this.input.keyboard.addKey(Phaser.Keyboard.DOWN)
         };
-        controls.shoot.onDown.add(this.shootGift.bind(this));
+        this.controls.shoot.onDown.add(this.shootGift.bind(this));
 
-        this.timer = game.time.events.loop(3000, function(){
+        this.housesTimer = game.time.events.loop(3000, function(){
             var xStart = Math.max(gameWidth + 1, _this.hb.getMaxPosX()) + gap;
             _this.hb.addHouse(xStart, gameHeight - 196);
         }, this);
 
         this.labelScore = game.add.bitmapText(20, 10, 'myfont', '0', 60);
 
+        this.counter = 120;
+        this.timerText = game.add.bitmapText(gameWidth - 200, 10, 'myfont', '02:00', 64);
+        game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         game.input.onTap.add(this.onTap, this);
     },
@@ -99,8 +99,6 @@ Game.Level1.prototype = {
         }
     },
     update: function() {
-        this.bg.tilePosition.x -= this.bgV;
-
         this.hb.checkCollision(this.gifts);
         this.labelScore.text = this.sc.getScore();
 
@@ -116,5 +114,49 @@ Game.Level1.prototype = {
             this.shootGift();
         }
 
+    },
+    updateCounter: function() {
+        this.counter -= 1;
+        this.timerText.setText(this.formatTime(this.counter));
+        if (this.counter <= 0) {
+            this.gameOver();
+        }
+    },
+    formatTime: function(time) {
+        var min = Math.floor(time/60);
+        var sec = time - min*60;
+        res = "0" + min + ":" + (sec < 10 ? "0" : "") + sec;
+        return res;
+    },
+    gameOver: function() {
+        //this.restart();
+        this.overlay = this.add.bitmapData(this.game.width, this.game.height);
+        this.overlay.ctx.fillStyle = '#000';
+        this.overlay.ctx.fillRect(0, 0, this.game.width, this.game.height);
+
+        this.panel = this.add.sprite(0, this.game.height, this.overlay);
+        this.panel.alpha = 0.55;
+
+        var gameOverPanel = this.add.tween(this.panel);
+        gameOverPanel.to({ y: 0 }, 500);
+
+        gameOverPanel.onComplete.add(function(){
+            this.bg.stopScroll();
+            this.hb.stop();
+            this.housesTimer.timer.destroy();
+            this.controls.shoot.onDown.removeAll();
+            this.deer.animations.stop();
+
+            var labelHeader = this.add.bitmapText(0, 130, 'myfont', 'GAME OVER', 64);
+            labelHeader.update();
+            labelHeader.updateText();
+            labelHeader.x = gameWidth/2 - labelHeader.width/2;
+        }.bind(this));
+
+        gameOverPanel.start();
+    },
+    restart: function() {
+        //this.game.world.remove(this.background); 2.3 bug
+        this.game.state.start('Level1');
     }
 }

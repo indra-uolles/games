@@ -279,3 +279,15 @@ HouseBuilder.prototype._createChimneyAnim = function(name, chimney, params) {
     return sprite;
 
 }
+
+HouseBuilder.prototype.stop = function() {
+    for (var i = 0; i < this.houses.length; i++) {
+        var house = this.houses[i];
+        if (!!house.children[0].body) {
+            for (var j = 0; j < house.children.length; j++) {
+                var child = house.children[j];
+                child.stop();
+            }
+        }
+    }
+}

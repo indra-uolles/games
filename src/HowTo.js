@@ -16,7 +16,7 @@ Game.Howto.prototype = {
 
         txt = "Dear Santa,\nbecause of financial constraints, \nthe number of gifts is limited, so\nthrow them wisely. Only good\nkids deserve them. If a bad kid\nreceives a present intended for\nother boy he will never give it \naway.Use        to drop gifts.";
         text = this.add.text(80, 150, txt, {
-            font: '16px Tahoma',
+            font: '16px Open Sans',
             fill: '#000',
             align: 'left'
         });

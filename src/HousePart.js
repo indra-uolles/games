@@ -18,6 +18,10 @@ class HousePart extends Phaser.Sprite {
       this.houseNum = data.houseNum;
       return this;
   }
+
+  stop() {
+    this.body.velocity.x = 0;
+  }
 }
 
 //export default HousePart;
