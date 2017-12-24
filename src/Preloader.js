@@ -18,6 +18,14 @@ Game.Preloader.prototype = {
         this.load.spritesheet('playbtn', 'assets/images/playbtn2.png', 70, 23);
         this.load.spritesheet('howtobtn', 'assets/images/howtobtn2.png', 404, 51);
 
+        this.load.image('boy0', 'assets/images/happyboy_0.png');
+        this.load.image('evil0', 'assets/images/happyevil_0.png');
+
+        this.load.image('oneBoyGood', 'assets/images/oneBoyGood.png');
+        this.load.image('oneBoyBad', 'assets/images/oneBoyBad.png');
+        this.load.image('twoBoysFirstGood', 'assets/images/twoBoysFirstGood.png');
+        this.load.image('twoBoysFirstBad', 'assets/images/twoBoysFirstBad.png');
+
         this.load.image('crumpled', 'assets/images/crumpled.jpg');
 
         this.load.image('down_arrow', 'assets/images/downarrow.png');
