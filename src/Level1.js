@@ -20,8 +20,7 @@ Game.Level1.prototype = {
             bgHeight = this.game.cache.getImage('bg').height,
             _this = this;
 
-        var newbgHeight = gameWidth*bgHeight/bgWidth;
-
+        this.sc.reset();
         this.hb.init();
 
         this.shootTime = 0;
@@ -73,16 +72,21 @@ Game.Level1.prototype = {
         };
         this.controls.shoot.onDown.add(this.shootGift.bind(this));
 
-        this.housesTimer = game.time.events.loop(3000, function(){
+        this.housesGeneratorTimer = game.time.create();
+        this.housesGeneratorTimer.loop(Phaser.Timer.SECOND * 3, function(){
             var xStart = Math.max(gameWidth + 1, _this.hb.getMaxPosX()) + gap;
             _this.hb.addHouse(xStart, gameHeight - 196);
         }, this);
+        this.housesGeneratorTimer.start();
 
         this.labelScore = game.add.bitmapText(20, 10, 'myfont', '0', 60);
 
         this.counter = 120;
         this.timerText = game.add.bitmapText(gameWidth - 200, 10, 'myfont', '02:00', 64);
-        game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
+
+        this.counterGeneratorTimer = game.time.create();
+        this.counterGeneratorTimer.loop(Phaser.Timer.SECOND, this.updateCounter, this);
+        this.counterGeneratorTimer.start();
 
         game.input.onTap.add(this.onTap, this);
     },
@@ -102,7 +106,7 @@ Game.Level1.prototype = {
         this.hb.checkCollision(this.gifts);
         this.labelScore.text = this.sc.getScore();
 
-        game.debug.text(game.time.fps, 2, 14, "#00ff00");
+        //game.debug.text(game.time.fps, 2, 14, "#00ff00");
     },
     onTap: function(pointer, doubleTap) {
         if (doubleTap)
@@ -129,7 +133,6 @@ Game.Level1.prototype = {
         return res;
     },
     gameOver: function() {
-        //this.restart();
         this.overlay = this.add.bitmapData(this.game.width, this.game.height);
         this.overlay.ctx.fillStyle = '#000';
         this.overlay.ctx.fillRect(0, 0, this.game.width, this.game.height);
@@ -143,7 +146,8 @@ Game.Level1.prototype = {
         gameOverPanel.onComplete.add(function(){
             this.bg.stopScroll();
             this.hb.stop();
-            this.housesTimer.timer.destroy();
+            this.housesGeneratorTimer.destroy();
+            this.counterGeneratorTimer.destroy();
             this.controls.shoot.onDown.removeAll();
             this.deer.animations.stop();
 
@@ -151,12 +155,24 @@ Game.Level1.prototype = {
             labelHeader.update();
             labelHeader.updateText();
             labelHeader.x = gameWidth/2 - labelHeader.width/2;
+
+            var labelResScore = this.add.bitmapText(0, 230, 'myfont', 'Your score: ' + this.sc.getScore(), 30);
+            labelResScore.update();
+            labelResScore.updateText();
+            labelResScore.x = gameWidth/2 - labelResScore.width/2;
+
+            var labelPlayAgain = this.add.bitmapText(0, 330, 'myfont', 'Tap to play again', 14);
+            labelPlayAgain.update();
+            labelPlayAgain.updateText();
+            labelPlayAgain.x = gameWidth/2 - labelPlayAgain.width/2;
+
+            this.game.input.onDown.addOnce(this.restart, this);
         }.bind(this));
 
         gameOverPanel.start();
     },
     restart: function() {
-        //this.game.world.remove(this.background); 2.3 bug
+        this.game.world.remove(this.bg);
         this.game.state.start('Level1');
     }
 }

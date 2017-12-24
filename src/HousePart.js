@@ -19,9 +19,9 @@ class HousePart extends Phaser.Sprite {
       return this;
   }
 
-  stop() {
-    this.body.velocity.x = 0;
-  }
+  // stop() {
+  //   this.body.velocity.x = 0;
+  // }
 }
 
 //export default HousePart;

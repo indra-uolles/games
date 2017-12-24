@@ -5,6 +5,7 @@ function HouseBuilder(game) {
 }
 
 HouseBuilder.prototype.init = function() {
+    this.reset();
     this.poolsArr = {
         'windowCheckered': new Pool(this.game, HousePart, 16, 'windowCheckered'),
         'houseDarkWalls': new Pool(this.game, HousePart, 5, 'houseDarkWalls'),
@@ -44,10 +45,6 @@ HouseBuilder.prototype.onAfterCollide = function(e) {
 
         sprite.visible = true;
         sprite.animations.play('show', 6);
-    }
-
-    if (score != 0) {
-
     }
 
     if (showBurst) {
@@ -283,11 +280,41 @@ HouseBuilder.prototype._createChimneyAnim = function(name, chimney, params) {
 HouseBuilder.prototype.stop = function() {
     for (var i = 0; i < this.houses.length; i++) {
         var house = this.houses[i];
-        if (!!house.children[0].body) {
-            for (var j = 0; j < house.children.length; j++) {
-                var child = house.children[j];
-                child.stop();
+        for (var j = 0; j < house.children.length; j++) {
+            var child = house.children[j];
+            if (!!child.body) {
+                child.body.destroy();
             }
         }
     }
+    for (var i = 0; i < this.houseAnims.length; i++) {
+        var houseAnim = this.houseAnims[i];
+        for (var j = 0; j < houseAnim.children.length; j++) {
+            var anim = houseAnim.children[j];
+            if (!!anim.body) {
+                anim.animations.stop();
+                anim.body.destroy();
+            }
+        }
+    }
+}
+
+HouseBuilder.prototype.reset = function() {
+    for (var i = 0; i < this.houses.length; i++) {
+        var house = this.houses[i];
+        if (house.children.length) {
+            house.children.setAll('exists', false);
+            house.removeAll();
+        }
+    }
+    for (var i = 0; i < this.houseAnims.length; i++) {
+        var houseAnim = this.houseAnims[i];
+        if (houseAnim.children.length) {
+            houseAnim.children.setAll('exists', false);
+            houseAnim.removeAll();
+        }
+    }
+    //empty arrays https://stackoverflow.com/questions/1232040/how-do-i-empty-an-array-in-javascript
+    this.houses.length = 0;
+    this.houseAnims.length = 0;
 }
