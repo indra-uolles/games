@@ -4,6 +4,11 @@ function ScoreCounter(game) {
     this.score = 0;
 }
 
+ScoreCounter.prototype.reset = function() {
+    this.score = 0;
+    this.scoring = {};
+}
+
 ScoreCounter.prototype.onCollide = function(e) {
     this._updateScoring(e.houseNum, e.houseType, e.hitPart);
     var result = this._getHitResult(e.hitPart, e.houseNum);
