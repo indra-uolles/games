@@ -66,7 +66,7 @@ Game.Howto.prototype = {
         //downArrow = this.add.sprite(142, 280, 'down_arrow');
         //downArrow.scale.setTo(0.3, 0.3);
 
-        txt = "Use down arrow to drop gifts.";
+        txt = "Use spacebar to drop gifts.";
         text = this.add.text(310, 480, txt, {
             font: '16px Open Sans',
             fill: '#000',

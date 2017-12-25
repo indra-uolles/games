@@ -68,7 +68,7 @@ Game.Level1.prototype = {
         game.world.bringToTop(this.player);
 
         this.controls = {
-            shoot: this.input.keyboard.addKey(Phaser.Keyboard.DOWN)
+            shoot: this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
         };
         this.controls.shoot.onDown.add(this.shootGift.bind(this));
 
@@ -91,16 +91,16 @@ Game.Level1.prototype = {
         game.input.onTap.add(this.onTap, this);
     },
     shootGift: function() {
-        if (this.time.now > this.shootTime) {
-            gift = this.gifts.getFirstExists(false);
-            if (gift) {
-                this.player.animations.play('drop', 6, false);
-                this.shootTime = this.time.now + 200;
-                this.gift = gift;
-            } else {
-                this.gift = null;
-            }
+        //if (this.time.now > this.shootTime) {
+        gift = this.gifts.getFirstExists(false);
+        if (gift) {
+            this.player.animations.play('drop', 6, false);
+            this.shootTime = this.time.now + 200;
+            this.gift = gift;
+        } else {
+            this.gift = null;
         }
+        //}
     },
     update: function() {
         this.hb.checkCollision(this.gifts);
