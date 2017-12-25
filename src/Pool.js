@@ -1,3 +1,5 @@
+import Phaser from './Phaser';
+
 /*
  * Pool.js
  * Pool.constructor(game, spriteType, instances, name)
@@ -13,17 +15,15 @@
  *   data       - Custom data that I pass on to the spawn function
  *                (i.e. "ice" for ice bullets) (any data type)
  */
-
-class Pool extends Phaser.Group {
+export default class Pool extends Phaser.Group {
   constructor(game, spriteType, instances, name) {
     super(game, game.world, name);
     this.game = game;
     this.name = name;
     this.spriteType = spriteType;
     if (instances > 0) {
-      let sprite;
       for (var i = 0; i < instances; i++) {
-        sprite = this.add(new spriteType(game, name));
+        this.add(new spriteType(game, name));
       }
     }
     return this;
@@ -38,4 +38,3 @@ class Pool extends Phaser.Group {
     return obj.spawn(x, y, data);
   }
 }
-//exports default Pool;

@@ -1,55 +1,10 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>Treasure hunter</title>
+<title>Xmas delivery</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<style> * {margin: 0; padding: 0;} </style>
+<link rel="stylesheet" href="src/index.css">
+<script src='src/index.js'></script>
 <body>
-<script src="libs/phaser.js"></script>
-<script src="src/Pool.js"></script>
-<script src="src/HousePart.js"></script>
-<script src="src/WindowAnim.js"></script>
-<script src="src/Burst.js"></script>
-<script src="src/houseBuilder.js"></script>
-<script src="src/scoreCounter.js"></script>
-<script src="src/failsCounter.js"></script>
-<script src="src/Boot.js"></script>
-<script src="src/Preloader.js"></script>
-<script src="src/HowTo.js"></script>
-<script src="src/MainMenu.js"></script>
-<script src="src/Level1.js"></script>
-<style>
-    html {
-        background: url('assets/images/gamebg.jpg') repeat center center;
-    }
-</style>
-<script>
-    var game,
-        // gameWidth = 400,
-        // gameHeight = 490;
-        gameWidth = 680,
-        gameHeight = 512;
-
-    // if (gameWidth > 652) {
-    //     gameWidth = 512;
-    //     gameHeight = Math.floor(gameWidth*490/400);
-    // }
-    // if (gameWidth > window.innerWidth) {
-    //     gameWidth = window.innerWidth;
-    //     gameHeight = Math.floor(gameWidth*490/400);
-    // }
-
-    window.onload = function() {
-        game = new Phaser.Game(gameWidth, gameHeight);
-
-        game.state.add('Boot', Game.Boot);
-        game.state.add('Preloader', Game.Preloader);
-        game.state.add('Howto', Game.Howto);
-        game.state.add('MainMenu', Game.MainMenu);
-        game.state.add('Level1', Game.Level1);
-
-        game.state.start('Boot');
-    }
-</script>
 </body>

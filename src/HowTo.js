@@ -1,9 +1,8 @@
-Game.Howto = function(game) {
-};
+import {gameWidth} from './consts';
 
-Game.Howto.prototype = {
-    create: function(game) {
-        var instructions, txt, text, downArrow, boy, evil,
+export default class Howto {
+    create (game) {
+        var txt, text, boy, evil,
             oneBoyGood, oneBoyBad, twoBoysFirstGood, twoBoysFirstBad;
 
         game.add.tileSprite(0, 0, this.game.width, this.game.height, 'crumpled');
@@ -11,9 +10,9 @@ Game.Howto.prototype = {
         var labelInstr = this.add.bitmapText(0, 50, 'myfont', 'INSTRUCTIONS', 64);
         labelInstr.update();
         labelInstr.updateText();
-        labelInstr.x = gameWidth/2 - labelInstr.width/2;
+        labelInstr.x = gameWidth / 2 - labelInstr.width / 2;
 
-        txt = "Dear Santa,\nbecause of financial constraints, \nthe number of gifts is limited, so\nthrow them wisely. Only good\nkids deserve them. This is a\ngood boy:";
+        txt = 'Dear Santa,\nbecause of financial constraints, \nthe number of gifts is limited, so\nthrow them wisely. Only good\nkids deserve them. This is a\ngood boy:';
         text = this.add.text(80, 150, txt, {
             font: '16px Open Sans',
             fill: '#000',
@@ -24,7 +23,7 @@ Game.Howto.prototype = {
         boy = this.add.sprite(150, 280, 'boy0');
         boy.scale.setTo(0.6, 0.6);
 
-        txt = "This is a bad boy:";
+        txt = 'This is a bad boy:';
         text = this.add.text(80, 340, txt, {
             font: '16px Open Sans',
             fill: '#000',
@@ -35,7 +34,7 @@ Game.Howto.prototype = {
         evil = this.add.sprite(200, 340, 'evil0');
         evil.scale.setTo(0.6, 0.6);
 
-        txt = "Note that there are 4 types of houses, having\ndifferent roomers:";
+        txt = 'Note that there are 4 types of houses, having\ndifferent roomers:';
         text = this.add.text(310, 150, txt, {
             font: '16px Open Sans',
             fill: '#000',
@@ -55,7 +54,7 @@ Game.Howto.prototype = {
         twoBoysFirstBad = this.add.sprite(480, 300, 'twoBoysFirstBad');
         twoBoysFirstBad.scale.setTo(0.6, 0.6);
 
-        txt = "If a bad kid receives a present\nintended for another boy,\nhe will never give it away.";
+        txt = 'If a bad kid receives a present\nintended for another boy,\nhe will never give it away.';
         text = this.add.text(80, 400, txt, {
             font: '16px Open Sans',
             fill: '#000',
@@ -63,10 +62,10 @@ Game.Howto.prototype = {
         });
         text.lineSpacing = 1.5;
 
-        //downArrow = this.add.sprite(142, 280, 'down_arrow');
-        //downArrow.scale.setTo(0.3, 0.3);
+        // downArrow = this.add.sprite(142, 280, 'down_arrow');
+        // downArrow.scale.setTo(0.3, 0.3);
 
-        txt = "Use down arrow to drop gifts.";
+        txt = 'Use down arrow to drop gifts.';
         text = this.add.text(310, 480, txt, {
             font: '16px Open Sans',
             fill: '#000',
@@ -74,12 +73,13 @@ Game.Howto.prototype = {
         });
         text.lineSpacing = 1.5;
 
-        this.createButton(game, 'playbtn', 530, 480, 70, 23, function() {
+        this.createButton(game, 'playbtn', 530, 480, 70, 23, function () {
             this.state.start('Level1');
         });
-    },
-    //код дублируется
-    createButton: function(game, spriteName, x, y, w, h, callback) {
+    }
+
+    // код дублируется
+    createButton (game, spriteName, x, y, w, h, callback) {
         var button = game.add.button(x, y, spriteName, callback, this, 0, 1, 2);
 
         button.anchor.setTo(0, 0);

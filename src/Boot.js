@@ -1,22 +1,20 @@
-var Game = {};
+import Phaser from './Phaser';
 
-Game.Boot = function(game) {
-
-};
-
-Game.Boot.prototype = {
-    init: function() {
+const Boot = {
+    init: function () {
         this.stage.disableVisibilityChange = true;
         this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.pageAlignHorizontally = true;
         this.game.scale.pageAlignVertically = true;
         this.game.scale.refresh();
-        //this.game.time.advancedTiming = true;
+        // this.game.time.advancedTiming = true;
     },
-    preload: function() {
-        this.load.image('preloaderBar', 'assets/images/loading.png');
+    preload: function () {
+        this.load.image('preloaderBar', require('../assets/images/loading.png'));
     },
-    create: function() {
+    create: function () {
         this.state.start('Preloader');
     }
-}
+};
+
+export default Boot;

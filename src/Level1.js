@@ -1,23 +1,29 @@
-Game.Level1 = function(game) {
-    this.hb = new HouseBuilder(game);
-    this.sc = new ScoreCounter(game);
-    this.gift = null;
-};
+import Phaser from './Phaser';
+import HouseBuilder from './HouseBuilder';
+import ScoreCounter from './ScoreCounter';
+import {gameWidth, gameHeight} from './consts';
 
-Game.Level1.prototype = {
-    preload: function() {
-        game.onCollideSignal = new Phaser.Signal();
-        game.onAfterCollideSignal = new Phaser.Signal();
-        game.onCollideSignal.add(this.sc.onCollide, this.sc);
-        game.onAfterCollideSignal.add(this.hb.onAfterCollide, this.hb);
-    },
-    create: function() {
+export default class Level1 {
+    constructor(game) {
+        this.hb = new HouseBuilder(game);
+        this.sc = new ScoreCounter(game);
+        this.gift = null;
+    }
+
+    preload() {
+        this.game.onCollideSignal = new Phaser.Signal();
+        this.game.onAfterCollideSignal = new Phaser.Signal();
+        this.game.onCollideSignal.add(this.sc.onCollide, this.sc);
+        this.game.onAfterCollideSignal.add(this.hb.onAfterCollide, this.hb);
+    }
+
+    create() {
         var gap = this.game.rnd.realInRange(100, 350),
-            //to do: deerHalfWidth
+            // to do: deerHalfWidth
             deerHalfWidth = 230*0.55/2,
             sleighHalfWidth = 184*0.5/2,
-            bgWidth = this.game.cache.getImage('bg').width,
-            bgHeight = this.game.cache.getImage('bg').height,
+            // bgWidth = this.game.cache.getImage('bg').width,
+            // bgHeight = this.game.cache.getImage('bg').height,
             _this = this;
 
         this.sc.reset();
@@ -25,13 +31,13 @@ Game.Level1.prototype = {
 
         this.shootTime = 0;
         this.bgV = 2;
-        this.bg = game.add.tileSprite(0, gameHeight - 256, 1024, 512, 'bg');
+        this.bg = this.game.add.tileSprite(0, gameHeight - 256, 1024, 512, 'bg');
         this.bg.tileScale.x = 0.5;
         this.bg.tileScale.y = 0.5;
         this.bg.autoScroll(-100, 0);
         this.sleighHalfHeight = this.game.cache.getImage('sleigh').height*0.5/2,
 
-        //magic fit :(
+        // magic fit :(
         this.deer = this.game.add.sprite(this.game.width/2 + sleighHalfWidth*1.5 - deerHalfWidth - 16, 41, 'deer');
         this.deer.scale.setTo(0.55, 0.55);
         this.deer.animations.add('show');
@@ -42,7 +48,7 @@ Game.Level1.prototype = {
         this.player.frame = 0;
         var dropAnim = this.player.animations.add('drop', [1, 2, 3, 4, 5], 60, true);
         var dropEndAnim = this.player.animations.add('dropend', [6, 7, 8, 9, 0], 36, true);
-        dropAnim.onComplete.add(function(sprite) {
+        dropAnim.onComplete.add(function (sprite) {
             if (this.gift) {
                 this.gift.reset(this.player.x + 90, this.player.y + 20);
                 this.gift.body.velocity.y = +600;
@@ -50,7 +56,7 @@ Game.Level1.prototype = {
                 sprite.frame = 0;
             }
         }, this);
-        dropEndAnim.onComplete.add(function(sprite) {
+        dropEndAnim.onComplete.add(function (sprite) {
             sprite.animations.stop();
             sprite.frame = 0;
         }, this);
@@ -65,34 +71,34 @@ Game.Level1.prototype = {
         this.gifts.setAll('outOfBoundsKill', true);
         this.gifts.setAll('checkWorldBounds', true);
 
-        game.world.bringToTop(this.player);
+        this.game.world.bringToTop(this.player);
 
         this.controls = {
             shoot: this.input.keyboard.addKey(Phaser.Keyboard.DOWN)
         };
         this.controls.shoot.onDown.add(this.shootGift.bind(this));
 
-        this.housesGeneratorTimer = game.time.create();
-        this.housesGeneratorTimer.loop(Phaser.Timer.SECOND * 3, function(){
+        this.housesGeneratorTimer = this.game.time.create();
+        this.housesGeneratorTimer.loop(Phaser.Timer.SECOND * 3, function () {
             var xStart = Math.max(gameWidth + 1, _this.hb.getMaxPosX()) + gap;
             _this.hb.addHouse(xStart, gameHeight - 196);
         }, this);
         this.housesGeneratorTimer.start();
 
-        this.labelScore = game.add.bitmapText(20, 10, 'myfont', '0', 60);
+        this.labelScore = this.game.add.bitmapText(20, 10, 'myfont', '0', 60);
 
         this.counter = 120;
-        this.timerText = game.add.bitmapText(gameWidth - 200, 10, 'myfont', '02:00', 64);
+        this.timerText = this.game.add.bitmapText(gameWidth - 200, 10, 'myfont', '02:00', 64);
 
-        this.counterGeneratorTimer = game.time.create();
+        this.counterGeneratorTimer = this.game.time.create();
         this.counterGeneratorTimer.loop(Phaser.Timer.SECOND, this.updateCounter, this);
         this.counterGeneratorTimer.start();
 
-        game.input.onTap.add(this.onTap, this);
-    },
-    shootGift: function() {
+        this.game.input.onTap.add(this.onTap, this);
+    }
+    shootGift() {
         if (this.time.now > this.shootTime) {
-            gift = this.gifts.getFirstExists(false);
+            const gift = this.gifts.getFirstExists(false);
             if (gift) {
                 this.player.animations.play('drop', 6, false);
                 this.shootTime = this.time.now + 200;
@@ -101,38 +107,39 @@ Game.Level1.prototype = {
                 this.gift = null;
             }
         }
-    },
-    update: function() {
+    }
+
+    update() {
         this.hb.checkCollision(this.gifts);
         this.labelScore.text = this.sc.getScore();
 
-        //game.debug.text(game.time.fps, 2, 14, "#00ff00");
-    },
-    onTap: function(pointer, doubleTap) {
-        if (doubleTap)
-        {
+        //this.game.debug.text(game.time.fps, 2, 14, "#00ff00");
+    }
+
+    onTap(pointer, doubleTap) {
+        if (doubleTap) {
             this.shootGift();
-        }
-        else
-        {
+        } else {
             this.shootGift();
         }
 
-    },
-    updateCounter: function() {
+    }
+    updateCounter() {
         this.counter -= 1;
         this.timerText.setText(this.formatTime(this.counter));
         if (this.counter <= 0) {
             this.gameOver();
         }
-    },
-    formatTime: function(time) {
+    }
+
+    formatTime(time) {
         var min = Math.floor(time/60);
         var sec = time - min*60;
-        res = "0" + min + ":" + (sec < 10 ? "0" : "") + sec;
+        const res = '0' + min + ':' + (sec < 10 ? '0' : '') + sec;
         return res;
-    },
-    gameOver: function() {
+    }
+
+    gameOver() {
         this.overlay = this.add.bitmapData(this.game.width, this.game.height);
         this.overlay.ctx.fillStyle = '#000';
         this.overlay.ctx.fillRect(0, 0, this.game.width, this.game.height);
@@ -141,9 +148,9 @@ Game.Level1.prototype = {
         this.panel.alpha = 0.55;
 
         var gameOverPanel = this.add.tween(this.panel);
-        gameOverPanel.to({ y: 0 }, 500);
+        gameOverPanel.to({y: 0}, 500);
 
-        gameOverPanel.onComplete.add(function(){
+        gameOverPanel.onComplete.add(function () {
             this.bg.stopScroll();
             this.hb.stop();
             this.housesGeneratorTimer.destroy();
@@ -170,8 +177,9 @@ Game.Level1.prototype = {
         }.bind(this));
 
         gameOverPanel.start();
-    },
-    restart: function() {
+    }
+
+    restart() {
         this.game.world.remove(this.bg);
         this.game.state.start('Level1');
     }

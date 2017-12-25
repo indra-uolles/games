@@ -1,4 +1,6 @@
-class WindowAnim extends Phaser.Sprite {
+import Phaser from './Phaser';
+
+export default class WindowAnim extends Phaser.Sprite {
   constructor(game, name) {
     super(game, 0, 0, name);
     this.exists = false;

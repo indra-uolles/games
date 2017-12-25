@@ -1,8 +1,7 @@
-Game.MainMenu = function(game) {
-};
+import {gameWidth, gameHeight} from './consts';
 
-Game.MainMenu.prototype = {
-    create: function(game) {
+export default class MainMenu {
+    create() {
         var mainMenubg, name, sleigh, deer, mainBtns, playbtn, howtobtn, logo,
             mainBtnsVertPad = 45,
             logoPaddingRight = gameWidth*0.025,
@@ -12,7 +11,7 @@ Game.MainMenu.prototype = {
             deerHalfWidth = this.game.cache.getImage('one_deer').width*0.4/2,
             playbtnHalfWidth = this.game.cache.getImage('playbtn').width/2,
             howtobtnHalfWidth = this.game.cache.getImage('howtobtn').width*0.5/2,
-            logoWidth = this.game.cache.getImage('logo').width*0.5,
+            // logoWidth = this.game.cache.getImage('logo').width*0.5,
             logoHeight = this.game.cache.getImage('logo').height*0.5;
 
         mainMenubg = this.add.sprite(0, gameHeight - bgHeight, 'bg_mainmenu');
@@ -27,11 +26,11 @@ Game.MainMenu.prototype = {
         deer.scale.setTo(0.45, 0.45);
 
         mainBtns = this.game.add.group();
-        playbtn = this.game.make.button(howtobtnHalfWidth - playbtnHalfWidth, 0, 'playbtn', function(){
+        playbtn = this.game.make.button(howtobtnHalfWidth - playbtnHalfWidth, 0, 'playbtn', function () {
             this.state.start('Level1');
         }, this, 2, 1, 0);
         mainBtns.add(playbtn);
-        howtobtn = this.game.make.button(0, mainBtnsVertPad, 'howtobtn', function(){
+        howtobtn = this.game.make.button(0, mainBtnsVertPad, 'howtobtn', function () {
             this.state.start('Howto');
         }, this, 2, 1, 0);
         howtobtn.scale.setTo(0.5, 0.5);
@@ -42,11 +41,9 @@ Game.MainMenu.prototype = {
 
         logo = this.add.sprite(logoPaddingRight, gameHeight - logoHeight - logoPaddingRight, 'logo');
         logo.scale.setTo(0.5, 0.5);
-    },
-    update: function(game) {
+    }
 
-    },
-    createButton: function(game, spriteName, x, y, w, h, callback) {
+    createButton(game, spriteName, x, y, w, h, callback) {
         var button = game.add.button(x, y, spriteName, callback, this, 0, 1, 2);
 
         button.anchor.setTo(0, 0);
